@@ -1,1 +1,29 @@
-init
+Założenia:
+Aplikacja klienta, Aplikacja serwerowa, Aplikacja tokenowa
+
+Kolejność akcji użytkownika
+1. Rejestracja na serwerze
+a) Wybranie loginu i hasła, wpisanie maila
+b) Potwierdzenie na maila z kodem aktywatyzacyjnym? (olać jeśli będą problemy z eduroamem)
+
+2. Pierwsze logowanie
+a) Wysłanie loginu i hasła
+b) Wpisanie kodu aktywatyzacyjnego
+c) Prośba o wpisanie sekretnego klucza generującego token
+
+3. Normalne logowanie
+a) Wpisanie loginu, hasła
+b) Wpisanie tokenu
+
+4. Przesyłanie danych - zwykłe stringi
+
+
+Schemat łączenia
+Diffi-Hellman
+AES do szyfrowania wszystkich danych
+
+
+Program tokenowy
+Synchronizacja czasu według danych z serwera?
+Cykl odświeżania klucza: 30s (00, 30)
+Ilość cyfr: 8
