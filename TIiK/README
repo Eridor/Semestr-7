@@ -1,7 +1,23 @@
-Projekt Teoria Informacji i Kodowanie (TIiK)
+----- Teoria Informacji i Kodowanie (TIiK) -----
 
-Autorzy : Michał Majka, Piotr Parysek.
+AUTHORS:
+--------
+     - Michał Majka
+     - Piotr Parysek.
 
-Co robi: Kompresja / Dekompresja danych kilkoma algorytmami.
+ENVIROMENT:
+-----------
+     - Linux Ubuntu 14.04
+     - QT
+     - C/C++
 
+ASSUMPTIONS:
+------------
+     - Compress / Decompress data (one file or more [with packing data]) with one of algotithms:
+(loading ...)
+-Huffman
+-Shannon
+-LZ77/LZSS,LZAP
+-LZ78,LZW,LZMW,LZAP
+-LZMA
 
