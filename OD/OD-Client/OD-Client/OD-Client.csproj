@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ServerConnection.cs" />
     <Compile Include="Views\FirstLoginWindow.xaml.cs">
       <DependentUpon>FirstLoginWindow.xaml</DependentUpon>
     </Compile>

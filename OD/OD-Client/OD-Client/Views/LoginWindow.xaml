@@ -10,6 +10,7 @@
         <Button x:Name="LoginB" Content="Login" HorizontalAlignment="Left" Height="47" Margin="50,151,0,0" VerticalAlignment="Top" Width="197" Click="LoginB_Click"/>
         <Button x:Name="RegisterB" Content="Register" HorizontalAlignment="Left" Height="34" Margin="50,203,0,0" VerticalAlignment="Top" Width="97" Click="RegisterB_Click"/>
         <Button x:Name="FirstLoginB" Content="First login" HorizontalAlignment="Left" Height="34" Margin="150,203,0,0" VerticalAlignment="Top" Width="97" Click="FirstLoginB_Click"/>
+        <Button x:Name="DevB" Content="Nic" HorizontalAlignment="Left" Height="171" Margin="0,89,0,0" VerticalAlignment="Top" Width="34" Click="DevB_Click"/>
 
     </Grid>
 </Window>

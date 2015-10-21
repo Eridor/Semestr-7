@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using OD_Client.Models;
 
 namespace OD_Client
 {
@@ -19,8 +20,10 @@ namespace OD_Client
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private ServerConnection server;
         public LoginWindow()
         {
+            server = ServerConnection.load;
             InitializeComponent();
         }
 
@@ -43,6 +46,12 @@ namespace OD_Client
             FirstLoginWindow window = new FirstLoginWindow();
             window.Show();
             this.Close();
+        }
+
+
+        private void DevB_Click(object sender, RoutedEventArgs e)
+        {
+            server.EncryptMessage("test");
         }
     }
 }
