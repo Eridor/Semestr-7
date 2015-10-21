@@ -10,31 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace OD_TokenGenerator
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for LoadTokenWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoadTokenWindow : Window
     {
-        public MainWindow()
+        public LoadTokenWindow()
         {
             InitializeComponent();
-        }
-
-        private void NewTokenB_Click(object sender, RoutedEventArgs e)
-        {
-            NewTokenWindow w = new NewTokenWindow();
-            w.Show();
-        }
-
-        private void LoadTokenB_Click(object sender, RoutedEventArgs e)
-        {
-            LoadTokenWindow w = new LoadTokenWindow();
-            w.Show();
         }
     }
 }

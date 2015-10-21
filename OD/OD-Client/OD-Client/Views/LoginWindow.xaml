@@ -1,0 +1,15 @@
+﻿<Window x:Class="OD_Client.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login" Height="300" Width="300">
+    <Grid>
+        <Label Content="Login" HorizontalAlignment="Left" Height="26" Margin="129,19,0,0" VerticalAlignment="Top" Width="39"/>
+        <TextBox x:Name="UserBox" HorizontalAlignment="Left" Height="23" Margin="50,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="197"/>
+        <Label Content="Password" HorizontalAlignment="Left" Height="26" Margin="117,80,0,0" VerticalAlignment="Top" Width="61"/>
+        <TextBox x:Name="PassBox" HorizontalAlignment="Left" Height="23" Margin="50,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="197"/>
+        <Button x:Name="LoginB" Content="Login" HorizontalAlignment="Left" Height="47" Margin="50,151,0,0" VerticalAlignment="Top" Width="197" Click="LoginB_Click"/>
+        <Button x:Name="RegisterB" Content="Register" HorizontalAlignment="Left" Height="34" Margin="50,203,0,0" VerticalAlignment="Top" Width="97" Click="RegisterB_Click"/>
+        <Button x:Name="FirstLoginB" Content="First login" HorizontalAlignment="Left" Height="34" Margin="150,203,0,0" VerticalAlignment="Top" Width="97" Click="FirstLoginB_Click"/>
+
+    </Grid>
+</Window>

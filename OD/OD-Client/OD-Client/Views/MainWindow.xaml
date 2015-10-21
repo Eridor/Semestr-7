@@ -1,0 +1,10 @@
+﻿<Window x:Class="OD_Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Main program" Height="350" Width="525">
+    <Grid>
+        <Button x:Name="LogoutB" Content="Logout" HorizontalAlignment="Left" Height="77" Margin="100,10,0,0" VerticalAlignment="Top" Width="175" Click="LogoutB_Click"/>
+        <Button x:Name="EraseAccB" Content="Erase Account" HorizontalAlignment="Left" Height="48" Margin="340,241,0,0" VerticalAlignment="Top" Width="105" Click="EraseAccB_Click"/>
+
+    </Grid>
+</Window>

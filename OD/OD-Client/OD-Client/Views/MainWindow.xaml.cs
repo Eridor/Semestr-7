@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OD_TokenGenerator
+namespace OD_Client
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,16 +25,18 @@ namespace OD_TokenGenerator
             InitializeComponent();
         }
 
-        private void NewTokenB_Click(object sender, RoutedEventArgs e)
+        private void LogoutB_Click(object sender, RoutedEventArgs e)
         {
-            NewTokenWindow w = new NewTokenWindow();
-            w.Show();
+            LoginWindow window = new LoginWindow();
+            window.Show();
+            this.Close();
         }
 
-        private void LoadTokenB_Click(object sender, RoutedEventArgs e)
+        private void EraseAccB_Click(object sender, RoutedEventArgs e)
         {
-            LoadTokenWindow w = new LoadTokenWindow();
-            w.Show();
+            LoginWindow window = new LoginWindow();
+            window.Show();
+            this.Close();
         }
     }
 }
