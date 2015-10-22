@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace OD_Client.Models
 {
@@ -38,19 +39,27 @@ namespace OD_Client.Models
         private ECDiffieHellmanCng DiffHellman;
         public string SendMessage(string text)
         {
-            TcpClient client = new TcpClient(ServerIp, ServerPort);
-            NetworkStream stream = client.GetStream();
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes(text);
-            stream.Write(data, 0, data.Length);
+            try
+            {
+                TcpClient client = new TcpClient(ServerIp, ServerPort);
+                NetworkStream stream = client.GetStream();
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(text);
+                stream.Write(data, 0, data.Length);
 
-            Byte[] dataRecived = new Byte[256];
-            int bytes = stream.Read(data, 0, data.Length);
-            string textRecived = System.Text.Encoding.ASCII.GetString(dataRecived, 0, bytes);
+                Byte[] dataRecived = new Byte[256];
+                int bytes = stream.Read(dataRecived, 0, dataRecived.Length);
+                string textRecived = System.Text.Encoding.ASCII.GetString(dataRecived, 0, bytes);
 
-            stream.Close();
-            client.Close();
+                stream.Close();
+                client.Close();
 
-            return textRecived;
+                return textRecived;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return null;
         }
 
         public int DiffHell()
@@ -59,7 +68,7 @@ namespace OD_Client.Models
             DiffHellman.HashAlgorithm = CngAlgorithm.Sha512;
             byte[] publicKey = DiffHellman.PublicKey.ToByteArray();
 
-            string ans = SendMessage("Hello" + publicKey);
+            string ans = SendMessage("01" + publicKey);
 
             if (ans.Take(2) == "Hi")
             {

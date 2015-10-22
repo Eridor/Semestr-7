@@ -51,7 +51,7 @@ namespace OD_Client
 
         private void DevB_Click(object sender, RoutedEventArgs e)
         {
-            server.EncryptMessage("test");
+            server.SendMessage("a");
         }
     }
 }
