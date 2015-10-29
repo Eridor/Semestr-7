@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="550" Width="725">
     <Grid>
-        
+        <Button x:Name="StartB" Content="Start server" HorizontalAlignment="Left" Height="51" Margin="10,10,0,0" VerticalAlignment="Top" Width="148" Click="StartB_Click"/>
+
     </Grid>
 </Window>

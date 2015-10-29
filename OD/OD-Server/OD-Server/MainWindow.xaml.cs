@@ -20,9 +20,19 @@ namespace OD_Server
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GlobalConfig conf;
+        private MessageExchange server;
         public MainWindow()
         {
+            conf = GlobalConfig.Instance;
+            server = new MessageExchange();
             InitializeComponent();
+
+        }
+
+        private void StartB_Click(object sender, RoutedEventArgs e)
+        {
+            server.startListening();
         }
     }
 }

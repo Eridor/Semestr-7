@@ -17,6 +17,7 @@ namespace OD_Client.Models
         private ServerConnection()
         {
             AesClass = Aes.Create();
+            DiffHellman = new ECDiffieHellmanCng();
         }
         public static ServerConnection load
         {

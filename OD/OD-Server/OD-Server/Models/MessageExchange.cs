@@ -34,7 +34,7 @@ namespace OD_Server
             thread.Abort();
         }
 
-        public void imListening()
+        private void imListening()
         {
             while (true)
             {
