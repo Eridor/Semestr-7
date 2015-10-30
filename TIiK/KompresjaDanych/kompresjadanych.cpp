@@ -12,3 +12,9 @@ KompresjaDanych::~KompresjaDanych()
 {
     delete ui;
 }
+
+
+void KompresjaDanych::on_actionExit_triggered()
+{
+    QApplication::quit();
+}

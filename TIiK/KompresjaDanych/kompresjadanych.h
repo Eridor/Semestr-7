@@ -15,6 +15,9 @@ public:
     explicit KompresjaDanych(QWidget *parent = 0);
     ~KompresjaDanych();
 
+private slots:
+    void on_actionExit_triggered();
+
 private:
     Ui::KompresjaDanych *ui;
 };

@@ -18,3 +18,8 @@ SOURCES += main.cpp\
 HEADERS  += kompresjadanych.h
 
 FORMS    += kompresjadanych.ui
+
+RESOURCES += \
+    resource.qrc
+
+DISTFILES +=

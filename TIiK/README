@@ -1,3 +1,4 @@
+----- ----- ----- PROJEKT ----- ----- -----
 ----- Teoria Informacji i Kodowanie (TIiK) -----
 
 AUTHORS:
@@ -7,17 +8,11 @@ AUTHORS:
 
 ENVIROMENT:
 -----------
-     - Linux Ubuntu 14.04
+     - Linux Ubuntu 12.04
      - QT
      - C/C++
 
 ASSUMPTIONS:
 ------------
-     - Compress / Decompress data (one file or more [with packing data]) with one of algotithms:
-(loading ...)
--Huffman
--Shannon
--LZ77/LZSS,LZAP
--LZ78,LZW,LZMW,LZAP
--LZMA
+     - Compress / Decompress data (one file or more [with packing data]) with Run-length encoding (RLE).
 
