@@ -1,0 +1,122 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{url}
+\usepackage[pdftex]{graphicx}
+\usepackage{sidecap}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{wrapfig,booktabs}
+\usepackage{float} %Do opcji H w figure i table
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+%remove section whitespace
+%\usepackage{titlesec}
+%\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+
+%\makeatletter
+%\newcommand*{\toccontents}{\@starttoc{toc}}
+%\makeatother
+
+\renewcommand\thesection{\arabic{section}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} %Do tytułu
+
+\usepackage{etoolbox} %do bibliografi
+%\patchcmd{\thebibliography}{\chapter*}{\section*}{}{} %żeby bibliografię nie wrzucało na nową stronę
+
+%Do kodu C++
+\usepackage{xcolor} % for setting colors
+
+% set the default code style
+\lstset{
+    frame=tb, % draw a frame at the top and bottom of the code block
+    tabsize=4, % tab space width
+    showstringspaces=false, % don't mark spaces in strings
+    numbers=left, % display line numbers on the left
+    commentstyle=\color{green}, % comment color
+    keywordstyle=\color{blue}, % keyword color
+    stringstyle=\color{red} % string color
+}
+%End kod
+
+\begin{document}
+\renewcommand\tablename{Tabela} %zmienia Tablica na "Tabela"
+
+\begin{titlepage}
+\begin{center}
+
+\textsc{\LARGE Politechnika Poznańska}\\[0.2cm]
+\textsc{\Large Wydział Elektryczny \\ Informatyka}\\[0.6cm]
+
+\includegraphics[scale=0.8]{logopoli}
+\vspace{.5cm}
+
+\textsc{\large Teoria Informacji i Kodowanie}\\[0.2cm]
+\textsc{\normalsize Projekt semestralny}\\[.2cm]
+\textsc{\large Projekt implementujący algorytm kompresji i dekompresji RLE (ang.: \textit{Run Length Encoding}).}\\[.5cm]
+
+
+% Author and supervisor
+\noindent
+\begin{minipage}[t]{0.49\textwidth}
+\begin{flushleft} \large
+\emph{Autorzy:}\\
+Michał \textsc{Majka} \\
+Nr albumu: 666666 \\
+Piotr \textsc{Parysek} \\
+Nr albumu: 106100
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}[t]{0.49\textwidth}
+\begin{flushright} \large
+\emph{Prowadzący:} \\
+dr inż. Ewa \textsc{Idzikowska}.
+\end{flushright}
+\end{minipage}
+
+\bigskip
+\vspace{\fill}
+
+\begin{minipage}[b]{\textwidth}
+    \centering
+%    \onehalfspacing
+    \large   
+    {\large \today}\\
+    {\large Rok akademicki 2015/2016}
+
+%    \vspace{-20mm} 
+\end{minipage}%
+
+% Bottom of the page
+%{\large \today}
+%\global\let\newpagegood\newpage %żeby nie było page break po titilepage
+%\global\let\newpage\relax %żeby nie było page break po titilepage
+
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\addcontentsline{toc}{section}{Literatura}  %dodanie znacznika "Literatura" do spisu treści
+\begin{thebibliography}{3}
+	\bibitem{latex} Kurs \LaTeX w $\pi^e$ minut \url{http://www.fuw.edu.pl/~kostecki/kurs_latexa.pdf}.
+	\bibitem{program} Program Texmaker 4.4.1 \url{http://www.xm1math.net/texmaker/}.
+	\bibitem{uml} Visual Paradigm Community Edition 12.2 \url{www.visual-paradigm.com}.
+	\bibitem{ikony} Ikony \url{http://www.flaticon.com/}.
+
+\end{thebibliography}
+	\blfootnote{Dokument wykonany w \LaTeX \cite{latex} \\ w programie Texmaker\cite{program}}
+\end{document}

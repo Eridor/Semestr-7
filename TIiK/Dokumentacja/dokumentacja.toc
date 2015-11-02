@@ -1,0 +1,2 @@
+\select@language {polish}
+\contentsline {section}{Literatura}{1}
