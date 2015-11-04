@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graph/documents7.png</file>
+        <file>graph/download15.png</file>
+        <file>graph/download164.png</file>
+        <file>graph/save31.png</file>
+        <file>graph/text70.png</file>
+        <file>graph/uploads1.png</file>
+        <file>graph/arrow480.png</file>
+        <file>graph/four37.png</file>
+        <file>graph/add204.png</file>
+        <file>graph/info28.png</file>
+        <file>graph/opened33.png</file>
+        <file>graph/question58.png</file>
+        <file>graph/round.png</file>
+    </qresource>
+</RCC>
