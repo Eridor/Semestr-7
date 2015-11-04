@@ -6,6 +6,9 @@
 #include <QSet>
 #include <QStringList>
 #include <QFileDialog>
+#include <QTableWidget>
+#include <QStandardItemModel>
+#include <QStandardItem>
 
 namespace Ui {
 class DataCompression;
@@ -27,6 +30,8 @@ private slots:
 
     void on_actionAdd_triggered();
 
+    void on_pushButton_Exit_clicked();
+
 private:
     Ui::DataCompression *ui;
     //Private variables
@@ -34,6 +39,7 @@ private:
 
     //Private methods
     void FileChoose();
+    void SetTable();
 };
 
 #endif // DATACOMPRESSION_H

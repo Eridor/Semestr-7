@@ -22,17 +22,23 @@ void DataCompression::on_actionExit_triggered()
 
 void DataCompression::FileChoose()
 {
-    QStringList FilesList;
-    FilesList = QFileDialog::getOpenFileNames(this, "Select one, two, three, but not four, five or more files to compress",
+    QStringList FilesList = QFileDialog::getOpenFileNames(this, "Select one, two, three, but not four, five or more files to compress",
                                               "/home/parys/PROJEKTY/Semestr-7/TIiK/TestData",
-                                              "Images (*.bmp *.gif *.png *.raw *.tiff);;FAX (*.fax);;Audio(*.flac *.wav *.wma");
+                                              "Images (*.bmp *.gif *.png *.raw *.tiff);;Audio (*.flac *.wav *.wma);;AllFiles (*.*)");
 
-    FileSet += QSet<QString>::fromList(FilesList);
+    if (FileSet.empty()) {
+        FileSet = QSet<QString>::fromList(FilesList);
+    } else {
+        foreach (const QString &val, FilesList) {
+            FileSet.insert(val);
+        }
+    }
 
     qDebug() << "Look: ";
     foreach (const QString &val, FileSet) {
         qDebug() << val;
     }
+    SetTable();
 }
 
 void DataCompression::on_pushButton_Add_clicked()
@@ -43,4 +49,14 @@ void DataCompression::on_pushButton_Add_clicked()
 void DataCompression::on_actionAdd_triggered()
 {
     FileChoose();
+}
+
+void DataCompression::on_pushButton_Exit_clicked()
+{
+    QApplication::quit();
+}
+
+void DataCompression::SetTable()
+{
+
 }
