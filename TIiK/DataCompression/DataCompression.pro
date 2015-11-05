@@ -13,11 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        datacompression.cpp
+        datacompression.cpp \
+    helpform.cpp
 
-HEADERS  += datacompression.h
+HEADERS  += datacompression.h \
+    helpform.h
 
-FORMS    += datacompression.ui
+FORMS    += datacompression.ui \
+    helpform.ui
 
 RESOURCES += \
     resource.qrc

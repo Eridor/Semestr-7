@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>600</width>
     <height>400</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>250</width>
+      <width>361</width>
       <height>30</height>
      </rect>
     </property>
@@ -27,20 +27,10 @@
      <string>Add files</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget_List">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>250</width>
-      <height>321</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_Compression">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>390</x>
       <y>40</y>
       <width>200</width>
       <height>30</height>
@@ -53,7 +43,7 @@
    <widget class="QPushButton" name="pushButton_Decompression">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>390</x>
       <y>80</y>
       <width>200</width>
       <height>30</height>
@@ -66,7 +56,7 @@
    <widget class="QProgressBar" name="progressBar_CompressionRatio">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>390</x>
       <y>170</y>
       <width>200</width>
       <height>30</height>
@@ -79,7 +69,7 @@
    <widget class="QLabel" name="label_Size">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>390</x>
       <y>100</y>
       <width>200</width>
       <height>60</height>
@@ -92,7 +82,7 @@
    <widget class="QPushButton" name="pushButton_Exit">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>560</x>
       <y>0</y>
       <width>30</width>
       <height>30</height>
@@ -112,13 +102,84 @@
      </size>
     </property>
    </widget>
+   <widget class="QTableView" name="tableView_FileList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>41</y>
+      <width>360</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>360</width>
+      <height>500</height>
+     </size>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAsNeeded</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOn</enum>
+    </property>
+    <property name="dragEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Info">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>0</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resource.qrc">
+      <normaloff>:/graph/info28.png</normaloff>:/graph/info28.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Help">
+    <property name="geometry">
+     <rect>
+      <x>485</x>
+      <y>0</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resource.qrc">
+      <normaloff>:/graph/question58.png</normaloff>:/graph/question58.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+     <width>600</width>
      <height>25</height>
     </rect>
    </property>
