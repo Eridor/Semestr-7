@@ -8,6 +8,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Annotations;
 using System.Windows.Controls;
 using System.Xml;
 
@@ -43,6 +44,77 @@ namespace OD_Client.Models
         private byte[] privateKey;
         private Aes AesClass;
         private ECDiffieHellmanCng DiffHellman;
+        private string SessionKey;
+        public enum MessageType {Register, FirstLogn, Login, Message, Logout}
+
+        public int StartCommunication(List<String> data, MessageType type)
+        {
+            try
+            {
+                TcpClient client = new TcpClient(ServerIp, ServerPort);
+                NetworkStream stream = client.GetStream();
+
+                byte[] key = DiffHell(stream);
+                if (key != null)
+                {
+                    ExchangeMessages(stream, data, type);
+                }
+                stream.Close();
+                client.Close();
+                return 0;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Błąd transmisji danych:\n" + e);
+                return -1;
+            }
+        }
+
+        private void ExchangeMessages(NetworkStream ns, List<String> data, MessageType type)
+        {
+            string sendText = ""; 
+            string ans ="";
+            Byte[] ansBytes = new Byte[255];
+            switch (type)
+            {
+                case MessageType.Register:
+                    sendText = "reg" + (char)0 + data[0] + (char)0 + data[2];
+                    ns.Write(EncryptMessage(sendText), 0, Encoding.UTF8.GetBytes(sendText).Length);
+                    ns.Write(hashPass(data[1]), 0 , hashPass(data[1]).Length);
+                    
+                    ns.Read(ansBytes, 0, ansBytes.Length);
+                    ans = Encoding.UTF8.GetString(ansBytes);
+                    if (ans != "error")
+                    {
+                        MessageBox.Show("Klucz pierwszego logowania: " + ans);
+                    }
+                    break;
+                case MessageType.FirstLogn:
+                    sendText = "log" + (char)0 + data[0] + (char)0 + data[2] + (char)0 + data[3];
+                    ns.Write(EncryptMessage(sendText), 0, Encoding.UTF8.GetBytes(sendText).Length);
+                    ns.Write(hashPass(data[1]), 0 , hashPass(data[1]).Length);
+
+                    ans = Encoding.UTF8.GetString(ansBytes);
+                    if (ans != "error")
+                    {
+                        SessionKey = ans;
+                        MessageBox.Show("Zalogowany: " + ans);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+        private byte[] hashPass(string pass)
+        {
+            SHA256 sha256 = SHA256.Create();
+            return sha256.ComputeHash(Encoding.UTF8.GetBytes(pass));
+
+        }
+        /// Old imp
         public string SendMessage(string text)
         {
             try
@@ -68,58 +140,32 @@ namespace OD_Client.Models
             return null;
         }
 
-        public int DiffHell()
+        public byte[] DiffHell(NetworkStream ns)
         {
             try
             {
-                TcpClient client = new TcpClient(ServerIp, ServerPort);
-                NetworkStream stream = client.GetStream();
 
                 DiffHellman.KeyDerivationFunction = ECDiffieHellmanKeyDerivationFunction.Hash;
                 DiffHellman.HashAlgorithm = CngAlgorithm.Sha256;
                 byte[] publicKey = DiffHellman.PublicKey.ToByteArray();
-                /*
-                string outputKey = "";
 
-                foreach (byte item in publicKey)
-                {
-                    outputKey += (char) item;
-                }
-                */
+                Byte[] dataRecivedKey = new Byte[140];
 
-                Byte[] data = System.Text.Encoding.ASCII.GetBytes("00");
-                stream.Write(data, 0, data.Length);
-                Byte[] dataRecived = new Byte[256];
-                int bytes = stream.Read(dataRecived, 0, dataRecived.Length);
-                string textRecived = System.Text.Encoding.ASCII.GetString(dataRecived, 0, bytes);
-                if (textRecived.Substring(0,2) == "Hi")
-                {
-                    Byte[] dataRecivedKey = new Byte[140];
-                    myId = Convert.ToInt32(textRecived[2]);
-                    stream.Write(publicKey, 0, publicKey.Length);
-                    bytes = stream.Read(dataRecivedKey, 0, dataRecivedKey.Length);
-                    byte[] send = System.Text.Encoding.ASCII.GetBytes("ack");
-                    stream.Write(send, 0, send.Length);
-                    Byte[] dataRecived2 = new Byte[256];
-                    int bytes2 = stream.Read(dataRecived2, 0, dataRecived2.Length);
-                    if (System.Text.Encoding.ASCII.GetString(dataRecived2,0, dataRecived2.Length).Substring(0,6) == "ackack")
-                    {
-                        CngKey k = CngKey.Import(dataRecivedKey, CngKeyBlobFormat.EccPublicBlob);
-                        privateKey = DiffHellman.DeriveKeyMaterial(k);
-                        AesClass.Key = privateKey;
-                    }
+                ns.Write(publicKey, 0, publicKey.Length);
+                int bytes = ns.Read(dataRecivedKey, 0, dataRecivedKey.Length);
+                
+                CngKey k = CngKey.Import(dataRecivedKey, CngKeyBlobFormat.EccPublicBlob);
+                privateKey = DiffHellman.DeriveKeyMaterial(k);
+                AesClass.Key = privateKey;
+                    
 
-                }
-
-                stream.Close();
-                client.Close();
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return -1;
+                return null;
             }
-            return 0;
+            return privateKey;
         }
 
         public byte[] EncryptMessage(string text)
@@ -137,7 +183,6 @@ namespace OD_Client.Models
                     encrypted = msEncrypt.ToArray();
                 }
             }
-
             return encrypted;
         }
 
