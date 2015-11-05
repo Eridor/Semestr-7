@@ -45,7 +45,11 @@ namespace OD_Server
                 int bytes = ns.Read(dataRecived, 0, dataRecived.Length);
                 string textRecived = System.Text.Encoding.ASCII.GetString(dataRecived, 0, bytes);
 
-                string answer = Analize(textRecived);
+                string answer = Analize(textRecived, ns);
+                if (answer == "1000")
+                {
+                    answer = Analize(EncryptMessage(dataRecived));
+                }
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes(answer);
                 ns.Write(data, 0, data.Length);
 
@@ -54,24 +58,50 @@ namespace OD_Server
             }
         }
 
-        private string Analize(string txt)
+        private string Analize(string txt, NetworkStream ns)
         {
-            int code = Convert.ToInt32(txt.Take(2));
+            string sCode = new string(txt.Take(2).ToArray());
+            int code = Convert.ToInt32(sCode);
             string returnMessage = "";
 
             switch (code)
             {
-                case 01:
-                    string clientPublicKey = txt.Substring(2);
-                    int clientId = conf.AddClientApp(clientPublicKey);
-                    return "Hi" + conf.clientApps[clientId].id + conf.clientApps[clientId].key;
+                case 00:
+
+                    int clientId = conf.AddClientApp() -1;
+                    
+                    byte[] send = System.Text.Encoding.ASCII.GetBytes("Hi" + conf.clientApps[clientId].id);
+                    ns.Write(send, 0, send.Length);
+                    byte[] key = new byte[140];
+                    ns.Read(key, 0, key.Length);
+                    conf.clientApps[clientId].hisKey = key;
+                    byte[] sendKey = conf.clientApps[clientId].ServerCng.PublicKey.ToByteArray();
+                    ns.Write(sendKey, 0, 140);
+                    byte[] buff = new byte[140];
+                    ns.Read(buff, 0, buff.Length);
+                    if (Encoding.ASCII.GetString(buff, 0, buff.Length).Substring(0,3) == "ack")
+                    {
+                        conf.clientApps[clientId].getKey();
+                        return "ackack";
+                    }
+                    return "Error";
                     break;
                 default:
-                    // :(
+                    return "1000";
                     break;
             }
 
             return returnMessage;
         }
+        public string EncryptMessage(byte[] text)
+        {
+            return "";
+        }
+
+        public byte[] DecryptMessage(string text)
+        {
+            return null;
+        }
+
     }
 }

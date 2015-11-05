@@ -27,12 +27,14 @@ namespace OD_Server
             conf = GlobalConfig.Instance;
             server = new MessageExchange();
             InitializeComponent();
+            server.startListening();
 
         }
 
         private void StartB_Click(object sender, RoutedEventArgs e)
         {
-            server.startListening();
+            //server.startListening();
+            
         }
     }
 }

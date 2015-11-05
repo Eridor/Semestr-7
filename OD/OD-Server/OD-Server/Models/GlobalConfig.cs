@@ -28,13 +28,14 @@ namespace OD_Server
         public List<Client> clientList;
         public List<ClientApp> clientApps;
 
-        public int AddClientApp(string publickey)
+        public int AddClientApp()
         {
             ClientApp newClient = new ClientApp();
-            newClient.key = System.Text.Encoding.ASCII.GetBytes(publickey);
+            //newClient.hisKey = System.Text.Encoding.ASCII.GetBytes(publickey);
             newClient.id = clientApps.Count() + 1;
             clientApps.Add(newClient);
             return newClient.id;
         }
+
     }
 }

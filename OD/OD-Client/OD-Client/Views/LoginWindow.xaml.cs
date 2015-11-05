@@ -25,6 +25,10 @@ namespace OD_Client
         {
             server = ServerConnection.load;
             InitializeComponent();
+            byte[] q = server.EncryptMessage("Test 123");
+            string outp = server.DecryptMessage(q);
+            MessageBox.Show(outp);
+
         }
 
         private void LoginB_Click(object sender, RoutedEventArgs e)
