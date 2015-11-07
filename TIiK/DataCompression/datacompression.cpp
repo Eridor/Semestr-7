@@ -105,5 +105,15 @@ void DataCompression::on_pushButton_Help_clicked()
 
 void DataCompression::ShowHelp()
 {
+    HelpForm HF;
+    HF.setModal(true);
+    HF.exec();
+}
 
+void DataCompression::on_pushButton_Compression_clicked()
+{
+    RLE r;
+    foreach (const QString &val, FileSet) {
+        r.Compress(val);
+    }
 }

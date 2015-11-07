@@ -45,6 +45,7 @@ public:
     QPushButton *pushButton_Exit;
     QTableView *tableView_FileList;
     QPushButton *pushButton_Info;
+    QPushButton *pushButton_Help;
     QMenuBar *menuBar;
     QMenu *menuCompression_Decompression_DAta;
     QMenu *menuEdit;
@@ -127,6 +128,11 @@ public:
         pushButton_Info->setGeometry(QRect(520, 0, 30, 30));
         pushButton_Info->setIcon(icon4);
         pushButton_Info->setIconSize(QSize(24, 24));
+        pushButton_Help = new QPushButton(centralWidget);
+        pushButton_Help->setObjectName(QStringLiteral("pushButton_Help"));
+        pushButton_Help->setGeometry(QRect(485, 0, 30, 30));
+        pushButton_Help->setIcon(icon3);
+        pushButton_Help->setIconSize(QSize(24, 24));
         DataCompression->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(DataCompression);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -186,6 +192,7 @@ public:
         label_Size->setText(QApplication::translate("DataCompression", "<html><head/><body><p><span style=\" font-weight:600;\">Size before:<br/>Size after:</span></p></body></html>", 0));
         pushButton_Exit->setText(QString());
         pushButton_Info->setText(QString());
+        pushButton_Help->setText(QString());
         menuCompression_Decompression_DAta->setTitle(QApplication::translate("DataCompression", "File", 0));
         menuEdit->setTitle(QApplication::translate("DataCompression", "Action", 0));
         menuHelp->setTitle(QApplication::translate("DataCompression", "Help", 0));

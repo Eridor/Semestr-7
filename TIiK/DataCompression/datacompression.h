@@ -13,6 +13,9 @@
 #include <QPalette>
 #include <QFont>
 
+#include "helpform.h"
+#include "rle.h"
+
 namespace Ui {
 class DataCompression;
 }
@@ -42,6 +45,8 @@ private slots:
     void on_actionHelp_triggered();
 
     void on_pushButton_Help_clicked();
+
+    void on_pushButton_Compression_clicked();
 
 private:
     Ui::DataCompression *ui;

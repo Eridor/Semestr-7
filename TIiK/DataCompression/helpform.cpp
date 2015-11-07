@@ -12,3 +12,8 @@ HelpForm::~HelpForm()
 {
     delete ui;
 }
+
+void HelpForm::on_pushButton_Exit_clicked()
+{
+    this->close();
+}

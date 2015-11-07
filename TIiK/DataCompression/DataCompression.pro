@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         datacompression.cpp \
-    helpform.cpp
+    helpform.cpp \
+    rle.cpp
 
 HEADERS  += datacompression.h \
-    helpform.h
+    helpform.h \
+    rle.h
 
 FORMS    += datacompression.ui \
     helpform.ui

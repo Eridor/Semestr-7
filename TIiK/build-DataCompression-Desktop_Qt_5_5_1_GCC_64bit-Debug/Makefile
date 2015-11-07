@@ -49,12 +49,18 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../DataCompression/main.cpp \
-		../DataCompression/datacompression.cpp qrc_resource.cpp \
-		moc_datacompression.cpp
+		../DataCompression/datacompression.cpp \
+		../DataCompression/helpform.cpp \
+		../DataCompression/rle.cpp qrc_resource.cpp \
+		moc_datacompression.cpp \
+		moc_helpform.cpp
 OBJECTS       = main.o \
 		datacompression.o \
+		helpform.o \
+		rle.o \
 		qrc_resource.o \
-		moc_datacompression.o
+		moc_datacompression.o \
+		moc_helpform.o
 DIST          = ../DataCompression/DataCompression.pro.user \
 		/opt/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt/5.5/gcc_64/mkspecs/common/unix.conf \
@@ -190,8 +196,12 @@ DIST          = ../DataCompression/DataCompression.pro.user \
 		/opt/Qt/5.5/gcc_64/mkspecs/features/exceptions.prf \
 		/opt/Qt/5.5/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt/5.5/gcc_64/mkspecs/features/lex.prf \
-		../DataCompression/DataCompression.pro ../DataCompression/datacompression.h ../DataCompression/main.cpp \
-		../DataCompression/datacompression.cpp
+		../DataCompression/DataCompression.pro ../DataCompression/datacompression.h \
+		../DataCompression/helpform.h \
+		../DataCompression/rle.h ../DataCompression/main.cpp \
+		../DataCompression/datacompression.cpp \
+		../DataCompression/helpform.cpp \
+		../DataCompression/rle.cpp
 QMAKE_TARGET  = DataCompression
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = DataCompression
@@ -219,7 +229,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): ui_datacompression.h $(OBJECTS)  
+$(TARGET): ui_datacompression.h ui_helpform.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../DataCompression/DataCompression.pro /opt/Qt/5.5/gcc_64/mkspecs/linux-g++/qmake.conf /opt/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
@@ -516,9 +526,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../DataCompression/resource.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../DataCompression/datacompression.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../DataCompression/main.cpp ../DataCompression/datacompression.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../DataCompression/datacompression.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../DataCompression/datacompression.h ../DataCompression/helpform.h ../DataCompression/rle.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../DataCompression/main.cpp ../DataCompression/datacompression.cpp ../DataCompression/helpform.cpp ../DataCompression/rle.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../DataCompression/datacompression.ui ../DataCompression/helpform.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -558,9 +568,9 @@ qrc_resource.cpp: ../DataCompression/resource.qrc \
 		../DataCompression/graph/uploads1.png
 	/opt/Qt/5.5/gcc_64/bin/rcc -name resource ../DataCompression/resource.qrc -o qrc_resource.cpp
 
-compiler_moc_header_make_all: moc_datacompression.cpp
+compiler_moc_header_make_all: moc_datacompression.cpp moc_helpform.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_datacompression.cpp
+	-$(DEL_FILE) moc_datacompression.cpp moc_helpform.cpp
 moc_datacompression.cpp: /opt/Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
@@ -674,16 +684,157 @@ moc_datacompression.cpp: /opt/Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qdir.h \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qfileinfo.h \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qdialog.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QStandardItemModel \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QStandardItem \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QPalette \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QFont \
+		../DataCompression/helpform.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QDialog \
+		../DataCompression/rle.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QFile \
 		../DataCompression/datacompression.h
 	/opt/Qt/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc_64/mkspecs/linux-g++ -I/home/parys/PROJEKTY/Semestr-7/TIiK/DataCompression -I/opt/Qt/5.5/gcc_64/include -I/opt/Qt/5.5/gcc_64/include/QtWidgets -I/opt/Qt/5.5/gcc_64/include/QtGui -I/opt/Qt/5.5/gcc_64/include/QtCore -I. ../DataCompression/datacompression.h -o moc_datacompression.cpp
 
+moc_helpform.cpp: /opt/Qt/5.5/gcc_64/include/QtWidgets/QDialog \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qdialog.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QDebug \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		../DataCompression/helpform.h
+	/opt/Qt/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc_64/mkspecs/linux-g++ -I/home/parys/PROJEKTY/Semestr-7/TIiK/DataCompression -I/opt/Qt/5.5/gcc_64/include -I/opt/Qt/5.5/gcc_64/include/QtWidgets -I/opt/Qt/5.5/gcc_64/include/QtGui -I/opt/Qt/5.5/gcc_64/include/QtCore -I. ../DataCompression/helpform.h -o moc_helpform.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_datacompression.h
+compiler_uic_make_all: ui_datacompression.h ui_helpform.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_datacompression.h
+	-$(DEL_FILE) ui_datacompression.h ui_helpform.h
 ui_datacompression.h: ../DataCompression/datacompression.ui
 	/opt/Qt/5.5/gcc_64/bin/uic ../DataCompression/datacompression.ui -o ui_datacompression.h
+
+ui_helpform.h: ../DataCompression/helpform.ui
+	/opt/Qt/5.5/gcc_64/bin/uic ../DataCompression/helpform.ui -o ui_helpform.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -809,6 +960,35 @@ main.o: ../DataCompression/main.cpp ../DataCompression/datacompression.h \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qdir.h \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qfileinfo.h \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qdialog.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QStandardItemModel \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QStandardItem \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QPalette \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QFont \
+		../DataCompression/helpform.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QDialog \
+		../DataCompression/rle.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QFile \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreapplication.h \
@@ -932,14 +1112,293 @@ datacompression.o: ../DataCompression/datacompression.cpp ../DataCompression/dat
 		/opt/Qt/5.5/gcc_64/include/QtCore/qdir.h \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qfileinfo.h \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qdialog.h \
-		ui_datacompression.h
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTableWidget \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtablewidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QStandardItemModel \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QStandardItem \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QPalette \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QFont \
+		../DataCompression/helpform.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QDialog \
+		../DataCompression/rle.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QFile \
+		ui_datacompression.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QVariant \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QMenu \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QMenuBar \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmenubar.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QProgressBar \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qprogressbar.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTableView \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QToolBar \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtoolbar.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o datacompression.o ../DataCompression/datacompression.cpp
+
+helpform.o: ../DataCompression/helpform.cpp ../DataCompression/helpform.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QDialog \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qdialog.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QDebug \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		ui_helpform.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QVariant \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractbutton.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o helpform.o ../DataCompression/helpform.cpp
+
+rle.o: ../DataCompression/rle.cpp ../DataCompression/rle.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QFile \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/QDebug \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rle.o ../DataCompression/rle.cpp
 
 qrc_resource.o: qrc_resource.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resource.o qrc_resource.cpp
 
 moc_datacompression.o: moc_datacompression.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_datacompression.o moc_datacompression.cpp
+
+moc_helpform.o: moc_helpform.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_helpform.o moc_helpform.cpp
 
 ####### Install
 
