@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_DataCompression_t {
-    QByteArrayData data[12];
-    char stringdata0[281];
+    QByteArrayData data[15];
+    char stringdata0[373];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,7 +40,10 @@ QT_MOC_LITERAL(7, 141, 26), // "on_pushButton_Info_clicked"
 QT_MOC_LITERAL(8, 168, 23), // "on_actionHelp_triggered"
 QT_MOC_LITERAL(9, 192, 26), // "on_pushButton_Help_clicked"
 QT_MOC_LITERAL(10, 219, 33), // "on_pushButton_Compression_cli..."
-QT_MOC_LITERAL(11, 253, 27) // "on_actionCompress_triggered"
+QT_MOC_LITERAL(11, 253, 27), // "on_actionCompress_triggered"
+QT_MOC_LITERAL(12, 281, 35), // "on_pushButton_Decompression_c..."
+QT_MOC_LITERAL(13, 317, 29), // "on_actionDecompress_triggered"
+QT_MOC_LITERAL(14, 347, 25) // "on_actionRemove_triggered"
 
     },
     "DataCompression\0on_actionExit_triggered\0"
@@ -52,7 +55,10 @@ QT_MOC_LITERAL(11, 253, 27) // "on_actionCompress_triggered"
     "on_actionHelp_triggered\0"
     "on_pushButton_Help_clicked\0"
     "on_pushButton_Compression_clicked\0"
-    "on_actionCompress_triggered"
+    "on_actionCompress_triggered\0"
+    "on_pushButton_Decompression_clicked\0"
+    "on_actionDecompress_triggered\0"
+    "on_actionRemove_triggered"
 };
 #undef QT_MOC_LITERAL
 
@@ -62,7 +68,7 @@ static const uint qt_meta_data_DataCompression[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -70,18 +76,24 @@ static const uint qt_meta_data_DataCompression[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   64,    2, 0x08 /* Private */,
-       3,    0,   65,    2, 0x08 /* Private */,
-       4,    0,   66,    2, 0x08 /* Private */,
-       5,    0,   67,    2, 0x08 /* Private */,
-       6,    0,   68,    2, 0x08 /* Private */,
-       7,    0,   69,    2, 0x08 /* Private */,
-       8,    0,   70,    2, 0x08 /* Private */,
-       9,    0,   71,    2, 0x08 /* Private */,
-      10,    0,   72,    2, 0x08 /* Private */,
-      11,    0,   73,    2, 0x08 /* Private */,
+       1,    0,   79,    2, 0x08 /* Private */,
+       3,    0,   80,    2, 0x08 /* Private */,
+       4,    0,   81,    2, 0x08 /* Private */,
+       5,    0,   82,    2, 0x08 /* Private */,
+       6,    0,   83,    2, 0x08 /* Private */,
+       7,    0,   84,    2, 0x08 /* Private */,
+       8,    0,   85,    2, 0x08 /* Private */,
+       9,    0,   86,    2, 0x08 /* Private */,
+      10,    0,   87,    2, 0x08 /* Private */,
+      11,    0,   88,    2, 0x08 /* Private */,
+      12,    0,   89,    2, 0x08 /* Private */,
+      13,    0,   90,    2, 0x08 /* Private */,
+      14,    0,   91,    2, 0x08 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -112,6 +124,9 @@ void DataCompression::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 7: _t->on_pushButton_Help_clicked(); break;
         case 8: _t->on_pushButton_Compression_clicked(); break;
         case 9: _t->on_actionCompress_triggered(); break;
+        case 10: _t->on_pushButton_Decompression_clicked(); break;
+        case 11: _t->on_actionDecompress_triggered(); break;
+        case 12: _t->on_actionRemove_triggered(); break;
         default: ;
         }
     }
@@ -143,13 +158,13 @@ int DataCompression::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 13;
     }
     return _id;
 }

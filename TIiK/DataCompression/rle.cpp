@@ -11,35 +11,19 @@ void RLE::Compress(QString FilePath)
     if (!file.open(QIODevice::ReadOnly))
         return;
     QByteArray ByteArray = file.readAll();
+    file.close();
+
 
     QMap<quint8, int> IIMap;
-
-    for (short int i = 0; i < 256; ++i) {
-        IIMap.insert(static_cast<quint8>(i), 0);
+    for (quint8 i = 0; i < 255; i++) {
+        IIMap.insert(i, 0);
     }
-
-
-    qDebug() << "Całość:";
-    qDebug() << ByteArray;
-
     QMap<quint8, int>::iterator it;
-    for(it = IIMap.begin(); it != IIMap.end(); ++it)
-    {
+    for(it = IIMap.begin(); it != IIMap.end(); ++it) {
         it.value() = ByteArray.count(static_cast<char>(it.key()));
     }
 
-    for (it = IIMap.begin(); it != IIMap.end(); it++)
-    {
-        qDebug() << it.key() << ", " << it.value();
-    }
 
-    //const BYTE* CharTable = (const BYTE*) ByteArray.constData();
-    //int size = ByteArray.size();
-    //for (int var = 0; var < size; ++var) {
-    //    qDebug() << QString::number(CharTable[var], 16);
-    //}
-
-    //Choose ASCII sign
     quint8 SIGN = 0;
     QTime time = QTime::currentTime();
     qsrand((uint) time.msec());
@@ -51,29 +35,105 @@ void RLE::Compress(QString FilePath)
             break;
         }
     }
-
-    qDebug() << "ZNAK: " << SIGN;
+    //qDebug() << "ZNAK: " << QString("%0").arg(SIGN, 1, 16);
 
     QByteArray OutByteArray;
-    int End = ByteArray.size();
-    int Counter = 0;
-    int RunCount = 0;
-    quint8 CurrentByte, PreviousByte, TempByte;
-
     OutByteArray.append(static_cast<char>(SIGN));
-    PreviousByte = static_cast<quint8>(ByteArray.at(Counter));
-    Counter++;
-    while (Counter < End)
-    {
-        CurrentByte = static_cast<quint8>(ByteArray.at(Counter));
-        Counter++;
-        if (Counter == End) {
-            if (RunCount == 0) {
-                OutByteArray.append(static_cast<char>(CurrentByte));
-                break;
-            } else {
 
+    QList<Element> Elements;
+    quint8 CurrentByte;
+    for (int i = 0; i < ByteArray.size(); ++i) {
+        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+        if (Elements.empty()) {
+            Element e;
+            e.item = CurrentByte;
+            e.value = 1;
+            Elements.append(e);
+        } else if (Elements.last().item == CurrentByte) {
+            Elements.last().value++;
+        } else {
+            Element e;
+            e.item = CurrentByte;
+            e.value = 1;
+            Elements.append(e);
+        }
+    }
+
+
+    foreach (Element e, Elements) {
+        if (e.value == 1) {
+            OutByteArray.append(e.item);
+        } else if (e.value > 3) {
+            OutByteArray.append(SIGN);
+            OutByteArray.append(e.item);
+            OutByteArray.append(e.value);
+        } else {
+            if (e.value == 2) {
+                OutByteArray.append(e.item);
+                OutByteArray.append(e.item);
+            } else {
+                OutByteArray.append(e.item);
+                OutByteArray.append(e.item);
+                OutByteArray.append(e.item);
             }
         }
     }
+
+    //qDebug() << "Before:";
+    //qDebug() << ByteArray;
+    //qDebug() << "After:";
+    //qDebug() << OutByteArray;
+
+
+    QString ResultFilePath(FilePath);
+    ResultFilePath.append(".rlemapa");
+    QFile fileOut(ResultFilePath);
+    if (!fileOut.open(QIODevice::WriteOnly))
+        return;
+    fileOut.write(OutByteArray);
+    fileOut.close();
 }
+
+void RLE::Decompress(QString FilePath)
+{
+    QFile file(FilePath);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+    QByteArray ByteArray = file.readAll();
+    file.close();
+
+    quint8 SIGN = static_cast<quint8>(ByteArray.at(0));
+    QByteArray OutByteArray;
+    quint8 CurrentByte, ByteCounter;
+    for (int i = 1; i < ByteArray.size(); i++) {
+        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+        if (CurrentByte == SIGN) {
+            i++;
+            CurrentByte = static_cast<quint8>(ByteArray.at(i));
+            i++;
+            ByteCounter = static_cast<quint8>(ByteArray.at(i));
+            for (quint8 j = 0; j < ByteCounter; j++) {
+                OutByteArray.append(CurrentByte);
+            }
+            ByteCounter = 0;
+        } else {
+            OutByteArray.append(CurrentByte);
+        }
+    }
+
+    //qDebug() << "Before:";
+    //qDebug() << ByteArray;
+    //qDebug() << "After:";
+    //qDebug() << OutByteArray;
+
+
+    QString ResultFilePath(FilePath);
+    ResultFilePath.resize(FilePath.size()-8);
+    ResultFilePath.append(".mapa");
+    QFile fileOut(ResultFilePath);
+    if (!fileOut.open(QIODevice::WriteOnly))
+        return;
+    fileOut.write(OutByteArray);
+    fileOut.close();
+}
+

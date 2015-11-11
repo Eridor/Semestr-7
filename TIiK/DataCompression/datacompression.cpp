@@ -24,7 +24,7 @@ void DataCompression::FileChoose()
 {
     QStringList FilesList = QFileDialog::getOpenFileNames(this, "Select one, two, three, but not four, five or more files to compress",
                                               "/home/parys/PROJEKTY/Semestr-7/TIiK/TestData",
-                                              "Images (*.bmp *.gif *.png *.raw *.tiff);;Audio (*.flac *.wav *.wma);;AllFiles (*.*)");
+                                              "Images (*.bmp *.gif *.png *.raw *.tiff);;Audio (*.flac *.wav *.wma);;CompressedData (*.rlemapa *.mapa);;AllFiles (*.*)");
 
     if (FileSet.empty()) {
         FileSet = QSet<QString>::fromList(FilesList);
@@ -34,10 +34,10 @@ void DataCompression::FileChoose()
         }
     }
 
-    qDebug() << "Look: ";
-    foreach (const QString &val, FileSet) {
-        qDebug() << val;
-    }
+    //qDebug() << "Look: ";
+    //foreach (const QString &val, FileSet) {
+    //    qDebug() << val;
+    //}
     SetTable();
 }
 
@@ -112,21 +112,84 @@ void DataCompression::ShowHelp()
 
 void DataCompression::on_pushButton_Compression_clicked()
 {
-    foreach (const QString &val, FileSet)
-    {
-        CompressData(val);
+    if (CheckData()) {
+        foreach (const QString &val, FileSet)
+        {
+            CompressData(val);
+        }
+    } else {
+        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
     }
 }
 
 void DataCompression::on_actionCompress_triggered()
 {
-    foreach (const QString &val, FileSet)
-    {
-        CompressData(val);
+    if (CheckData()) {
+        foreach (const QString &val, FileSet)
+        {
+            CompressData(val);
+        }
+    } else {
+        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
     }
 }
 
-void DataCompression::CompressData(QString val) {
+void DataCompression::CompressData(QString val)
+{
     RLE r;
     r.Compress(val);
+}
+
+void DataCompression::on_pushButton_Decompression_clicked()
+{
+    if (CheckData()) {
+        foreach (const QString &val, FileSet)
+        {
+            DeCompressData(val);
+        }
+    } else {
+    }
+}
+
+void DataCompression::on_actionDecompress_triggered()
+{
+    if (CheckData()) {
+        foreach (const QString &val, FileSet)
+        {
+            DeCompressData(val);
+        }
+    } else {
+    }
+}
+
+void DataCompression::DeCompressData(QString val)
+{
+    RLE r;
+    r.Decompress(val);
+}
+
+bool DataCompression::CheckData()
+{
+    bool Data = false, DataCompres = false;
+    foreach (const QString &val, FileSet) {
+        if (val.contains(".rlemapa")) {
+            DataCompres = true;
+        } else if (!val.contains(".rlemapa")) {
+            Data = true;
+        }
+    }
+    return ((Data && !DataCompres) || (!Data && DataCompres));
+}
+
+void DataCompression::on_actionRemove_triggered()
+{
+    QString TempPath = "/home/parys/PROJEKTY/Semestr-7/";
+    QItemSelection selection(ui->tableView_FileList->selectionModel()->selection());
+    foreach (const QModelIndex &in, selection.indexes()) {
+
+        QString Dane = ui->tableView_FileList->model()->data(in).toString();
+        FileSet.remove(Dane.prepend(TempPath));
+        //ui->tableView_FileList->model()->removeRow(in.row());
+        SetTable();
+    }
 }
