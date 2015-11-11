@@ -112,8 +112,21 @@ void DataCompression::ShowHelp()
 
 void DataCompression::on_pushButton_Compression_clicked()
 {
-    RLE r;
-    foreach (const QString &val, FileSet) {
-        r.Compress(val);
+    foreach (const QString &val, FileSet)
+    {
+        CompressData(val);
     }
+}
+
+void DataCompression::on_actionCompress_triggered()
+{
+    foreach (const QString &val, FileSet)
+    {
+        CompressData(val);
+    }
+}
+
+void DataCompression::CompressData(QString val) {
+    RLE r;
+    r.Compress(val);
 }

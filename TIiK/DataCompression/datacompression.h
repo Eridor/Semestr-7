@@ -48,6 +48,8 @@ private slots:
 
     void on_pushButton_Compression_clicked();
 
+    void on_actionCompress_triggered();
+
 private:
     Ui::DataCompression *ui;
     //Private variables
@@ -59,6 +61,7 @@ private:
     void SetTable();
     void ShowInfo();
     void ShowHelp();
+    void CompressData(QString val);
 };
 
 #endif // DATACOMPRESSION_H

@@ -5,6 +5,10 @@
 #include <QDebug>
 #include <QMap>
 #include <QByteArray>
+#include <QtGlobal>
+#include <QTime>
+
+typedef unsigned char BYTE; //byte definition
 
 class RLE
 {
