@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>DataCompression</class>
  <widget class="QMainWindow" name="DataCompression">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -9,6 +12,24 @@
     <width>600</width>
     <height>400</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>400</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Data Compression</string>
@@ -92,7 +113,7 @@
      </size>
     </property>
     <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAsNeeded</enum>
+     <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOn</enum>
@@ -100,6 +121,12 @@
     <property name="dragEnabled">
      <bool>true</bool>
     </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>300</number>
+    </attribute>
+    <attribute name="horizontalHeaderMinimumSectionSize">
+     <number>250</number>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="pushButton_Info">
     <property name="geometry">

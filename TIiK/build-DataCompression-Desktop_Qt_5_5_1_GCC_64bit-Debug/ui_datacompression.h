@@ -14,11 +14,9 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QToolBar>
@@ -40,8 +38,6 @@ public:
     QPushButton *pushButton_Add;
     QPushButton *pushButton_Compression;
     QPushButton *pushButton_Decompression;
-    QProgressBar *progressBar_CompressionRatio;
-    QLabel *label_Size;
     QPushButton *pushButton_Exit;
     QTableView *tableView_FileList;
     QPushButton *pushButton_Info;
@@ -56,7 +52,15 @@ public:
     {
         if (DataCompression->objectName().isEmpty())
             DataCompression->setObjectName(QStringLiteral("DataCompression"));
+        DataCompression->setEnabled(true);
         DataCompression->resize(600, 400);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(DataCompression->sizePolicy().hasHeightForWidth());
+        DataCompression->setSizePolicy(sizePolicy);
+        DataCompression->setMinimumSize(QSize(600, 400));
+        DataCompression->setMaximumSize(QSize(600, 400));
         actionAdd = new QAction(DataCompression);
         actionAdd->setObjectName(QStringLiteral("actionAdd"));
         QIcon icon;
@@ -104,13 +108,6 @@ public:
         pushButton_Decompression = new QPushButton(centralWidget);
         pushButton_Decompression->setObjectName(QStringLiteral("pushButton_Decompression"));
         pushButton_Decompression->setGeometry(QRect(390, 80, 200, 30));
-        progressBar_CompressionRatio = new QProgressBar(centralWidget);
-        progressBar_CompressionRatio->setObjectName(QStringLiteral("progressBar_CompressionRatio"));
-        progressBar_CompressionRatio->setGeometry(QRect(390, 170, 200, 30));
-        progressBar_CompressionRatio->setValue(0);
-        label_Size = new QLabel(centralWidget);
-        label_Size->setObjectName(QStringLiteral("label_Size"));
-        label_Size->setGeometry(QRect(390, 100, 200, 60));
         pushButton_Exit = new QPushButton(centralWidget);
         pushButton_Exit->setObjectName(QStringLiteral("pushButton_Exit"));
         pushButton_Exit->setGeometry(QRect(560, 0, 30, 30));
@@ -120,9 +117,11 @@ public:
         tableView_FileList->setObjectName(QStringLiteral("tableView_FileList"));
         tableView_FileList->setGeometry(QRect(10, 41, 360, 311));
         tableView_FileList->setMaximumSize(QSize(360, 500));
-        tableView_FileList->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        tableView_FileList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         tableView_FileList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         tableView_FileList->setDragEnabled(true);
+        tableView_FileList->horizontalHeader()->setDefaultSectionSize(300);
+        tableView_FileList->horizontalHeader()->setMinimumSectionSize(250);
         pushButton_Info = new QPushButton(centralWidget);
         pushButton_Info->setObjectName(QStringLiteral("pushButton_Info"));
         pushButton_Info->setGeometry(QRect(520, 0, 30, 30));
@@ -189,7 +188,6 @@ public:
         pushButton_Add->setText(QApplication::translate("DataCompression", "Add files", 0));
         pushButton_Compression->setText(QApplication::translate("DataCompression", "Compress", 0));
         pushButton_Decompression->setText(QApplication::translate("DataCompression", "Decomperss", 0));
-        label_Size->setText(QApplication::translate("DataCompression", "<html><head/><body><p><span style=\" font-weight:600;\">Size before:<br/>Size after:</span></p></body></html>", 0));
         pushButton_Exit->setText(QString());
         pushButton_Info->setText(QString());
         pushButton_Help->setText(QString());

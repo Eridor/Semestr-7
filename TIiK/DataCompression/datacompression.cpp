@@ -22,9 +22,9 @@ void DataCompression::on_actionExit_triggered()
 
 void DataCompression::FileChoose()
 {
-    QStringList FilesList = QFileDialog::getOpenFileNames(this, "Select one, two, three, but not four, five or more files to compress",
+    QStringList FilesList = QFileDialog::getOpenFileNames(this, "Select one or more files",
                                               "/home/parys/PROJEKTY/Semestr-7/TIiK/TestData",
-                                              "Images (*.bmp *.gif *.png *.raw *.tiff);;Audio (*.flac *.wav *.wma);;CompressedData (*.rlemapa *.mapa);;AllFiles (*.*)");
+                                              "To Compress (*.bmp *.gif *.png *.raw *.tiff *.flac *.wav *.wma);;To Decompress (*.rlemapa);;AllFiles (*.*)");
 
     if (FileSet.empty()) {
         FileSet = QSet<QString>::fromList(FilesList);
@@ -68,14 +68,27 @@ void DataCompression::SetTable()
     int i = 0;
     foreach (const QString &val, FileSet) {
         QStandardItem *item1 = new QStandardItem(val.mid(TempPath.size()));
+        if (val.contains(".rlemapa", Qt::CaseInsensitive)) {
+            QColor rowColor = Qt::lightGray;
+            item1->setData(rowColor, Qt::BackgroundRole);
+        } else {
+            QColor rowColor = Qt::green;
+            item1->setData(rowColor, Qt::BackgroundRole);
+        }
         TableModel->setItem(i, 0, item1);
         i++;
     }
 
     ui->tableView_FileList->setVisible(false);
     ui->tableView_FileList->setModel(TableModel);
-    ui->tableView_FileList->setColumnWidth(0, this->width());
+    ui->tableView_FileList->setColumnWidth(0, ui->tableView_FileList->width());
+    ui->tableView_FileList->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
     ui->tableView_FileList->setVisible(true);
+}
+
+void DataCompression::RemoveData(QString val)
+{
+    FileSet.remove(val);
 }
 
 void DataCompression::on_actionInfo_triggered()
@@ -136,8 +149,9 @@ void DataCompression::on_actionCompress_triggered()
 
 void DataCompression::CompressData(QString val)
 {
-    RLE r;
-    r.Compress(val);
+    if (RLE::Compress(val))
+        RemoveData(val);
+    SetTable();
 }
 
 void DataCompression::on_pushButton_Decompression_clicked()
@@ -148,6 +162,7 @@ void DataCompression::on_pushButton_Decompression_clicked()
             DeCompressData(val);
         }
     } else {
+        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
     }
 }
 
@@ -159,13 +174,15 @@ void DataCompression::on_actionDecompress_triggered()
             DeCompressData(val);
         }
     } else {
-    }
+        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
+    }    
 }
 
 void DataCompression::DeCompressData(QString val)
 {
-    RLE r;
-    r.Decompress(val);
+    if (RLE::Decompress(val))
+        RemoveData(val);
+    SetTable();
 }
 
 bool DataCompression::CheckData()
@@ -185,11 +202,16 @@ void DataCompression::on_actionRemove_triggered()
 {
     QString TempPath = "/home/parys/PROJEKTY/Semestr-7/";
     QItemSelection selection(ui->tableView_FileList->selectionModel()->selection());
-    foreach (const QModelIndex &in, selection.indexes()) {
+    if (!selection.empty()) {
+        foreach (const QModelIndex &in, selection.indexes()) {
 
-        QString Dane = ui->tableView_FileList->model()->data(in).toString();
-        FileSet.remove(Dane.prepend(TempPath));
-        //ui->tableView_FileList->model()->removeRow(in.row());
-        SetTable();
+            QString Dane = ui->tableView_FileList->model()->data(in).toString();
+            FileSet.remove(Dane.prepend(TempPath));
+            //ui->tableView_FileList->model()->removeRow(in.row());
+            SetTable();
+        }
+    } else {
+        QMessageBox::critical(this, "No data selected!", "To remove row, you have to select one to remove!!");
     }
 }
+

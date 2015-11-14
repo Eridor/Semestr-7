@@ -31,7 +31,6 @@ public:
 private slots:
     void on_actionExit_triggered();
 
-
     void on_pushButton_Add_clicked();
 
     void on_actionAdd_triggered();
@@ -69,6 +68,7 @@ private:
     void ShowHelp();
     void CompressData(QString val);
     void DeCompressData(QString val);
+    void RemoveData(QString val);
     bool CheckData();
 };
 

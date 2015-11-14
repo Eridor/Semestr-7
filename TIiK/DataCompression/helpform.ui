@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>240</height>
+    <width>400</width>
+    <height>400</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -16,7 +22,7 @@
   <widget class="QPushButton" name="pushButton_Exit">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>370</x>
      <y>0</y>
      <width>30</width>
      <height>30</height>
@@ -34,6 +40,81 @@
      <width>24</width>
      <height>24</height>
     </size>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_title">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>0</y>
+     <width>80</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;Help!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Text">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>45</y>
+     <width>390</width>
+     <height>350</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>39</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>390</width>
+     <height>350</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>390</width>
+     <height>350</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;How To Use Program?&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;1. Seclect file / files for Compression / Decompression.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;2. Compress / Decompress file / files.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Key Shourtucts:&lt;/span&gt;&lt;/p&gt;
+&lt;table border=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;A&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Add File&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;R&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Remove File&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;Q&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Compress&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;D&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Decompress&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;H&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Show help&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;I&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Show Info&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;Q&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Exit program&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors:&lt;/span&gt;&lt;/p&gt;
+&lt;table border=&quot;0&quot; width=&quot;410&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Michał Majka:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;112679&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;Piotr Parysek:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;106100&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
   </widget>
  </widget>
