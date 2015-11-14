@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using OD_Client.Models;
 
 namespace OD_Client
 {
@@ -23,7 +24,7 @@ namespace OD_Client
         {
             InitializeComponent();
         }
-
+        private ServerConnection serv = ServerConnection.load;
         private void ReturnB_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow window = new LoginWindow();
@@ -33,9 +34,27 @@ namespace OD_Client
 
         private void RegisterB_Click(object sender, RoutedEventArgs e)
         {
-            FirstLoginWindow window = new FirstLoginWindow();
-            window.Show();
-            this.Close();
+            if (Pass.Password == Pass2.Password)
+            {
+                List<string> dataList = new List<string>();
+                dataList.Add(Username.Text);
+                dataList.Add(Pass.Password);
+                dataList.Add(Email.Text);
+                if (serv.StartCommunication(dataList, ServerConnection.MessageType.Register) == 0)
+                {
+                    FirstLoginWindow window = new FirstLoginWindow();
+                    window.Show();
+                    this.Close();
+                }
+                else
+                {
+                    //MessageBox.Show("Błąd:\nTransmisja nieudana");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Błąd:\nHasło do siebie nie pasuje");
+            }
         }
     }
 }

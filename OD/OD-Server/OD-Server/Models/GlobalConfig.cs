@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OD_Server.Models;
+using System.Windows.Automation.Peers;
 
 namespace OD_Server
 {
@@ -22,20 +22,90 @@ namespace OD_Server
         public GlobalConfig() 
         {
             clientList = new List<Client>();
-            clientApps = new List<ClientApp>();
         }
 
         public List<Client> clientList;
-        public List<ClientApp> clientApps;
-
-        public int AddClientApp()
+ 
+        public string AddClient(string username, byte[] password, string email)
         {
-            ClientApp newClient = new ClientApp();
-            //newClient.hisKey = System.Text.Encoding.ASCII.GetBytes(publickey);
-            newClient.id = clientApps.Count() + 1;
-            clientApps.Add(newClient);
-            return newClient.id;
+            foreach (Client item in clientList)
+            {
+                if (item.Login == username)
+                {
+                    return "error:login";
+                }
+            }
+            Client newClient = new Client();
+            newClient.Login = username;
+            newClient.password = password;
+            newClient.email = email;
+            clientList.Add(newClient);
+            return newClient.firstLoginCode;
         }
 
+        public string FirstLogin(string username, byte[] password, string code, string token)
+        {
+            Client cli = null;
+            foreach (Client item in clientList)
+            {
+                if (item.Login == username)
+                {
+                    cli = item;
+                }
+            }
+            if (cli != null)
+            {
+                if (cli.password != password || cli.firstLoginCode != code)
+                {
+                    //skasuj konto
+                    clientList.Remove(cli);
+                    return "error:accremoved";
+                }
+                else
+                {
+                    //poprawna autoryzacja
+                    cli.token = token;
+                    cli.Condition = Client.condition.OK;
+                    cli.GenerateSessionID();
+                    return cli.sessionID;
+                }
+            }
+            else
+            {
+                return "error:nouser";
+            }
+        }
+
+        public string Login(string username, byte[] password, string token)
+        {
+            Client cli = null;
+            foreach (Client item in clientList)
+            {
+                if (item.Login == username)
+                {
+                    cli = item;
+                }
+            }
+            if (cli != null)
+            {
+                if (cli.password != password)
+                {
+                    //skasuj konto
+                    clientList.Remove(cli);
+                    return "error:accremoved";
+                }
+                else
+                {
+                    // sprawdź token f
+                    //poprawna autoryzacja
+                    cli.GenerateSessionID();
+                    return cli.sessionID;
+                }
+            }
+            else
+            {
+                return "error:nouser";
+            }
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,19 +24,52 @@ namespace OD_Server
     {
         private GlobalConfig conf;
         private MessageExchange server;
+        private Thread Refresh;
         public MainWindow()
         {
+            //ConsoleManager.Show();
             conf = GlobalConfig.Instance;
             server = new MessageExchange();
             InitializeComponent();
+
+            Refresh = new Thread(new ThreadStart(RefreshListF));
+            
             server.startListening();
+            Refresh.Start();
 
         }
-
-        private void StartB_Click(object sender, RoutedEventArgs e)
+        private void RefreshListF()
         {
-            //server.startListening();
+            while (true)
+            {
+
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    ClientList.Text = DownloadClientList();
+                }));
+                Thread.Sleep(1000);
+            }
+        }
+
+        private string DownloadClientList()
+        {
+            string output = "";
+            foreach (Client item in conf.clientList)
+            {
+                output += item.Login;
+                output += ", stan: " + item.Condition;
+                output += "\n";
+            }
+            return output;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            Refresh.Abort();
+            server.stopListening();
+            base.OnClosed(e);
             
+
         }
     }
 }

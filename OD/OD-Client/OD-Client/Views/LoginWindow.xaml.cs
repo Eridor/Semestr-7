@@ -20,22 +20,31 @@ namespace OD_Client
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private ServerConnection server;
+        private ServerConnection serv;
         public LoginWindow()
         {
-            server = ServerConnection.load;
+            serv = ServerConnection.load;
             InitializeComponent();
-            byte[] q = server.EncryptMessage("Test 123");
-            string outp = server.DecryptMessage(q);
-            MessageBox.Show(outp);
+            System.Diagnostics.Debug.WriteLine("Debug");
 
         }
 
         private void LoginB_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow window = new MainWindow();
-            window.Show();
-            this.Close();
+            List<string> dataList = new List<string>();
+            dataList.Add(UserBox.Text);
+            dataList.Add(PassBox.Password);
+            dataList.Add(TokenBox.Text);
+            if (serv.StartCommunication(dataList, ServerConnection.MessageType.FirstLogn) == 0)
+            {
+                FirstLoginWindow window = new FirstLoginWindow();
+                window.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Błąd:\nTransmisja nieudana");
+            }
         }
 
         private void RegisterB_Click(object sender, RoutedEventArgs e)
@@ -53,9 +62,5 @@ namespace OD_Client
         }
 
 
-        private void DevB_Click(object sender, RoutedEventArgs e)
-        {
-            server.DiffHell();
-        }
     }
 }

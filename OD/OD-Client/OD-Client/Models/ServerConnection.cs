@@ -23,6 +23,7 @@ namespace OD_Client.Models
             AesClass = Aes.Create();
             AesClass.IV = new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             DiffHellman = new ECDiffieHellmanCng();
+            KPL = "";
         }
         public static ServerConnection load
         {
@@ -47,6 +48,7 @@ namespace OD_Client.Models
         private string SessionKey;
         public enum MessageType {Register, FirstLogn, Login, Message, Logout}
 
+        public string KPL;
         public int StartCommunication(List<String> data, MessageType type)
         {
             try
@@ -55,13 +57,14 @@ namespace OD_Client.Models
                 NetworkStream stream = client.GetStream();
 
                 byte[] key = DiffHell(stream);
+                int code = 0;
                 if (key != null)
                 {
-                    ExchangeMessages(stream, data, type);
+                    code = ExchangeMessages(stream, data, type);
                 }
                 stream.Close();
                 client.Close();
-                return 0;
+                return code;
             }
             catch (Exception e)
             {
@@ -70,29 +73,44 @@ namespace OD_Client.Models
             }
         }
 
-        private void ExchangeMessages(NetworkStream ns, List<String> data, MessageType type)
+        private int ExchangeMessages(NetworkStream ns, List<String> data, MessageType type)
         {
             string sendText = ""; 
             string ans ="";
+            byte[] outBytes;
             Byte[] ansBytes = new Byte[255];
             switch (type)
             {
                 case MessageType.Register:
                     sendText = "reg" + (char)0 + data[0] + (char)0 + data[2];
-                    ns.Write(EncryptMessage(sendText), 0, Encoding.UTF8.GetBytes(sendText).Length);
-                    ns.Write(hashPass(data[1]), 0 , hashPass(data[1]).Length);
+                    outBytes = EncryptMessage(sendText);
+                    ns.Write(outBytes, 0, outBytes.Length);
+                    outBytes = EncryptMessage(ByteToString(hashPass(data[1])));
+                    ns.Write(outBytes, 0, outBytes.Length);
                     
                     ns.Read(ansBytes, 0, ansBytes.Length);
-                    ans = Encoding.UTF8.GetString(ansBytes);
-                    if (ans != "error")
+                    ans = DecryptMessage(ansBytes);
+                    if (ans.Substring(0, 5) != "error")
                     {
+                        KPL = ans;
                         MessageBox.Show("Klucz pierwszego logowania: " + ans);
+
+                    }
+                    else
+                    {
+                        if (ans.Substring(6, 5) == "login")
+                        {
+                            MessageBox.Show("Login zajęty");
+                            return -1;
+                        }
                     }
                     break;
                 case MessageType.FirstLogn:
-                    sendText = "log" + (char)0 + data[0] + (char)0 + data[2] + (char)0 + data[3];
-                    ns.Write(EncryptMessage(sendText), 0, Encoding.UTF8.GetBytes(sendText).Length);
-                    ns.Write(hashPass(data[1]), 0 , hashPass(data[1]).Length);
+                    sendText = "1lg" + (char)0 + data[0] + (char)0 + data[2] + (char)0 + data[3];
+                    outBytes = EncryptMessage(sendText);
+                    ns.Write(outBytes, 0, outBytes.Length);
+                    outBytes = EncryptMessage(ByteToString(hashPass(data[1])));
+                    ns.Write(outBytes, 0, outBytes.Length);
 
                     ans = Encoding.UTF8.GetString(ansBytes);
                     if (ans != "error")
@@ -101,10 +119,49 @@ namespace OD_Client.Models
                         MessageBox.Show("Zalogowany: " + ans);
                     }
                     break;
+                    case MessageType.Login:
+                    sendText = "log" + (char)0 + data[0] + (char)0 + data[2];
+                    outBytes = EncryptMessage(sendText);
+                    ns.Write(outBytes, 0, outBytes.Length);
+                    outBytes = EncryptMessage(ByteToString(hashPass(data[1])));
+                    ns.Write(outBytes, 0, outBytes.Length);
+                    
+                    ans = Encoding.UTF8.GetString(ansBytes);
+                    if (ans != "error")
+                    {
+                        SessionKey = ans;
+                        MessageBox.Show("Zalogowany: " + ans);
+                    }
+                    break;
+                    case MessageType.Logout:
+                    sendText = "out" + (char)0 + SessionKey;
+                    outBytes = EncryptMessage(sendText);
+                    ns.Write(outBytes, 0, outBytes.Length);
+                    
+                    ans = Encoding.UTF8.GetString(ansBytes);
+                    if (ans != "error")
+                    {
+                        SessionKey = ans;
+                        MessageBox.Show("Wylogowany: " + ans);
+                    }
+                    break;
+                    case MessageType.Message:
+                    sendText = "msg" + (char)0 + data[0] + (char)0 + SessionKey;
+                    outBytes = EncryptMessage(sendText);
+                    ns.Write(outBytes, 0, outBytes.Length);
+                    
+                    ans = Encoding.UTF8.GetString(ansBytes);
+                    if (ans != "error")
+                    {
+                        SessionKey = ans;
+                        MessageBox.Show("Wylogowany: " + ans);
+                    }
+                    break;
                 default:
+                    return -1;
                     break;
             }
-
+            return 0;
 
         }
 
@@ -114,30 +171,15 @@ namespace OD_Client.Models
             return sha256.ComputeHash(Encoding.UTF8.GetBytes(pass));
 
         }
-        /// Old imp
-        public string SendMessage(string text)
+
+        private string ByteToString(byte[] inBytes)
         {
-            try
+            string outData = "";
+            foreach (var item in inBytes)
             {
-                TcpClient client = new TcpClient(ServerIp, ServerPort);
-                NetworkStream stream = client.GetStream();
-                Byte[] data = System.Text.Encoding.UTF8.GetBytes(text);
-                stream.Write(data, 0, data.Length);
-
-                Byte[] dataRecived = new Byte[256];
-                int bytes = stream.Read(dataRecived, 0, dataRecived.Length);
-                string textRecived = System.Text.Encoding.UTF8.GetString(dataRecived, 0, bytes);
-
-                stream.Close();
-                client.Close();
-
-                return textRecived;
+                outData += (char) item;
             }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            return null;
+            return outData;
         }
 
         public byte[] DiffHell(NetworkStream ns)
@@ -179,6 +221,7 @@ namespace OD_Client.Models
                     using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                     {
                         swEncrypt.Write(text);
+                        
                     }
                     encrypted = msEncrypt.ToArray();
                 }
@@ -189,8 +232,9 @@ namespace OD_Client.Models
         public string DecryptMessage(byte[] text)
         {
             string output;
+            byte[] input = CutEmptyBytes(text);
             ICryptoTransform decryptor = AesClass.CreateDecryptor(AesClass.Key, AesClass.IV);
-            using (MemoryStream msDecrypt = new MemoryStream(text))
+            using (MemoryStream msDecrypt = new MemoryStream(input))
             {
                 using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                 {
@@ -202,6 +246,35 @@ namespace OD_Client.Models
             }
 
             return output;
+        }
+        public byte[] CutEmptyBytes(byte[] input)
+        {
+            int count = 0;
+            for (int i = (input.Length) - 1; i > 0; i--)
+            {
+                if (input[i] != 0)
+                {
+                    count = i + 1;
+                    break;
+                }
+            }
+            int buff = count;
+            /*
+            for (int i = 0; i <= 8; i++ )
+            {
+                if (Math.Pow(2,i) >= count)
+                {
+                    buff = (int)Math.Pow(2,i);
+                    break;
+                }
+            }
+            */
+            byte[] outBytes = new byte[buff];
+            for (int i = 0; i < count; i++)
+            {
+                outBytes[i] = input[i];
+            }
+            return outBytes;
         }
     }
 }
