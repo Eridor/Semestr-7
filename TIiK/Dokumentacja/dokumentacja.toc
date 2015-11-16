@@ -1,2 +1,14 @@
 \select@language {polish}
-\contentsline {section}{Literatura}{1}
+\contentsline {section}{\numberline {1}Wst\IeC {\k e}p}{1}
+\contentsline {section}{\numberline {2}Algorytm}{1}
+\contentsline {subsection}{\numberline {2.1}Historia}{1}
+\contentsline {subsection}{\numberline {2.2}Zasada dzia\IeC {\l }ania}{1}
+\contentsline {section}{\numberline {3}Opis implementacji}{2}
+\contentsline {subsection}{\numberline {3.1}Kodowanie}{2}
+\contentsline {subsubsection}{Ustalenie znaku kodowania}{2}
+\contentsline {subsubsection}{Kodowanie}{3}
+\contentsline {subsection}{\numberline {3.2}Dekodowanie}{4}
+\contentsline {section}{\numberline {4}U\IeC {\.z}ytkowanie programu}{4}
+\contentsline {section}{\numberline {5}Testy}{4}
+\contentsline {section}{\numberline {6}Por\IeC {\'o}wnanie kompresji}{4}
+\contentsline {section}{Literatura}{4}

@@ -288,6 +288,7 @@ bool RLE::Decompress(QString FilePath)
                     for (quint32 var = 0; var < Counter; ++var) {
                         OutByteArray.append(CurrentByte);
                     }
+                    i += 3;
                 } else {
                     i += 2;
                     CurrentByte = static_cast<quint8>(ByteArray.at(i));

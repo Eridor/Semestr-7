@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper,notitlepage]{report}
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
 \usepackage[polish]{babel}
@@ -10,12 +10,13 @@
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
-\usepackage{geometry}
+\usepackage[margin=1.8cm]{geometry}
 \usepackage{float}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{wrapfig,booktabs}
-\usepackage{float} %Do opcji H w figure i table
+\usepackage{caption}
+\usepackage{wrapfig}
 
 \newcommand\blfootnote[1]{%
   \begingroup
@@ -24,18 +25,19 @@
   \endgroup
 }
 %remove section whitespace
-%\usepackage{titlesec}
-%\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\usepackage{titlesec}
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
 
-%\makeatletter
-%\newcommand*{\toccontents}{\@starttoc{toc}}
-%\makeatother
+\makeatletter
+\newcommand*{\toccontents}{\@starttoc{toc}}
+\makeatother
 
 \renewcommand\thesection{\arabic{section}}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} %Do tytułu
 
 \usepackage{etoolbox} %do bibliografi
-%\patchcmd{\thebibliography}{\chapter*}{\section*}{}{} %żeby bibliografię nie wrzucało na nową stronę
+\patchcmd{\thebibliography}{\chapter*}{\section*}{}{} %żeby bibliografię nie wrzucało na nową stronę
+
 
 %Do kodu C++
 \usepackage{xcolor} % for setting colors
@@ -46,77 +48,216 @@
     tabsize=4, % tab space width
     showstringspaces=false, % don't mark spaces in strings
     numbers=left, % display line numbers on the left
+    breaklines=true,                % sets automatic line breaking
     commentstyle=\color{green}, % comment color
     keywordstyle=\color{blue}, % keyword color
     stringstyle=\color{red} % string color
 }
 %End kod
 
+\usepackage{amsmath} % Required for \varPsi below
+\usepackage{tikz}
+\usepackage{varwidth}
+\usetikzlibrary{shapes,arrows}
+\usepackage{pgfplots}
+
+\usepackage{xfrac} %do ułamków np.: 1\2
+
 \begin{document}
-\renewcommand\tablename{Tabela} %zmienia Tablica na "Tabela"
+\renewcommand{\lstlistingname}{Kod} %Zmiana listing na Kod
+\renewcommand\bibname{Literatura} %Zmiana "Bibliografia" na "Literatura"
+\renewcommand{\tablename}{Tabela} %Zmiana "Tablica" na "Tabela"
+%\renewcommand{\figurename}{Zrzut ekranu} %Zmiana figure na Zrzut ekranu
 
 \begin{titlepage}
 \begin{center}
 
-\textsc{\LARGE Politechnika Poznańska}\\[0.2cm]
-\textsc{\Large Wydział Elektryczny \\ Informatyka}\\[0.6cm]
+\textsc{\LARGE Politechnika Poznańska}\\[0.8cm]
+\textsc{\Large Wydział Elektryczny \\ Informatyka}\\[1cm]
 
-\includegraphics[scale=0.8]{logopoli}
-\vspace{.5cm}
-
+\includegraphics[scale=1]{logopoli}
+\vspace{.5cm}\\
 \textsc{\large Teoria Informacji i Kodowanie}\\[0.2cm]
-\textsc{\normalsize Projekt semestralny}\\[.2cm]
-\textsc{\large Projekt implementujący algorytm kompresji i dekompresji RLE (ang.: \textit{Run Length Encoding}).}\\[.5cm]
+\textsc{\normalsize Dokumentacja Projektu}\\[.5cm]
 
 
 % Author and supervisor
 \noindent
-\begin{minipage}[t]{0.49\textwidth}
+\begin{minipage}[t]{0.4\textwidth}
 \begin{flushleft} \large
 \emph{Autorzy:}\\
 Michał \textsc{Majka} \\
-Nr albumu: 666666 \\
+Nr albumu: 112679\\
 Piotr \textsc{Parysek} \\
 Nr albumu: 106100
 \end{flushleft}
 \end{minipage}%
-\begin{minipage}[t]{0.49\textwidth}
+\begin{minipage}[t]{0.4\textwidth}
 \begin{flushright} \large
 \emph{Prowadzący:} \\
-dr inż. Ewa \textsc{Idzikowska}.
+dr inż. Ewa \textsc{Idzikowska}
 \end{flushright}
 \end{minipage}
 
-\bigskip
-\vspace{\fill}
-
-\begin{minipage}[b]{\textwidth}
-    \centering
-%    \onehalfspacing
-    \large   
-    {\large \today}\\
-    {\large Rok akademicki 2015/2016}
-
-%    \vspace{-20mm} 
-\end{minipage}%
-
+%\bigskip
+\vspace{2cm}
 % Bottom of the page
-%{\large \today}
+{\large \today}
 %\global\let\newpagegood\newpage %żeby nie było page break po titilepage
 %\global\let\newpage\relax %żeby nie było page break po titilepage
 
 \end{center}
 \end{titlepage}
 
-\tableofcontents
+\toccontents
+
+\section{Wstęp}
+Zadaniem projektowym była implementacja algorytmu kompresji bezstratnej \newline \emph{\textbf{Run-Length Encoding}} (\textbf{RLE}).
+
+Zadanie zrealizowaliśmy w środowisku programistycznym Qt Creator 5.5.1\cite{qt} korzystając z kompilatora GCC 4.9.1\cite{gcc}.\\
+Do kontroli wersji oraz plików źródłowych wykorzystaliśmy oprogramowanie Git\cite{git}, projekt hostowaliśmy w repozytorium GitHub\cite{github}.\\
+Dokumentacja została wykonana w \LaTeX \cite{latex} w programie Texmaker 4.5 \cite{program} oraz edytora online: ShareLaTeX\cite{sharelatex}. 
+
+\section{Algorytm}
+\subsection{Historia}
+\textbf{Run-Length Encodings}, również znane jako \textbf{Golomb Codings}, swoje ,,podwaliny'' powstania wiąże z pracami XVII-wiecznego francuskiego matematyka \textit{Blaise'a Pascal'a} związanych z probabilistyką\cite{book}. Koncepcja kodowania powtarzających się znaków była używana od początków istnienia teorii informacji (Shannon 1949, Laemmel 1951), jednakże metodę oraz sposób kodowania wynalazł i opracował \textit{Solomon Wolf Golomb}\cite{golomb}.
+
+\subsection{Zasada działania}
+Algorytm jest relatywnie prosty $\rightarrow$ przedstawia powtarzające się wartości jako dany znak i licznik powtórzeń. Na przykład ciąg znaków:
+\[pppppppuuuuuttttt......ppppoooooozzzzznnnnannnnn....pppppplllll\]
+Zostaje przedstawiony w ciąg postaci:
+\[p7u5t5.6p4o6z5n4an5.4p6l5\]
+
+\begin{table}[H]
+\begin{tabular}{l l}
+Ciąg znaków & Liczba \\\hline
+$pppppppuuuuuttttt......ppppoooooozzzzznnnnannnnn....pppppplllll$& 64\\
+$p7u5t5.6p4o6z5n4an5.4p6l5$& 26 \\ \hline
+& $\sfrac{26}{64}\approx 0.41$
+\end{tabular}
+\caption{Przykładowa kompresja znakowa}
+\end{table}
+
+\section{Opis implementacji}
+\subsection{Kodowanie}
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=green!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, text centered, rounded corners, minimum height=2.5em, execute at begin node={\begin{varwidth}{15em}}, execute at end node={\end{varwidth}}]
+\tikzstyle{line} = [draw, -latex']
+\subsubsection{Ustalenie znaku kodowania}    
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node [block] (init) {Zapisanie do QMap wszystkich możliwych wartości bajtu [256 możliwości], wraz z liczbą wystąpień = 0};
+    \node [block, below of=init, node distance=2.5cm] (identify) {Wylicznie wystąpień każdego bajtu i zmiana poszczególnych wartości w QMap};
+    \node [block, below of=identify] (evaluate) {Wybierz wartość ,,znaku''};
+    \node [block, left of=evaluate, node distance=5cm] (update) {Zmień ,,znak''};
+    \node [decision, below of=update] (range) {Czy osiągniętko koniec zakresu?};
+    \node [decision, below of=evaluate] (decide) {Czy liczba wystąpień znaku jest równa 0?};
+    \node [block, below of=decide, node distance=3cm] (stop) {Zapisz znak w zmiennej SIGN};
+    \node [block, below of=range, node distance=4.5cm] (qset) {Stwórz QSet wszyskich wystąpień dwubajtowych w danym pliku};
+    \node [block, below of=qset] (choose) {Wybierz wartość dwu Bajtową ,,znaku''};
+    \node [decision, below of=choose] (signdecide) {Czy ,,znak'' jest w QSet?};
+    \node [block, below of=signdecide, node distance=3cm] (over) {Zapisz znak w zmiennej SIGN16};
+    \node [block, right of=signdecide, node distance=5cm] (notyet) {Zmień wartość ,,znaku''};
+    \node [block, below of=stop] (end) {Koniec.};
+    \node [block, right of=over, node distance=5cm] (theend) {Koniec};
+    % Draw edges
+    \path [line] (init) -- (identify);
+    \path [line] (identify) -- (evaluate);
+    \path [line] (evaluate) -- (decide);
+    \path [line] (decide) -- node [near start] {Nie} (range);
+    \path [line] (range) -- node [near start] {Nie} (update);
+    \path [line] (update) |- (evaluate);
+    \path [line] (decide) -- node {Tak} (stop);
+    \path [line] (range) -- node [near start] {Tak} (qset);
+    \path [line] (qset) -- (choose);
+    \path [line] (choose) -- (signdecide);
+    \path [line] (signdecide) -- node [near start] {Nie} (over);
+    \path [line] (signdecide) -- node [near start] {Tak} (notyet);
+    \path [line] (notyet) |- (choose);
+    \path [line] (stop) -- (end);
+    \path [line] (over) -- (theend);
+\end{tikzpicture}
+\caption{Schemat blokowy wyszukiwania ,,znaku''.}
+\end{figure}
+
+\subsubsection{Kodowanie}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance = 2cm,auto]
+    % Place nodes
+    \node [block] (start) {Dopisz do tablicy pliku wyjściowego rozmiar ,,znaku'' oraz Bajt/y ,,znak/u''};
+    \node [block, below of=start] (jeden) {Wczytaj kolejny bajt};
+    \node [decision, below of=jeden] (decyzja) {Czy bajt różni się od poprzedniego?};
+    \node [block, right of=decyzja, node distance=5cm] (dwa) {Dopisz Bajt\\ do Listy Elementów};
+    \node [block, left of=decyzja, node distance=5cm] (trzy) {Zinkrementuj liczbę\\ wystąpień ostatniego\\ elementu listy};
+    \node [block, below of=decyzja, node distance=3.5cm] (cztery) {Zapisz Listę Elementów do Tablicy bajtów wyjściowych};
+    \node [block, below of=cztery] (piec) {Zapisz tablicę do pliku};
+	\node [block, below of=piec] (szesc) {Koniec.};    
+    
+    % Draw edges
+    \path [line] (start) -- (jeden);
+    \path [line] (jeden) -- (decyzja);
+    \path [line] (decyzja) -- node [near start] {Tak} (dwa);
+    \path [line] (decyzja) -- node [near start] {Nie} (trzy);
+    \path [line] (decyzja) -- node [near start] {Koniec tablicy} (cztery);
+    \path [line] (dwa) |- (jeden);
+    \path [line] (trzy) |- (jeden);
+    \path [line] (cztery) -- (piec);
+    \path [line] (piec) -- (szesc);        
+\end{tikzpicture}
+\caption{Schemat blokowy kodowania pliku.}
+\end{figure}
+
+\subsection{Dekodowanie}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance = 2cm,auto]
+    % Place nodes
+    \node [block] (start) {Wczytaj rozmiar ,,znaku''};
+    \node [block, below of=start] (zero) {Wczytaj ,,znak''};
+    \node [block, below of=zero] (jeden) {Wczytaj bajt};
+    \node [decision, below of=jeden] (decyzja) {Czy bajt jest rónwy ,,znakowi''?};
+    \node [block, right of=decyzja, node distance=5cm] (dwa) {Dopisz Bajt do\\ tablicy bajtów wyjściowych};
+    \node [block, left of=decyzja, node distance=5cm] (trzy) {Wczytaj kolejny bajt\\ -powtarzany bajt-\\ i następny bajt -licznik\\ powtórzenia. Dopisz do\\ tablicy bajtów wyjściowych\\ powtarzany bajt w ilości\\ licznika powtórzenia.};
+    \node [block, below of=decyzja, node distance=3cm] (cztery) {Zapisz tablicę do pliku};
+    \node [block, below of=cztery] (piec) {Koniec.};
+    
+    % Draw edges
+    \path [line] (start) -- (zero);
+    \path [line] (zero) -- (jeden);
+    \path [line] (jeden) -- (decyzja);
+    \path [line] (decyzja) -- node [near start] {Nie} (dwa);
+    \path [line] (decyzja) -- node [near start] {Tak} (trzy);
+    \path [line] (decyzja) -- node [near start] {Koniec tablicy} (cztery);
+    \path [line] (dwa) |- (jeden);
+    \path [line] (trzy) |- (jeden);
+    \path [line] (cztery) -- (piec);      
+\end{tikzpicture}
+\caption{Schemat blokowy dekodowania pliku.}
+\end{figure}
+
+\section{Użytkowanie programu}
+\section{Testy}
+\section{Porównanie kompresji}
 
 \addcontentsline{toc}{section}{Literatura}  %dodanie znacznika "Literatura" do spisu treści
-\begin{thebibliography}{3}
+\begin{thebibliography}{1}
 	\bibitem{latex} Kurs \LaTeX w $\pi^e$ minut \url{http://www.fuw.edu.pl/~kostecki/kurs_latexa.pdf}.
-	\bibitem{program} Program Texmaker 4.4.1 \url{http://www.xm1math.net/texmaker/}.
-	\bibitem{uml} Visual Paradigm Community Edition 12.2 \url{www.visual-paradigm.com}.
+	\bibitem{program} Program Texmaker 4.5 \url{http://www.xm1math.net/texmaker/}.
+	\bibitem{sharelatex} ShareLaTeX is an online LaTeX editor \url{https://www.sharelatex.com/}.	
+	\bibitem{qt} Qt \url{http://www.qt.io/}.
+	\bibitem{gcc} GCC, the GNU Compiler Collection \url{https://gcc.gnu.org/}.
+	\bibitem{git} Git \url{http://git-scm.com/}.
+	\bibitem{github} GitHub \url{https://github.com/}.
+	\bibitem{golomb} Run-length encodings - S. W. Golomb (1966); IEEE Trans Info Theory 12(3):399 \url{http://urchin.earth.li/~twic/Golombs_Original_Paper/}.
+	\bibitem{book} Variable-length codes for data compression / David Salomon, London : Springer, 2007.
 	\bibitem{ikony} Ikony \url{http://www.flaticon.com/}.
-
 \end{thebibliography}
-	\blfootnote{Dokument wykonany w \LaTeX \cite{latex} \\ w programie Texmaker\cite{program}}
+
+	\blfootnote{Dokument wykonany w \LaTeX \cite{latex} \\ w programie Texmaker 4.5 \cite{program}}	
 \end{document}
+%\begin{lstlisting}[language=C++, caption={Zmieniony algorytm wielowątkowy liczenia liczby $\pi$}]
+%\end{lstlisting}
