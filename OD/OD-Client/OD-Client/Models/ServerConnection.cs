@@ -24,6 +24,7 @@ namespace OD_Client.Models
             AesClass.IV = new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             DiffHellman = new ECDiffieHellmanCng();
             KPL = "";
+            login = "";
         }
         public static ServerConnection load
         {
@@ -45,6 +46,7 @@ namespace OD_Client.Models
         private byte[] privateKey;
         private Aes AesClass;
         private ECDiffieHellmanCng DiffHellman;
+        private string login;
         private string SessionKey;
         public enum MessageType {Register, FirstLogn, Login, Message, Logout}
 
@@ -113,10 +115,20 @@ namespace OD_Client.Models
                     ns.Write(outBytes, 0, outBytes.Length);
 
                     ans = Encoding.UTF8.GetString(ansBytes);
-                    if (ans != "error")
+                    if (ans.Substring(0, 5) != "error")
                     {
                         SessionKey = ans;
-                        MessageBox.Show("Zalogowany: " + ans);
+                        login = data[0];
+                        MessageBox.Show("Zalogowany: " + login);
+
+                    }
+                    else
+                    {
+                        //if (ans.Substring(6, 5) == "login")
+                        {
+                            MessageBox.Show("Błąd: " + ans);
+                            return -1;
+                        }
                     }
                     break;
                     case MessageType.Login:
@@ -127,14 +139,44 @@ namespace OD_Client.Models
                     ns.Write(outBytes, 0, outBytes.Length);
                     
                     ans = Encoding.UTF8.GetString(ansBytes);
-                    if (ans != "error")
+                    if (ans.Substring(0,5) != "error")
                     {
                         SessionKey = ans;
-                        MessageBox.Show("Zalogowany: " + ans);
+                        login = data[0];
+                        MessageBox.Show("Zalogowany: " + login);
+                    }
+                    else
+                    {
+                        //if (ans.Substring(6, 5) == "login")
+                        {
+                            MessageBox.Show("Błąd: " + ans);
+                            return -1;
+                        }
                     }
                     break;
                     case MessageType.Logout:
-                    sendText = "out" + (char)0 + SessionKey;
+                    sendText = "out" + (char)0 + login + (char)0 + SessionKey;
+                    outBytes = EncryptMessage(sendText);
+                    ns.Write(outBytes, 0, outBytes.Length);
+                    
+                    ans = Encoding.UTF8.GetString(ansBytes);
+                    if (ans != "error")
+                    {
+                        login = "";
+                        SessionKey = null;
+                        MessageBox.Show("Wylogowany: " + ans);
+                    }
+                    else
+                    {
+                        //if (ans.Substring(6, 5) == "login")
+                        {
+                            MessageBox.Show("Błąd: " + ans);
+                            return -1;
+                        }
+                    }
+                    break;
+                    case MessageType.Message:
+                    sendText = "msg" + (char)0 + login +(char)0 + SessionKey + data[0];
                     outBytes = EncryptMessage(sendText);
                     ns.Write(outBytes, 0, outBytes.Length);
                     
@@ -144,17 +186,13 @@ namespace OD_Client.Models
                         SessionKey = ans;
                         MessageBox.Show("Wylogowany: " + ans);
                     }
-                    break;
-                    case MessageType.Message:
-                    sendText = "msg" + (char)0 + data[0] + (char)0 + SessionKey;
-                    outBytes = EncryptMessage(sendText);
-                    ns.Write(outBytes, 0, outBytes.Length);
-                    
-                    ans = Encoding.UTF8.GetString(ansBytes);
-                    if (ans != "error")
+                    else
                     {
-                        SessionKey = ans;
-                        MessageBox.Show("Wylogowany: " + ans);
+                        //if (ans.Substring(6, 5) == "login")
+                        {
+                            MessageBox.Show("Błąd: " + ans);
+                            return -1;
+                        }
                     }
                     break;
                 default:

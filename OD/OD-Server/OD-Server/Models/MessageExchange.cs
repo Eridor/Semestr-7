@@ -98,7 +98,35 @@ namespace OD_Server
                     passRecived = DecryptMessage(dataRecived, privateKey);
                     password = StringToByte(passRecived);
                     string sessionKey = conf.FirstLogin(msg[1], password, msg[2], msg[3]); //User, Sec code, token
+
+                    send = EncryptMessage(sessionKey, privateKey);
+                    
+                    ns.Write(send, 0, send.Length);
                     break;
+                case "log":
+                    bytes = ns.Read(dataRecived, 0, dataRecived.Length);
+                    passRecived = DecryptMessage(dataRecived, privateKey);
+                    password = StringToByte(passRecived);
+                    string logsessionKey = conf.Login(msg[1], password, msg[2]); //User, token
+
+                    send = EncryptMessage(logsessionKey, privateKey);
+
+                    ns.Write(send, 0, send.Length);
+                    break;
+                case "out":
+                    string info = conf.Logout(msg[1], msg[2]); //User, sessionkey
+
+                    send = EncryptMessage(info, privateKey);
+
+                    ns.Write(send, 0, send.Length);
+                    break;
+                case "msg":
+                    string anws = conf.Message(msg[1], msg[2], msg[3]); //User, sessionkey, DATA
+
+                    send = EncryptMessage(anws, privateKey);
+
+                    ns.Write(send, 0, send.Length);
+                    break; 
             }
 
             return 0;
