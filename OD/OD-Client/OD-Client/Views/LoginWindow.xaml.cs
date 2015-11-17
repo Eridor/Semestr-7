@@ -35,9 +35,9 @@ namespace OD_Client
             dataList.Add(UserBox.Text);
             dataList.Add(PassBox.Password);
             dataList.Add(TokenBox.Text);
-            if (serv.StartCommunication(dataList, ServerConnection.MessageType.FirstLogn) == 0)
+            if (serv.StartCommunication(dataList, ServerConnection.MessageType.Login) == 0)
             {
-                FirstLoginWindow window = new FirstLoginWindow();
+                MainWindow window = new MainWindow();
                 window.Show();
                 this.Close();
             }

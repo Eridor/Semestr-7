@@ -95,7 +95,7 @@ namespace OD_Server
             }
             if (cli != -1)
             {
-                if (clientList[cli].password != password)
+                if (!clientList[cli].CheckPass(password))
                 {
                     return "error:wrongpass";
                 }
@@ -119,7 +119,7 @@ namespace OD_Server
             {
                 if (item.Login == username)
                 {
-                    clientList.IndexOf(item);
+                    cli = clientList.IndexOf(item);
                 }
             }
             if (cli != -1)
@@ -148,7 +148,7 @@ namespace OD_Server
             {
                 if (item.Login == username)
                 {
-                    clientList.IndexOf(item);
+                    cli = clientList.IndexOf(item);
                 }
             }
             if (cli != -1)
@@ -161,7 +161,7 @@ namespace OD_Server
                 }
                 else
                 {
-                    // coś z txt trzebaby zrobić
+                    clientList[cli].messages.Add(txt);
                     return "oki";
                 }
             }

@@ -46,14 +46,14 @@ namespace OD_Client.Models
         private byte[] privateKey;
         private Aes AesClass;
         private ECDiffieHellmanCng DiffHellman;
-        private string login;
-        private string SessionKey;
+        public string login;
+        public string SessionKey;
         public enum MessageType {Register, FirstLogn, Login, Message, Logout}
 
         public string KPL;
         public int StartCommunication(List<String> data, MessageType type)
         {
-            try
+            //try
             {
                 TcpClient client = new TcpClient(ServerIp, ServerPort);
                 NetworkStream stream = client.GetStream();
@@ -68,9 +68,9 @@ namespace OD_Client.Models
                 client.Close();
                 return code;
             }
-            catch (Exception e)
+            //catch (Exception e)
             {
-                MessageBox.Show("Błąd transmisji danych:\n" + e);
+                //MessageBox.Show("Błąd transmisji danych:\n" + e);
                 return -1;
             }
         }
@@ -114,7 +114,8 @@ namespace OD_Client.Models
                     outBytes = EncryptMessage(ByteToString(hashPass(data[1])));
                     ns.Write(outBytes, 0, outBytes.Length);
 
-                    ans = Encoding.UTF8.GetString(ansBytes);
+                    ns.Read(ansBytes, 0, ansBytes.Length);
+                    ans = DecryptMessage(ansBytes);
                     if (ans.Substring(0, 5) != "error")
                     {
                         SessionKey = ans;
@@ -137,8 +138,9 @@ namespace OD_Client.Models
                     ns.Write(outBytes, 0, outBytes.Length);
                     outBytes = EncryptMessage(ByteToString(hashPass(data[1])));
                     ns.Write(outBytes, 0, outBytes.Length);
-                    
-                    ans = Encoding.UTF8.GetString(ansBytes);
+
+                    ns.Read(ansBytes, 0, ansBytes.Length);
+                    ans = DecryptMessage(ansBytes);
                     if (ans.Substring(0,5) != "error")
                     {
                         SessionKey = ans;
@@ -158,9 +160,10 @@ namespace OD_Client.Models
                     sendText = "out" + (char)0 + login + (char)0 + SessionKey;
                     outBytes = EncryptMessage(sendText);
                     ns.Write(outBytes, 0, outBytes.Length);
-                    
-                    ans = Encoding.UTF8.GetString(ansBytes);
-                    if (ans != "error")
+
+                    ns.Read(ansBytes, 0, ansBytes.Length);
+                    ans = DecryptMessage(ansBytes);
+                    if (ans == "oki")
                     {
                         login = "";
                         SessionKey = null;
@@ -176,15 +179,15 @@ namespace OD_Client.Models
                     }
                     break;
                     case MessageType.Message:
-                    sendText = "msg" + (char)0 + login +(char)0 + SessionKey + data[0];
+                    sendText = "msg" + (char)0 + login + (char)0 + SessionKey + (char)0 + data[0];
                     outBytes = EncryptMessage(sendText);
                     ns.Write(outBytes, 0, outBytes.Length);
-                    
-                    ans = Encoding.UTF8.GetString(ansBytes);
-                    if (ans != "error")
+
+                    ns.Read(ansBytes, 0, ansBytes.Length);
+                    ans = DecryptMessage(ansBytes);
+                    if (ans == "oki")
                     {
-                        SessionKey = ans;
-                        MessageBox.Show("Wylogowany: " + ans);
+                        MessageBox.Show("Wiadomość dostarczona: " + ans);
                     }
                     else
                     {

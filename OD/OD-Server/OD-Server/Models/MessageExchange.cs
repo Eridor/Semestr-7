@@ -24,7 +24,6 @@ namespace OD_Server
             conf = GlobalConfig.Instance;
             serverListener = TcpListener.Create(serverPort);
             thread = new Thread(new ThreadStart(imListening));
-            
         }
 
         public void startListening()

@@ -56,11 +56,16 @@ namespace OD_Server
             string output = "";
             foreach (Client item in conf.clientList)
             {
-                output += item.Login;
+                output += item.Login + ", " + item.email;
                 output += ", stan: " + item.Condition;
                 if (item.sessionID != null)
                 {
-                    output += ", zalogowany(" + item.sessionID + "(";
+                    output += ", zalogowany(" + item.sessionID + ")";
+                }
+                
+                foreach (string it in item.messages)
+                {
+                    output += "\n>> " + it;
                 }
                 output += "\n";
             }

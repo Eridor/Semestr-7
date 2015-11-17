@@ -26,11 +26,12 @@ namespace OD_Client
         public MainWindow()
         {
             InitializeComponent();
+            Info.Text = "Witaj " + serv.login + "! Twój klucz sesji: " + serv.SessionKey;
         }
 
         private void LogoutB_Click(object sender, RoutedEventArgs e)
         {
-             List<string> dataList = new List<string>();
+            List<string> dataList = new List<string>();
             if (serv.StartCommunication(dataList, ServerConnection.MessageType.Logout) == 0 || 1 == 1)
             {
                 LoginWindow window = new LoginWindow();
@@ -44,6 +45,16 @@ namespace OD_Client
             LoginWindow window = new LoginWindow();
             window.Show();
             this.Close();
+        }
+
+        private void SendMessage_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> dataList = new List<string>();
+            dataList.Add(MsgBox.Text);
+            if (serv.StartCommunication(dataList, ServerConnection.MessageType.Message) == 0)
+            {
+                MsgBox.Text = "";
+            }
         }
     }
 }

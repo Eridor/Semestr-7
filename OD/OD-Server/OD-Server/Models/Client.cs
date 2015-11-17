@@ -15,6 +15,7 @@ namespace OD_Server
         public string token;
         public string sessionID;
         public string firstLoginCode;
+        public List<string> messages; 
 
         public condition Condition;
         public enum condition
@@ -31,6 +32,7 @@ namespace OD_Server
         {
             Condition = condition.Disabled;
             GenerateFLC();
+            messages = new List<string>();
         }
 
         void GenerateFLC()
