@@ -58,6 +58,10 @@ namespace OD_Server
             {
                 output += item.Login;
                 output += ", stan: " + item.Condition;
+                if (item.sessionID != null)
+                {
+                    output += ", zalogowany(" + item.sessionID + "(";
+                }
                 output += "\n";
             }
             return output;

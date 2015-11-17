@@ -44,7 +44,21 @@ namespace OD_Server
         {
             const string chars = "abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var random = new Random();
-            firstLoginCode = new string(Enumerable.Repeat(chars, 50).Select(s => s[random.Next(s.Length)]).ToArray());
+            sessionID = new string(Enumerable.Repeat(chars, 50).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public bool CheckPass(byte[] pass)
+        {
+            if (password.Length == pass.Length)
+            {
+                for (int i = 0; i < pass.Length; i++)
+                {
+                    if (pass[i] != password[i])
+                        return false;
+                }
+                return true;
+            }
+            return false;
         }
     }
 }

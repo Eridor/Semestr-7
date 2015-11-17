@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation.Peers;
+using System.Windows.Interop;
 
 namespace OD_Server
 {
@@ -45,29 +46,35 @@ namespace OD_Server
 
         public string FirstLogin(string username, byte[] password, string code, string token)
         {
-            Client cli = null;
+            int cli = -1;
             foreach (Client item in clientList)
             {
                 if (item.Login == username)
                 {
-                    cli = item;
+                    cli = clientList.IndexOf(item);
                 }
             }
-            if (cli != null)
+            if (cli != -1)
             {
-                if (cli.password != password || cli.firstLoginCode != code)
+                if (!clientList[cli].CheckPass(password))
                 {
                     //skasuj konto
-                    clientList.Remove(cli);
+                    clientList.Remove(clientList[cli]);
+                    return "error:accremoved";
+                }
+                else if (clientList[cli].firstLoginCode != code)
+                {
+                    //skasuj konto
+                    clientList.Remove(clientList[cli]);
                     return "error:accremoved";
                 }
                 else
                 {
                     //poprawna autoryzacja
-                    cli.token = token;
-                    cli.Condition = Client.condition.OK;
-                    cli.GenerateSessionID();
-                    return cli.sessionID;
+                    clientList[cli].token = token;
+                    clientList[cli].Condition = Client.condition.OK;
+                    clientList[cli].GenerateSessionID();
+                    return clientList[cli].sessionID;
                 }
             }
             else
@@ -78,28 +85,84 @@ namespace OD_Server
 
         public string Login(string username, byte[] password, string token)
         {
-            Client cli = null;
+            int cli = -1;
             foreach (Client item in clientList)
             {
                 if (item.Login == username)
                 {
-                    cli = item;
+                    cli = clientList.IndexOf(item);
                 }
             }
-            if (cli != null)
+            if (cli != -1)
             {
-                if (cli.password != password)
+                if (clientList[cli].password != password)
                 {
-                    //skasuj konto
-                    clientList.Remove(cli);
-                    return "error:accremoved";
+                    return "error:wrongpass";
                 }
                 else
                 {
                     // sprawdź token f
                     //poprawna autoryzacja
-                    cli.GenerateSessionID();
-                    return cli.sessionID;
+                    clientList[cli].GenerateSessionID();
+                    return clientList[cli].sessionID;
+                }
+            }
+            else
+            {
+                return "error:nouser";
+            }
+        }
+        public string Logout(string username, string session)
+        {
+            int cli = -1;
+            foreach (Client item in clientList)
+            {
+                if (item.Login == username)
+                {
+                    clientList.IndexOf(item);
+                }
+            }
+            if (cli != -1)
+            {
+                if (clientList[cli].sessionID != session)
+                {
+                    clientList[cli].sessionID = null;
+                    return "error:wrongsession";
+
+                }
+                else
+                {
+                    clientList[cli].sessionID = null;
+                    return "oki";
+                }
+            }
+            else
+            {
+                return "error:nouser";
+            }
+        }
+        public string Message(string username, string session, string txt)
+        {
+            int cli = -1;
+            foreach (Client item in clientList)
+            {
+                if (item.Login == username)
+                {
+                    clientList.IndexOf(item);
+                }
+            }
+            if (cli != -1)
+            {
+                if (clientList[cli].sessionID != session)
+                {
+                    clientList[cli].sessionID = null;
+                    return "error:wrongsession";
+
+                }
+                else
+                {
+                    // coś z txt trzebaby zrobić
+                    return "oki";
                 }
             }
             else

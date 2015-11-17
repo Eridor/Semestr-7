@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OD_Client.Models;
 
 namespace OD_Client
 {
@@ -20,6 +21,8 @@ namespace OD_Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        
+        private ServerConnection serv = ServerConnection.load;
         public MainWindow()
         {
             InitializeComponent();
@@ -27,9 +30,13 @@ namespace OD_Client
 
         private void LogoutB_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow window = new LoginWindow();
-            window.Show();
-            this.Close();
+             List<string> dataList = new List<string>();
+            if (serv.StartCommunication(dataList, ServerConnection.MessageType.Logout) == 0 || 1 == 1)
+            {
+                LoginWindow window = new LoginWindow();
+                window.Show();
+                this.Close();
+            }
         }
 
         private void EraseAccB_Click(object sender, RoutedEventArgs e)

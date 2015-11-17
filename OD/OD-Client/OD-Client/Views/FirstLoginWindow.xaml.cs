@@ -33,11 +33,11 @@ namespace OD_Client
                 List<string> dataList = new List<string>();
                 dataList.Add(Username.Text);
                 dataList.Add(Pass.Password);
-                dataList.Add(TokenID.Text);
                 dataList.Add(SecurityCode.Text);
+                dataList.Add(TokenID.Text);
                 if (serv.StartCommunication(dataList, ServerConnection.MessageType.FirstLogn) == 0)
                 {
-                    FirstLoginWindow window = new FirstLoginWindow();
+                    MainWindow window = new MainWindow();
                     window.Show();
                     this.Close();
                 }
