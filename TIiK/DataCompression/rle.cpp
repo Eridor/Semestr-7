@@ -103,6 +103,12 @@ bool RLE::Compress(QString FilePath)
             return false;
         fileOut.write(OutByteArray);
         fileOut.close();
+
+        //Clear All data
+        OutByteArray.clear();
+        ByteArray.clear();
+        Elements.clear();
+
         //All ended successfully
         return true;
 
@@ -124,6 +130,7 @@ bool RLE::Compress(QString FilePath)
             SIGN16.first  = qrand()%256;
             SIGN16.second = qrand()%256;
         }
+        IISet.clear();
 
         //QByteArray for output elements
         QByteArray OutByteArray;
@@ -194,6 +201,12 @@ bool RLE::Compress(QString FilePath)
             return false;
         fileOut.write(OutByteArray);
         fileOut.close();
+
+        //Clear All data
+        OutByteArray.clear();
+        ByteArray.clear();
+        Elements.clear();
+
         //All ended successfully
         return true;
     }
@@ -201,7 +214,11 @@ bool RLE::Compress(QString FilePath)
     //Something went wrong
     return false;
 }
-
+/**
+ * @brief RLE::Decompress
+ * @param FilePath
+ * @return
+ */
 bool RLE::Decompress(QString FilePath)
 {
     //Open and read file
@@ -255,6 +272,8 @@ bool RLE::Decompress(QString FilePath)
         QString ResultFilePath(FilePath);
         ResultFilePath.resize(FilePath.size()-8);
         ResultFilePath.insert(ResultFilePath.lastIndexOf("."), "_2");
+
+
         //qDebug() << "File: " << ResultFilePath;
         //ResultFilePath.append(".mapa");
         QFile fileOut(ResultFilePath);
@@ -262,6 +281,11 @@ bool RLE::Decompress(QString FilePath)
             return false;
         fileOut.write(OutByteArray);
         fileOut.close();
+
+        //Clear all
+        OutByteArray.clear();
+
+        //All succedded
         return true;
     } else if (SIGNSIZE == 2) {
         //SIGN is quint16 or two quint8
@@ -315,6 +339,11 @@ bool RLE::Decompress(QString FilePath)
             return false;
         fileOut.write(OutByteArray);
         fileOut.close();
+
+        //Clear all
+        OutByteArray.clear();
+
+        //All succedded
         return true;
     } else {
         //ERROR Wrong File or wrong byte read

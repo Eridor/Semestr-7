@@ -139,6 +139,7 @@ $p7u5t5.6p4o6z5n4an5.4p6l5$& 26 \\ \hline
 \end{table}
 
 \section{Opis implementacji}
+Program wykonano w języku C++ z metodami dostarczonymi z Qt.
 \subsection{Kodowanie}
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=green!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
@@ -182,6 +183,18 @@ $p7u5t5.6p4o6z5n4an5.4p6l5$& 26 \\ \hline
 \end{tikzpicture}
 \caption{Schemat blokowy wyszukiwania ,,znaku''.}
 \end{figure}
+Do wyszukania ,,znaków'' wykorzystano kontener \lstinline;QMap<quint, int>;, gdzie zmienna \lstinline;quint8; (\lstinline;unsigned byte;) wskazuje na poszczególne możliwe wartości bajta, a zmienna \lstinline;int; wskazuje ilość wystąpień danego bajta w opracowywanym pliku.
+\begin{lstlisting}[language=C++, caption={Deklaracja wraz z inicjalizacją kontenera QMap<quint8, int>}]
+QMap<quint8, int> IIMap;
+for (quint8 i = 0; i < 255; i++) {
+	IIMap.insert(i, 0);
+}
+\end{lstlisting}
+
+W przypadku zdarzenia, że w pliku występują wszystkie możliwe kombinacje bajta, zamiast jedno bajtowego ,,znaku'' zostaje wprowadzony znak dwu bajtowy:
+\begin{lstlisting}[language=C++, caption={Deklaracja dwu bajtowej zmiennej znakowej}]
+QPair<quint8, quint8> SIGN16;
+\end{lstlisting}
 
 \subsubsection{Kodowanie}
 \begin{figure}[H]
@@ -211,6 +224,38 @@ $p7u5t5.6p4o6z5n4an5.4p6l5$& 26 \\ \hline
 \caption{Schemat blokowy kodowania pliku.}
 \end{figure}
 
+Do sprawnego wczytania, zliczenia i zakodowania poszczególnych bajtów stworzono kontener \lstinline;QList; struktury \lstinline;Element;. Struktura \lstinline;Element; posiada dwa pola: \lstinline;quint8 item; $\rightarrow$ oznaczające dany bajt oraz \lstinline;quint32 value; $\rightarrow$ oznaczające ilość wystąpień (Założono, że dany bajt nie powtórzy się więcej jak $4 294 967 295$ razy).
+\begin{lstlisting}[language=C++, caption={Główne struktury danych kodowania}]
+struct Element {
+	quint8 item;
+	quint32 value;
+};
+QList<Element> Elements;
+quint8 CurrentByte;
+\end{lstlisting}
+
+Zapisanie danych do pliku odbywa się z pośrednictwem tablicy bajtów \lstinline;QByteArray;. Analiza zapisanych znaków odbywa się poprzez przejście przez wcześniej wspomnianą listę: \lstinline;QList<Element>; i odpowiednią interpretację  wartości wystąpień danego znaku. 
+
+Jeżeli wartość powtórzenia danego znaku nie jest większa niż minimalna długość jego zastąpienia, który ma postać ,,znak'' inicjujący, bajt powtarzany, ilość powtórzeń, to wpisywana jest ,,pierwotna postać''.
+
+W przypadku, gdy wartość ilości powtórzeń bajtu jest większa niż maksymalna wartość jaką może osiągnąć bajt - 255 - to postać zastąpienia przybiera postać: czterech bajtów ,,znaku'', bajt powtarzany i cztery bajty licznika.
+\begin{lstlisting}[language=C++, caption={Zapisanie i zakodowania danych skompresowanych do pliku}]
+if (e.value < 256) {
+	OutByteArray.append(SIGN);
+	OutByteArray.append(e.item);
+	OutByteArray.append(e.value);
+} else {
+	OutByteArray.append(SIGN);
+    OutByteArray.append(SIGN);
+    OutByteArray.append(SIGN);
+    OutByteArray.append(SIGN);
+    OutByteArray.append(e.item);
+    QByteArray TempArray;
+    TempArray = RLE::IntToHex(e.value);
+    OutByteArray.append(TempArray);
+}
+\end{lstlisting}
+
 \subsection{Dekodowanie}
 \begin{figure}[H]
 \centering
@@ -238,10 +283,14 @@ $p7u5t5.6p4o6z5n4an5.4p6l5$& 26 \\ \hline
 \end{tikzpicture}
 \caption{Schemat blokowy dekodowania pliku.}
 \end{figure}
+Dekodowanie odbywa się z pomocą analogicznych struktur / zasad / funkcji co zostały użyte podczas procesu kodowania.
 
 \section{Użytkowanie programu}
+%----- Zrobić zrzuty ekranu w domku -----
 \section{Testy}
+%----- Wykonać testy w domku -----
 \section{Porównanie kompresji}
+%----- Zrobić jakieś porównanie kompresji w domku -----
 
 \addcontentsline{toc}{section}{Literatura}  %dodanie znacznika "Literatura" do spisu treści
 \begin{thebibliography}{1}
@@ -259,5 +308,5 @@ $p7u5t5.6p4o6z5n4an5.4p6l5$& 26 \\ \hline
 
 	\blfootnote{Dokument wykonany w \LaTeX \cite{latex} \\ w programie Texmaker 4.5 \cite{program}}	
 \end{document}
-%\begin{lstlisting}[language=C++, caption={Zmieniony algorytm wielowątkowy liczenia liczby $\pi$}]
+%\begin{lstlisting}[language=C++, caption={}]
 %\end{lstlisting}

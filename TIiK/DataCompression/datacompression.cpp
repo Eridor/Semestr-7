@@ -1,25 +1,32 @@
 #include "datacompression.h"
 #include "ui_datacompression.h"
-
+/**
+ * @brief DataCompression::DataCompression
+ * @param parent
+ */
 DataCompression::DataCompression(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::DataCompression)
 {
     ui->setupUi(this);
 }
-
+/**
+ * @brief DataCompression::~DataCompression
+ */
 DataCompression::~DataCompression()
 {
     delete ui;
 }
-
-
+/**
+ * @brief DataCompression::on_actionExit_triggered
+ */
 void DataCompression::on_actionExit_triggered()
 {
     QApplication::quit();
 }
-
-
+/**
+ * @brief DataCompression::FileChoose
+ */
 void DataCompression::FileChoose()
 {
     QStringList FilesList = QFileDialog::getOpenFileNames(this, "Select one or more files",
@@ -40,22 +47,30 @@ void DataCompression::FileChoose()
     //}
     SetTable();
 }
-
+/**
+ * @brief DataCompression::on_pushButton_Add_clicked
+ */
 void DataCompression::on_pushButton_Add_clicked()
 {
     FileChoose();
 }
-
+/**
+ * @brief DataCompression::on_actionAdd_triggered
+ */
 void DataCompression::on_actionAdd_triggered()
 {
     FileChoose();
 }
-
+/**
+ * @brief DataCompression::on_pushButton_Exit_clicked
+ */
 void DataCompression::on_pushButton_Exit_clicked()
 {
     QApplication::quit();
 }
-
+/**
+ * @brief DataCompression::SetTable
+ */
 void DataCompression::SetTable()
 {
     ui->tableView_FileList->setModel(NULL);
@@ -85,44 +100,61 @@ void DataCompression::SetTable()
     ui->tableView_FileList->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
     ui->tableView_FileList->setVisible(true);
 }
-
+/**
+ * @brief DataCompression::RemoveData
+ * @param val
+ */
 void DataCompression::RemoveData(QString val)
 {
     FileSet.remove(val);
 }
-
+/**
+ * @brief DataCompression::on_actionInfo_triggered
+ */
 void DataCompression::on_actionInfo_triggered()
 {
     ShowInfo();
 }
-
+/**
+ * @brief DataCompression::on_pushButton_Info_clicked
+ */
 void DataCompression::on_pushButton_Info_clicked()
 {
     ShowInfo();
 }
-
+/**
+ * @brief DataCompression::ShowInfo
+ */
 void DataCompression::ShowInfo()
 {
     QMessageBox::information(this, "Authors", "Michał Majka: 112679\nPiotr Parysek: 106100\nProject created in QT 5.5");
 }
-
+/**
+ * @brief DataCompression::on_actionHelp_triggered
+ */
 void DataCompression::on_actionHelp_triggered()
 {
     ShowHelp();
 }
-
+/**
+ * @brief DataCompression::on_pushButton_Help_clicked
+ */
 void DataCompression::on_pushButton_Help_clicked()
 {
     ShowHelp();
 }
-
+/**
+ * @brief DataCompression::ShowHelp
+ */
 void DataCompression::ShowHelp()
 {
     HelpForm HF;
     HF.setModal(true);
     HF.exec();
 }
-
+/**
+ * @brief DataCompression::on_pushButton_Compression_clicked
+ */
 void DataCompression::on_pushButton_Compression_clicked()
 {
     if (CheckData()) {
@@ -131,10 +163,12 @@ void DataCompression::on_pushButton_Compression_clicked()
             CompressData(val);
         }
     } else {
-        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
+        QMessageBox::critical(this, "Wrong Data", "Some file / files is / are already compressed, remove them");
     }
 }
-
+/**
+ * @brief DataCompression::on_actionCompress_triggered
+ */
 void DataCompression::on_actionCompress_triggered()
 {
     if (CheckData()) {
@@ -143,17 +177,22 @@ void DataCompression::on_actionCompress_triggered()
             CompressData(val);
         }
     } else {
-        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
+        QMessageBox::critical(this, "Wrong Data", "Some file / files is / are already compressed, remove them");
     }
 }
-
+/**
+ * @brief DataCompression::CompressData
+ * @param val
+ */
 void DataCompression::CompressData(QString val)
 {
     if (RLE::Compress(val))
         RemoveData(val);
     SetTable();
 }
-
+/**
+ * @brief DataCompression::on_pushButton_Decompression_clicked
+ */
 void DataCompression::on_pushButton_Decompression_clicked()
 {
     if (CheckData()) {
@@ -162,10 +201,12 @@ void DataCompression::on_pushButton_Decompression_clicked()
             DeCompressData(val);
         }
     } else {
-        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
+        QMessageBox::critical(this, "Wrong Data", "Some file / files is / are not compressed, remove them");
     }
 }
-
+/**
+ * @brief DataCompression::on_actionDecompress_triggered
+ */
 void DataCompression::on_actionDecompress_triggered()
 {
     if (CheckData()) {
@@ -174,17 +215,23 @@ void DataCompression::on_actionDecompress_triggered()
             DeCompressData(val);
         }
     } else {
-        QMessageBox::critical(this, "ERROR", "ERROR WRONG DATA!");
+        QMessageBox::critical(this, "Wrong Data", "Some file / files is / are not compressed, remove them");
     }    
 }
-
+/**
+ * @brief DataCompression::DeCompressData
+ * @param val
+ */
 void DataCompression::DeCompressData(QString val)
 {
     if (RLE::Decompress(val))
         RemoveData(val);
     SetTable();
 }
-
+/**
+ * @brief DataCompression::CheckData
+ * @return
+ */
 bool DataCompression::CheckData()
 {
     bool Data = false, DataCompres = false;
@@ -197,7 +244,9 @@ bool DataCompression::CheckData()
     }
     return ((Data && !DataCompres) || (!Data && DataCompres));
 }
-
+/**
+ * @brief DataCompression::on_actionRemove_triggered
+ */
 void DataCompression::on_actionRemove_triggered()
 {
     QString TempPath = "/home/parys/PROJEKTY/Semestr-7/";
@@ -211,7 +260,7 @@ void DataCompression::on_actionRemove_triggered()
             SetTable();
         }
     } else {
-        QMessageBox::critical(this, "No data selected!", "To remove row, you have to select one to remove!!");
+        QMessageBox::critical(this, "No data selected!", "To remove row, you have to select one to remove!");
     }
 }
 

@@ -44,6 +44,9 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add file / files to Compress / Decompress&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string>Add files</string>
     </property>
@@ -56,6 +59,9 @@
       <width>200</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Compress file / files&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>Compress</string>
@@ -70,6 +76,9 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Decompress file / files&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string>Decomperss</string>
     </property>
@@ -82,6 +91,9 @@
       <width>30</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Exit program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string/>
@@ -137,6 +149,9 @@
       <height>30</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show information about program&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -159,6 +174,9 @@
       <width>30</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show help&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string/>
@@ -228,6 +246,9 @@
    <property name="text">
     <string>Add</string>
    </property>
+   <property name="toolTip">
+    <string>Add file / files</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+A</string>
    </property>
@@ -239,6 +260,9 @@
    </property>
    <property name="text">
     <string>Remove</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove selected file</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -255,6 +279,9 @@
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="toolTip">
+    <string>Exit program</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
@@ -266,6 +293,9 @@
    </property>
    <property name="text">
     <string>Help</string>
+   </property>
+   <property name="toolTip">
+    <string>Show help</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+H</string>
@@ -280,7 +310,7 @@
     <string>Info</string>
    </property>
    <property name="toolTip">
-    <string>Info</string>
+    <string>Show informations about project</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
@@ -294,6 +324,9 @@
    <property name="text">
     <string>Compress</string>
    </property>
+   <property name="toolTip">
+    <string>Compress file / files</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
    </property>
@@ -304,7 +337,10 @@
      <normaloff>:/graph/arrow480.png</normaloff>:/graph/arrow480.png</iconset>
    </property>
    <property name="text">
-    <string>DeCompress</string>
+    <string>Decompress</string>
+   </property>
+   <property name="toolTip">
+    <string>Decompress file / Files</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>

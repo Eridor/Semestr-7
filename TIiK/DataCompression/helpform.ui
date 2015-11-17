@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>400</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,6 +15,18 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>300</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -86,32 +98,7 @@
     </size>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;How To Use Program?&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;1. Seclect file / files for Compression / Decompression.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;2. Compress / Decompress file / files.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Key Shourtucts:&lt;/span&gt;&lt;/p&gt;
-&lt;table border=&quot;0&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;A&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Add File&lt;/td&gt;
-&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;R&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Remove File&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;Q&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Compress&lt;/td&gt;
-&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;D&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Decompress&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;H&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Show help&lt;/td&gt;
-&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;I&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Show Info&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;ctrl&lt;/b&gt;+&lt;b&gt;Q&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Exit program&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors:&lt;/span&gt;&lt;/p&gt;
-&lt;table border=&quot;0&quot; width=&quot;410&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;Michał Majka:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;112679&lt;/td&gt;
-&lt;td&gt;&lt;b&gt;Piotr Parysek:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;106100&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;How To Use Program?&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;1. Seclect file / files for Compression / Decompression.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;2. Compress / Decompress file / files.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;3. Resoult file / files will appear in the same directory, as the selected file / files.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Key Shourtucts:&lt;/span&gt;&lt;/p&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ctrl&lt;/span&gt;+&lt;span style=&quot; font-weight:600;&quot;&gt;A&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Add File&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ctrl&lt;/span&gt;+&lt;span style=&quot; font-weight:600;&quot;&gt;R&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Remove File&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ctrl&lt;/span&gt;+&lt;span style=&quot; font-weight:600;&quot;&gt;Q&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Compress&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ctrl&lt;/span&gt;+&lt;span style=&quot; font-weight:600;&quot;&gt;D&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Decompress&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ctrl&lt;/span&gt;+&lt;span style=&quot; font-weight:600;&quot;&gt;H&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Show help&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ctrl&lt;/span&gt;+&lt;span style=&quot; font-weight:600;&quot;&gt;I&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Show Info&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ctrl&lt;/span&gt;+&lt;span style=&quot; font-weight:600;&quot;&gt;Q&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Exit program&lt;/p&gt;&lt;/td&gt;&lt;td/&gt;&lt;td/&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors:&lt;/span&gt;&lt;/p&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;410&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Michał Majka:&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;112679&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Piotr Parysek:&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;106100&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

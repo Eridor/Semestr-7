@@ -169,27 +169,63 @@ public:
     {
         DataCompression->setWindowTitle(QApplication::translate("DataCompression", "Data Compression", 0));
         actionAdd->setText(QApplication::translate("DataCompression", "Add", 0));
+#ifndef QT_NO_TOOLTIP
+        actionAdd->setToolTip(QApplication::translate("DataCompression", "Add file / files", 0));
+#endif // QT_NO_TOOLTIP
         actionAdd->setShortcut(QApplication::translate("DataCompression", "Ctrl+A", 0));
         actionRemove->setText(QApplication::translate("DataCompression", "Remove", 0));
+#ifndef QT_NO_TOOLTIP
+        actionRemove->setToolTip(QApplication::translate("DataCompression", "Remove selected file", 0));
+#endif // QT_NO_TOOLTIP
         actionRemove->setShortcut(QApplication::translate("DataCompression", "Ctrl+R", 0));
         actionExit->setText(QApplication::translate("DataCompression", "Exit", 0));
+#ifndef QT_NO_TOOLTIP
+        actionExit->setToolTip(QApplication::translate("DataCompression", "Exit program", 0));
+#endif // QT_NO_TOOLTIP
         actionExit->setShortcut(QApplication::translate("DataCompression", "Ctrl+Q", 0));
         actionHelp->setText(QApplication::translate("DataCompression", "Help", 0));
+#ifndef QT_NO_TOOLTIP
+        actionHelp->setToolTip(QApplication::translate("DataCompression", "Show help", 0));
+#endif // QT_NO_TOOLTIP
         actionHelp->setShortcut(QApplication::translate("DataCompression", "Ctrl+H", 0));
         actionInfo->setText(QApplication::translate("DataCompression", "Info", 0));
 #ifndef QT_NO_TOOLTIP
-        actionInfo->setToolTip(QApplication::translate("DataCompression", "Info", 0));
+        actionInfo->setToolTip(QApplication::translate("DataCompression", "Show informations about project", 0));
 #endif // QT_NO_TOOLTIP
         actionInfo->setShortcut(QApplication::translate("DataCompression", "Ctrl+I", 0));
         actionCompress->setText(QApplication::translate("DataCompression", "Compress", 0));
+#ifndef QT_NO_TOOLTIP
+        actionCompress->setToolTip(QApplication::translate("DataCompression", "Compress file / files", 0));
+#endif // QT_NO_TOOLTIP
         actionCompress->setShortcut(QApplication::translate("DataCompression", "Ctrl+C", 0));
-        actionDecompress->setText(QApplication::translate("DataCompression", "DeCompress", 0));
+        actionDecompress->setText(QApplication::translate("DataCompression", "Decompress", 0));
+#ifndef QT_NO_TOOLTIP
+        actionDecompress->setToolTip(QApplication::translate("DataCompression", "Decompress file / Files", 0));
+#endif // QT_NO_TOOLTIP
         actionDecompress->setShortcut(QApplication::translate("DataCompression", "Ctrl+D", 0));
+#ifndef QT_NO_TOOLTIP
+        pushButton_Add->setToolTip(QApplication::translate("DataCompression", "<html><head/><body><p>Add file / files to Compress / Decompress</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         pushButton_Add->setText(QApplication::translate("DataCompression", "Add files", 0));
+#ifndef QT_NO_TOOLTIP
+        pushButton_Compression->setToolTip(QApplication::translate("DataCompression", "<html><head/><body><p>Compress file / files</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         pushButton_Compression->setText(QApplication::translate("DataCompression", "Compress", 0));
+#ifndef QT_NO_TOOLTIP
+        pushButton_Decompression->setToolTip(QApplication::translate("DataCompression", "<html><head/><body><p>Decompress file / files</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         pushButton_Decompression->setText(QApplication::translate("DataCompression", "Decomperss", 0));
+#ifndef QT_NO_TOOLTIP
+        pushButton_Exit->setToolTip(QApplication::translate("DataCompression", "<html><head/><body><p>Exit program</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         pushButton_Exit->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        pushButton_Info->setToolTip(QApplication::translate("DataCompression", "<html><head/><body><p>Show information about program</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         pushButton_Info->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        pushButton_Help->setToolTip(QApplication::translate("DataCompression", "<html><head/><body><p>Show help</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         pushButton_Help->setText(QString());
         menuCompression_Decompression_DAta->setTitle(QApplication::translate("DataCompression", "File", 0));
         menuEdit->setTitle(QApplication::translate("DataCompression", "Action", 0));
