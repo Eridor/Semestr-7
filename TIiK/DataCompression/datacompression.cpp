@@ -30,8 +30,8 @@ void DataCompression::on_actionExit_triggered()
 void DataCompression::FileChoose()
 {
     QStringList FilesList = QFileDialog::getOpenFileNames(this, "Select one or more files",
-                                              "/home/parys/PROJEKTY/Semestr-7/TIiK/TestData",
-                                              "To Compress (*.bmp *.gif *.png *.raw *.tiff *.flac *.wav *.wma);;To Decompress (*.rlemapa);;AllFiles (*.*)");
+                                                          "/home/parys/PROJEKTY/Semestr-7/TIiK/TestData",
+                                                          "To Compress (*.bmp *.gif *.png *.raw *.tiff *.flac *.wav *.wma);;To Decompress (*.rlemapa);;AllFiles (*.*)");
 
     if (FileSet.empty()) {
         FileSet = QSet<QString>::fromList(FilesList);
