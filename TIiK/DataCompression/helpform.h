@@ -2,7 +2,6 @@
 #define HELPFORM_H
 
 #include <QDialog>
-#include <QDialog>
 #include <QDebug>
 #include <QMessageBox>
 

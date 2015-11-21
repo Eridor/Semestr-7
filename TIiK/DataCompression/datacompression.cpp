@@ -31,7 +31,7 @@ void DataCompression::FileChoose()
 {
     QStringList FilesList = QFileDialog::getOpenFileNames(this, "Select one or more files",
                                                           "/home/parys/PROJEKTY/Semestr-7/TIiK/TestData",
-                                                          "To Compress (*.bmp *.gif *.png *.raw *.tiff *.flac *.wav *.wma);;To Decompress (*.rlemapa);;AllFiles (*.*)");
+                                                          "To Compress (*.bmp *.raw *.tiff *.flac *.wav *.wma);;To Decompress (*.rlemapa);;AllFiles (*.*)");
 
     if (FileSet.empty()) {
         FileSet = QSet<QString>::fromList(FilesList);
@@ -53,8 +53,7 @@ void DataCompression::FileChoose()
 void DataCompression::on_pushButton_Add_clicked()
 {
     FileChoose();
-}
-/**
+}/**
  * @brief DataCompression::on_actionAdd_triggered
  */
 void DataCompression::on_actionAdd_triggered()
@@ -98,6 +97,7 @@ void DataCompression::SetTable()
     ui->tableView_FileList->setModel(TableModel);
     ui->tableView_FileList->setColumnWidth(0, ui->tableView_FileList->width());
     ui->tableView_FileList->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    ui->tableView_FileList->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView_FileList->setVisible(true);
 }
 /**
@@ -264,3 +264,32 @@ void DataCompression::on_actionRemove_triggered()
     }
 }
 
+
+void DataCompression::on_tableView_FileList_doubleClicked(const QModelIndex &index)
+{
+    QString TempPath = "/home/parys/PROJEKTY/Semestr-7/";
+    QItemSelection selection(ui->tableView_FileList->selectionModel()->selection());
+    if (!selection.empty()) {
+        foreach (const QModelIndex &in, selection.indexes()) {
+            QString Dane = ui->tableView_FileList->model()->data(in).toString();
+            QFileInfo FileInfo(Dane);
+            QString ext = FileInfo.completeSuffix();
+            if (ext == "bmp" || ext == "raw" || ext == "tiff") {
+                ImageViewer IV;
+                IV.setModal(true);
+                IV.setFilePath(Dane.prepend(TempPath));
+                IV.exec();
+            } else if (ext == "flac" || ext == "wav" || ext == "wma") {
+                AudioViewer AV;
+                AV.setModal(true);
+                AV.setFilePath(Dane.prepend(TempPath));
+                AV.exec();
+            } else if (ext == "bmp.rlemapa" || ext == "raw.rlemapa" || ext == "tiff.rlemapa") {
+
+            } else if (ext == "flac.rlemapa" || ext == "wav.rlemapa" || ext == "wma.rlemapa") {
+            }
+        }
+    } else {
+        QMessageBox::critical(this, "No data selected!", "To remove row, you have to select one to remove!");
+    }
+}

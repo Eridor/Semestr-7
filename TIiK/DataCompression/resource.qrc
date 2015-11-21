@@ -13,5 +13,8 @@
         <file>graph/opened33.png</file>
         <file>graph/question58.png</file>
         <file>graph/round.png</file>
+        <file>graph/pause2.png</file>
+        <file>graph/start3.png</file>
+        <file>graph/stop7.png</file>
     </qresource>
 </RCC>

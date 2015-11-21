@@ -12,9 +12,12 @@
 #include <QMessageBox>
 #include <QPalette>
 #include <QFont>
+#include <QFileInfo>
 
 #include "helpform.h"
 #include "rle.h"
+#include "imageviewer.h"
+#include "audioviewer.h"
 
 namespace Ui {
 class DataCompression;
@@ -54,6 +57,8 @@ private slots:
     void on_actionDecompress_triggered();
 
     void on_actionRemove_triggered();
+
+    void on_tableView_FileList_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::DataCompression *ui;

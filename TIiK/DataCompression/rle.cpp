@@ -383,7 +383,7 @@ QByteArray RLE::IntToHex(quint32 Num)
         arrayOfByte[3 - i] = (Num >> (i * 8));
     //for (int i = 0; i < arrayOfByte.size(); ++i)
     //    qDebug() << arrayOfByte[i];
-    for (int i = 0; i < arrayOfByte.size(); ++i)
+    for (unsigned int i = 0; i < arrayOfByte.size(); ++i)
         Temp.append(arrayOfByte[i]);
     return Temp;
 }

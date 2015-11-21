@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,14 +16,20 @@ TEMPLATE = app
 SOURCES += main.cpp\
         datacompression.cpp \
     helpform.cpp \
-    rle.cpp
+    rle.cpp \
+    imageviewer.cpp \
+    audioviewer.cpp
 
 HEADERS  += datacompression.h \
     helpform.h \
-    rle.h
+    rle.h \
+    imageviewer.h \
+    audioviewer.h
 
 FORMS    += datacompression.ui \
-    helpform.ui
+    helpform.ui \
+    imageviewer.ui \
+    audioviewer.ui
 
 RESOURCES += \
     resource.qrc
