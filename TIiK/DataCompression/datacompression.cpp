@@ -285,8 +285,25 @@ void DataCompression::on_tableView_FileList_doubleClicked(const QModelIndex &ind
                 AV.setFilePath(Dane.prepend(TempPath));
                 AV.exec();
             } else if (ext == "bmp.rlemapa" || ext == "raw.rlemapa" || ext == "tiff.rlemapa") {
-
+                QTemporaryFile file;
+                if (file.open()) {
+                    file.write((RLE::ByteDecompress(Dane.prepend(TempPath))));
+                    ImageViewer IV;
+                    IV.setModal(true);
+                    IV.setFilePath(file.fileName());
+                    IV.exec();
+                }
+                file.autoRemove();
             } else if (ext == "flac.rlemapa" || ext == "wav.rlemapa" || ext == "wma.rlemapa") {
+                //QMessageBox::warning(this, tr("Watning"), tr("Listening to compressed file is not yet availble"));
+                QTemporaryFile file;
+                if (file.open()) {
+                    file.write((RLE::ByteDecompress(Dane.prepend(TempPath))));
+                    AudioViewer AV;
+                    AV.setModal(true);
+                    AV.setFilePath(file.fileName());
+                    AV.exec();
+                }
             }
         }
     } else {

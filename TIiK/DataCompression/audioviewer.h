@@ -37,6 +37,7 @@ private:
     QMediaPlayer *MediaPlayer;
 
     void PlayMusic(int volume = 50);
+    int NumStart;
 };
 
 #endif // AUDIOVIEWER_H

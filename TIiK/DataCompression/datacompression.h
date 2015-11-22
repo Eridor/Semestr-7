@@ -13,6 +13,7 @@
 #include <QPalette>
 #include <QFont>
 #include <QFileInfo>
+#include <QTemporaryFile>
 
 #include "helpform.h"
 #include "rle.h"

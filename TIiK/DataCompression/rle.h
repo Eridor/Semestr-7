@@ -16,7 +16,7 @@ public:
     RLE();
     static bool Compress(QString FilePath);
     static bool Decompress(QString FilePath);
-
+    static QByteArray ByteDecompress(QString FilePath);
 private:
     struct Element
     {

@@ -8,6 +8,7 @@ AudioViewer::AudioViewer(QWidget *parent) :
     ui->setupUi(this);
     MusicVolume = -1;
     Play = false;
+    NumStart = 0;
 }
 
 AudioViewer::~AudioViewer()
@@ -59,7 +60,7 @@ void AudioViewer::on_horizontalSlider_valueChanged(int value)
 
 void AudioViewer::PlayMusic(int volume)
 {
-    if (MediaPlayer == NULL) {
+    if (MediaPlayer == NULL || NumStart == 0) {
         MediaPlayer = new QMediaPlayer;
         MediaPlayer->setMedia(QUrl::fromLocalFile(FilePath));
 
@@ -73,6 +74,7 @@ void AudioViewer::PlayMusic(int volume)
 
         ui->pushButton_StartPause->setIcon( QIcon(":/graph/pause2.png"));
         Play = true;
+        NumStart++;
     } else {
         if (Play) {
             MediaPlayer->pause();

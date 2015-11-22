@@ -356,6 +356,112 @@ bool RLE::Decompress(QString FilePath)
     //If not executed -> Wrong resoult => FALSE
     return false;
 }
+
+QByteArray RLE::ByteDecompress(QString FilePath)
+{
+    //Open and read file
+    QFile file(FilePath);
+    if (!file.open(QIODevice::ReadOnly))
+        return NULL;
+    QByteArray ByteArray = file.readAll();
+    file.close();
+
+    //Read the SIGNSIZE
+    quint8 SIGNSIZE = static_cast<quint8>(ByteArray.at(0));
+    if (SIGNSIZE == 1) {
+        //SIGN is one quint8
+        quint8 SIGN = static_cast<quint8>(ByteArray.at(1));
+
+        //Process file
+        QByteArray OutByteArray;
+        quint8 CurrentByte, ByteCounter;
+        for (int i = 2; i < ByteArray.size(); i++) {
+            CurrentByte = static_cast<quint8>(ByteArray.at(i));
+            if (CurrentByte == SIGN) {
+                i++;
+                CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                if (CurrentByte == SIGN) {
+                    i += 3;
+                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                    i++;
+                    QByteArray TempArray;
+                    TempArray.append(ByteArray.at(i));
+                    TempArray.append(ByteArray.at(i+1));
+                    TempArray.append(ByteArray.at(i+2));
+                    TempArray.append(ByteArray.at(i+3));
+                    quint32 Counter = RLE::HexToInt(TempArray);
+                    for (quint32 var = 0; var < Counter; ++var) {
+                        OutByteArray.append(CurrentByte);
+                    }
+                } else {
+                    i++;
+                    ByteCounter = static_cast<quint8>(ByteArray.at(i));
+                    for (quint8 j = 0; j < ByteCounter; j++) {
+                        OutByteArray.append(CurrentByte);
+                    }
+                    ByteCounter = 0;
+                }
+            } else {
+                OutByteArray.append(CurrentByte);
+            }
+        }
+
+        //All succedded
+        return OutByteArray;
+    } else if (SIGNSIZE == 2) {
+        //SIGN is quint16 or two quint8
+        QPair<quint8, quint8> SIGN16;
+        SIGN16.first  = static_cast<quint8>(ByteArray.at(1));
+        SIGN16.second = static_cast<quint8>(ByteArray.at(2));
+
+        QByteArray OutByteArray;
+        quint8 CurrentByte, NextByte, ByteCounter;
+        for (int i = 3; i < ByteArray.size()-1; i++) {
+            CurrentByte = static_cast<quint8>(ByteArray.at(i));
+            NextByte    = static_cast<quint8>(ByteArray.at(i+1));
+            if ((CurrentByte == SIGN16.first) && (NextByte == SIGN16.second)) {
+                if ((SIGN16.first == static_cast<quint8>(ByteArray.at(i+2))) && (SIGN16.second == static_cast<quint8>(ByteArray.at(i+3)))) {
+                    i += 4;
+                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                    i++;
+                    QByteArray TempArray;
+                    TempArray.append(ByteArray.at(i));
+                    TempArray.append(ByteArray.at(i+1));
+                    TempArray.append(ByteArray.at(i+2));
+                    TempArray.append(ByteArray.at(i+3));
+                    quint32 Counter = RLE::HexToInt(TempArray);
+                    for (quint32 var = 0; var < Counter; ++var) {
+                        OutByteArray.append(CurrentByte);
+                    }
+                    i += 3;
+                } else {
+                    i += 2;
+                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                    i++;
+                    ByteCounter = static_cast<quint8>(ByteArray.at(i));
+                    for (quint8 var = 0; var < ByteCounter; var++) {
+                        OutByteArray.append(CurrentByte);
+                    }
+                    ByteCounter = 0;
+                }
+            } else {
+                OutByteArray.append(CurrentByte);
+            }
+        }
+
+        //All succedded
+        return OutByteArray;
+    } else {
+        //ERROR Wrong File or wrong byte read
+        qDebug() << "DECOMPRESS ERROR! - " << FilePath;
+        qDebug() << ByteArray;
+        qDebug() << "END";
+        return NULL;
+    }
+
+    //If not executed -> Wrong resoult => FALSE
+    return NULL;
+}
 /**
  * @brief RLE::HexToInt
  * @param B
