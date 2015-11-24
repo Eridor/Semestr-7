@@ -65,6 +65,8 @@
 
 \usepackage{longtable} %Do tabli, mogłem się spodziewać
 
+\usepackage{subcaption} %do kilku obrazków obok siebie
+
 \begin{document}
 \renewcommand{\lstlistingname}{Kod} %Zmiana listing na Kod
 \renewcommand\bibname{Literatura} %Zmiana "Bibliografia" na "Literatura"
@@ -345,24 +347,44 @@ Ikony umieszczone w programie zostały pobrane z strony: \url{http://www.flatico
 		\includegraphics[scale=.4]{error2}
 	\end{minipage}
 \end{figure}
-
-
+\vspace{1cm}
+Dodatkowo w programie zaimplementowano mechanizmy ,,podglądu'' przetwarzanych plików.
 \begin{figure}[H]
+	\caption{Okno umożliwiające przesłuchanie utworów muzycznych przed i po kompresji.}
 	\centering
-	\includegraphics[scale=.7]{imageview_1}
-	\caption{Przedstawienie plików zdekompresowanych i nie skompresowanych}
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{audioviewer_clean}
+	\end{minipage}\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{audioviewer_com}
+	\end{minipage}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.7]{imageview_2}
-	\caption{Przedstawienie plików zdekompresowanych i nie skompresowanych}
+	\caption{Okno umożliwiające przesłuchanie podgląd plików graficznych.}
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{imageviewer_nor}
+		\caption{Przed kompresją, bez skali.}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{imageviewer_min}
+		\caption{Przed kompresją, minimalna skala.}
+	\end{subfigure}\\[.5cm]
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{imageviewer_max}
+		\caption{Przed kompresją, maksymalna skala.}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{imageviewer_com}
+		\caption{Po kompresji, bez skali.}
+	\end{subfigure}
 \end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=.7]{imageview_3}
-	\caption{Przedstawienie plików zdekompresowanych i nie skompresowanych}
-\end{figure}
-
 
 
 

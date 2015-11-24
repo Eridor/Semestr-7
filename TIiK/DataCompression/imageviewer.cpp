@@ -32,17 +32,33 @@ void ImageViewer::on_pushButton_Exit_clicked()
 
 void ImageViewer::SetImage(int scale)
 {
-    qDebug() << FilePath;
+    //qDebug() << FilePath;
     QImage image(FilePath);
     QGraphicsScene *scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
     QPixmap Pixmap;
+
     if (scale == 0) {
         Pixmap = QPixmap::fromImage(image);
+        if (Pixmap.isNull()) {
+            qDebug() << "PIXMAP IS NULL!";
+            qDebug() << Pixmap;
+            qDebug() << FilePath;
+        }
     } else if (scale < 0) {
         Pixmap = QPixmap::fromImage(image).scaledToHeight(static_cast<int>(image.height() * qPow(qFabs(scale), -1)));
+        if (Pixmap.isNull()) {
+            qDebug() << "PIXMAP IS NULL!";
+            qDebug() << Pixmap;
+            qDebug() << FilePath;
+        }
     } else {
         Pixmap = QPixmap::fromImage(image).scaledToHeight((image.height()) * scale);
+        if (Pixmap.isNull()) {
+            qDebug() << "PIXMAP IS NULL!";
+            qDebug() << Pixmap;
+            qDebug() << FilePath;
+        }
     }
 
     QGraphicsPixmapItem *item = new QGraphicsPixmapItem(Pixmap);

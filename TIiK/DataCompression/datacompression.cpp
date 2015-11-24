@@ -160,6 +160,11 @@ void DataCompression::on_pushButton_Compression_clicked()
     if (CheckData()) {
         foreach (const QString &val, FileSet)
         {
+            if (val.contains(".rlemapa")) {
+                QMessageBox::critical(this, "Wrong Data", "Some file / files is / are not compressed, remove them");
+                break;
+            }
+
             CompressData(val);
         }
     } else {
@@ -174,6 +179,11 @@ void DataCompression::on_actionCompress_triggered()
     if (CheckData()) {
         foreach (const QString &val, FileSet)
         {
+            if (val.contains(".rlemapa")) {
+                QMessageBox::critical(this, "Wrong Data", "Some file / files is / are not compressed, remove them");
+                break;
+            }
+
             CompressData(val);
         }
     } else {
@@ -198,6 +208,11 @@ void DataCompression::on_pushButton_Decompression_clicked()
     if (CheckData()) {
         foreach (const QString &val, FileSet)
         {
+            if (!val.contains(".rlemapa")){
+                QMessageBox::critical(this, "Wrong Data", "Some file / files is / are not compressed, remove them");
+                break;
+            }
+
             DeCompressData(val);
         }
     } else {
@@ -212,6 +227,11 @@ void DataCompression::on_actionDecompress_triggered()
     if (CheckData()) {
         foreach (const QString &val, FileSet)
         {
+            if (!val.contains(".rlemapa")) {
+                QMessageBox::critical(this, "Wrong Data", "Some file / files is / are not compressed, remove them");
+                break;
+            }
+
             DeCompressData(val);
         }
     } else {
@@ -288,6 +308,7 @@ void DataCompression::on_tableView_FileList_doubleClicked(const QModelIndex &ind
                 QTemporaryFile file;
                 if (file.open()) {
                     file.write((RLE::ByteDecompress(Dane.prepend(TempPath))));
+                    qDebug() << file.readAll();
                     ImageViewer IV;
                     IV.setModal(true);
                     IV.setFilePath(file.fileName());
@@ -295,10 +316,10 @@ void DataCompression::on_tableView_FileList_doubleClicked(const QModelIndex &ind
                 }
                 file.autoRemove();
             } else if (ext == "flac.rlemapa" || ext == "wav.rlemapa" || ext == "wma.rlemapa") {
-                //QMessageBox::warning(this, tr("Watning"), tr("Listening to compressed file is not yet availble"));
                 QTemporaryFile file;
                 if (file.open()) {
                     file.write((RLE::ByteDecompress(Dane.prepend(TempPath))));
+                    //qDebug() << file.readAll();
                     AudioViewer AV;
                     AV.setModal(true);
                     AV.setFilePath(file.fileName());

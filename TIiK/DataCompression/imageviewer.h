@@ -34,7 +34,7 @@ private:
     Ui::ImageViewer *ui;
     QString FilePath;
 
-    void SetImage(int scale = 1);
+    void SetImage(int scale = 0);
 };
 
 #endif // IMAGEVIEWER_H
