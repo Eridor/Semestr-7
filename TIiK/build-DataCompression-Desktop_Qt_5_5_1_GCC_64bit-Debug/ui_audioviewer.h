@@ -87,7 +87,7 @@ public:
 
     void retranslateUi(QDialog *AudioViewer)
     {
-        AudioViewer->setWindowTitle(QApplication::translate("AudioViewer", "Dialog", 0));
+        AudioViewer->setWindowTitle(QApplication::translate("AudioViewer", "Audio Viewer", 0));
         pushButton_Exit->setText(QString());
         pushButton_Exit->setShortcut(QApplication::translate("AudioViewer", "Ctrl+Q", 0));
         label_Title->setText(QApplication::translate("AudioViewer", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">Audio Tester</span></p></body></html>", 0));

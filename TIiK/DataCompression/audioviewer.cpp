@@ -21,7 +21,7 @@ AudioViewer::~AudioViewer()
 
 void AudioViewer::on_pushButton_Exit_clicked()
 {
-    if (MediaPlayer != NULL) {
+    if (NumStart != 0) {
         MediaPlayer->stop();
     }
     this->close();

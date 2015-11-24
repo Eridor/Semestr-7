@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Audio Viewer</string>
   </property>
   <widget class="QPushButton" name="pushButton_Exit">
    <property name="geometry">

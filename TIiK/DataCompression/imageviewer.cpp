@@ -32,6 +32,7 @@ void ImageViewer::on_pushButton_Exit_clicked()
 
 void ImageViewer::SetImage(int scale)
 {
+    qDebug() << FilePath;
     QImage image(FilePath);
     QGraphicsScene *scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);

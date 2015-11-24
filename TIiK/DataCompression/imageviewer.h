@@ -1,6 +1,7 @@
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
 
+#include <QDebug>
 #include <QDialog>
 #include <QImage>
 #include <QGraphicsView>
