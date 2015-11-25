@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,16 @@ namespace OD_TokenGenerator
     /// </summary>
     public partial class LoadTokenWindow : Window
     {
+        GlobalConfig conf = GlobalConfig.Instance;
         public LoadTokenWindow()
         {
             InitializeComponent();
+        }
+
+        private void LoadToken_Click(object sender, RoutedEventArgs e)
+        {
+            conf.tokenID = TokenBox.Text;
+            File.WriteAllText("token.toko", conf.tokenID);
         }
     }
 }

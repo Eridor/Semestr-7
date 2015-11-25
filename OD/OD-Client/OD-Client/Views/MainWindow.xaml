@@ -1,13 +1,13 @@
 ﻿<Window x:Class="OD_Client.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Main program" Height="350" Width="525">
+        Title="Okno główne programu" Height="350" Width="525">
     <Grid>
-        <Button x:Name="LogoutB" Content="Logout" HorizontalAlignment="Left" Height="77" Margin="318,224,0,0" VerticalAlignment="Top" Width="175" Click="LogoutB_Click"/>
+        <Button x:Name="LogoutB" Content="Wyloguj się" HorizontalAlignment="Left" Height="77" Margin="318,224,0,0" VerticalAlignment="Top" Width="175" Click="LogoutB_Click"/>
         <TextBox x:Name="Info" Text="Witaj! To sesja swoja! " HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" VerticalAlignment="Top" Width="252"/>
         <Label Content="Wyślij wiadomość" HorizontalAlignment="Left" Height="28" Margin="10,51,0,0" VerticalAlignment="Top" Width="105"/>
         <TextBox x:Name="MsgBox" HorizontalAlignment="Left" Height="83" Margin="10,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>
-        <Button x:Name="SendMessage" Content="Send message" HorizontalAlignment="Left" Height="64" Margin="318,79,0,0" VerticalAlignment="Top" Width="175" Click="SendMessage_Click"/>
+        <Button x:Name="SendMessage" Content="Wyślij wiadomość" HorizontalAlignment="Left" Height="64" Margin="318,79,0,0" VerticalAlignment="Top" Width="175" Click="SendMessage_Click"/>
 
     </Grid>
 </Window>

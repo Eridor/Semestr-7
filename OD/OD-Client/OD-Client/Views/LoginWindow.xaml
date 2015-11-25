@@ -5,13 +5,13 @@
     <Grid>
         <Label Content="Login" HorizontalAlignment="Left" Height="26" Margin="129,4,0,0" VerticalAlignment="Top" Width="39"/>
         <TextBox x:Name="UserBox" HorizontalAlignment="Left" Height="23" Margin="50,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="197"/>
-        <Label Content="Password" HorizontalAlignment="Left" Height="26" Margin="117,53,0,0" VerticalAlignment="Top" Width="61"/>
+        <Label Content="Hasło" HorizontalAlignment="Left" Height="26" Margin="129,53,0,0" VerticalAlignment="Top" Width="43"/>
         <PasswordBox x:Name="PassBox" HorizontalAlignment="Left" Height="23" Margin="50,79,0,0" VerticalAlignment="Top" Width="197"/>
         <Label Content="Token" HorizontalAlignment="Left" Height="26" Margin="129,102,0,0" VerticalAlignment="Top" Width="61"/>
         <TextBox x:Name="TokenBox" HorizontalAlignment="Left" Height="23" Margin="50,128,0,0" VerticalAlignment="Top" Width="197"/>
         <Button x:Name="LoginB" Content="Login" HorizontalAlignment="Left" Height="47" Margin="50,173,0,0" VerticalAlignment="Top" Width="197" Click="LoginB_Click"/>
-        <Button x:Name="RegisterB" Content="Register" HorizontalAlignment="Left" Height="34" Margin="50,225,0,0" VerticalAlignment="Top" Width="97" Click="RegisterB_Click"/>
-        <Button x:Name="FirstLoginB" Content="First login" HorizontalAlignment="Left" Height="34" Margin="150,225,0,0" VerticalAlignment="Top" Width="97" Click="FirstLoginB_Click"/>
+        <Button x:Name="RegisterB" Content="Rejestracja" HorizontalAlignment="Left" Height="34" Margin="50,225,0,0" VerticalAlignment="Top" Width="97" Click="RegisterB_Click"/>
+        <Button x:Name="FirstLoginB" Content="Pierwszy login" HorizontalAlignment="Left" Height="34" Margin="150,225,0,0" VerticalAlignment="Top" Width="97" Click="FirstLoginB_Click"/>
 
     </Grid>
 </Window>

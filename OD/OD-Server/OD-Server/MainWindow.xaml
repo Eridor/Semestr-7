@@ -1,7 +1,7 @@
 ﻿<Window x:Class="OD_Server.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="550" Width="725">
+        Title="Serwer autoryzacji" Height="550" Width="725">
     <Grid>
         <TextBlock x:Name="ClientList" HorizontalAlignment="Left" Height="320" Margin="64,68,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="543"/>
 

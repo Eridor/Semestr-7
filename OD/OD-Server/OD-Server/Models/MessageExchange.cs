@@ -34,8 +34,9 @@ namespace OD_Server
         }
         public void stopListening()
         {
-            serverListener.Stop();
             thread.Abort();
+            serverListener.Stop();
+            
         }
 
         private void imListening()

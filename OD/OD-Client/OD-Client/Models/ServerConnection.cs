@@ -25,6 +25,7 @@ namespace OD_Client.Models
             DiffHellman = new ECDiffieHellmanCng();
             KPL = "";
             login = "";
+            ServerIp = File.ReadAllText("conf");
         }
         public static ServerConnection load
         {
@@ -40,7 +41,7 @@ namespace OD_Client.Models
 
         //---------------------------------------
 
-        public static string ServerIp = "127.0.0.1";
+        public string ServerIp;
         public static int ServerPort = 8000;
         private int myId;
         private byte[] privateKey;
@@ -53,7 +54,7 @@ namespace OD_Client.Models
         public string KPL;
         public int StartCommunication(List<String> data, MessageType type)
         {
-            //try
+            try
             {
                 TcpClient client = new TcpClient(ServerIp, ServerPort);
                 NetworkStream stream = client.GetStream();
@@ -68,9 +69,9 @@ namespace OD_Client.Models
                 client.Close();
                 return code;
             }
-            //catch (Exception e)
+            catch (Exception e)
             {
-                //MessageBox.Show("Błąd transmisji danych:\n" + e);
+                MessageBox.Show("Błąd: nie można się połączyć z serwerem\n" + e);
                 return -1;
             }
         }

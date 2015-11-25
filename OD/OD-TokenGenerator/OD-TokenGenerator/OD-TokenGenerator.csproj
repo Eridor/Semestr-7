@@ -65,6 +65,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GlobalConfig.cs" />
     <Compile Include="LoadTokenWindow.xaml.cs">
       <DependentUpon>LoadTokenWindow.xaml</DependentUpon>
     </Compile>

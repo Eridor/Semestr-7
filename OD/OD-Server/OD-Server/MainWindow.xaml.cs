@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OD_Server.Models;
 
 namespace OD_Server
 {
@@ -24,18 +25,24 @@ namespace OD_Server
     {
         private GlobalConfig conf;
         private MessageExchange server;
+        private TimeServer timeserv;
         private Thread Refresh;
         public MainWindow()
         {
             //ConsoleManager.Show();
             conf = GlobalConfig.Instance;
             server = new MessageExchange();
+            timeserv = new TimeServer();
             InitializeComponent();
 
             Refresh = new Thread(new ThreadStart(RefreshListF));
             
             server.startListening();
+            timeserv.startListening();
             Refresh.Start();
+
+            string t = timeserv.generateData();
+            
 
         }
         private void RefreshListF()
@@ -46,6 +53,10 @@ namespace OD_Server
                 this.Dispatcher.Invoke((Action)(() =>
                 {
                     ClientList.Text = DownloadClientList();
+                    if (ClientList.Text == "")
+                    {
+                        ClientList.Text = ">> BRAK KLIENTÓW <<";
+                    }
                 }));
                 Thread.Sleep(1000);
             }
@@ -75,10 +86,11 @@ namespace OD_Server
         protected override void OnClosed(EventArgs e)
         {
             Refresh.Abort();
-            server.stopListening();
-            base.OnClosed(e);
+            Environment.Exit(0);
+            //timeserv.stopListening();
+            //server.stopListening();
             
-
+            //base.OnClosed(e);
         }
     }
 }

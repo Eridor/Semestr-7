@@ -1,13 +1,18 @@
 ﻿<Window x:Class="OD_TokenGenerator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="325">
+        Title="Token" Height="350" Width="325">
     <Grid>
-        <TextBlock Height="99" Margin="9,43,9.4,0" TextWrapping="Wrap" Text="0000 0000" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="60"/>
-        <Label Content="Następny kod za" HorizontalAlignment="Left" Height="28" Margin="21,163,0,0" VerticalAlignment="Top" Width="108"/>
-        <TextBlock HorizontalAlignment="Left" Height="44" Margin="166,156,0,0" TextWrapping="Wrap" Text="30s" VerticalAlignment="Top" Width="83" FontSize="30"/>
+        <TextBlock x:Name="TokenCodeBox" Height="99" Margin="9,43,9.4,0" TextWrapping="Wrap" Text="0000 0000" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="60"/>
+        <Label Content="Następny kod za" HorizontalAlignment="Left" Height="28" Margin="21,149,0,0" VerticalAlignment="Top" Width="108"/>
+        <TextBlock x:Name="TimeLeftBox" HorizontalAlignment="Left" Height="44" Margin="166,142,0,0" TextWrapping="Wrap" Text="30s" VerticalAlignment="Top" Width="83" FontSize="30"/>
         <Button x:Name="NewTokenB" Content="Utwórz nowy token" HorizontalAlignment="Left" Height="35" Margin="7,277,0,0" VerticalAlignment="Top" Width="136" Click="NewTokenB_Click"/>
         <Button x:Name="LoadTokenB" Content="Załaduj token" HorizontalAlignment="Left" Height="35" Margin="172,276,0,0" VerticalAlignment="Top" Width="136" Click="LoadTokenB_Click"/>
+        <ProgressBar x:Name="TokenProgressBar" HorizontalAlignment="Left" Height="15" Margin="7,186,0,0" VerticalAlignment="Top" Width="301" Maximum="30"/>
+
+        <Label Content="Kod generujący token:" HorizontalAlignment="Left" Height="28" Margin="21,210,0,0" VerticalAlignment="Top" Width="135"/>
+        <TextBlock x:Name="TokenID" HorizontalAlignment="Left" Height="17" Margin="166,217,0,0" TextWrapping="Wrap" Text="123412341234" VerticalAlignment="Top" Width="138"/>
+        <TextBlock x:Name="ErrorBox" HorizontalAlignment="Left" Height="29" Margin="10,243,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="287" Foreground="Red" FontStyle="Oblique" TextAlignment="Center"/>
 
     </Grid>
 </Window>

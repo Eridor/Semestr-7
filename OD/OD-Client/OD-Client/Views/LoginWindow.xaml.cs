@@ -43,7 +43,7 @@ namespace OD_Client
             }
             else
             {
-                MessageBox.Show("Błąd:\nTransmisja nieudana");
+                //MessageBox.Show("Błąd:\nTransmisja nieudana");
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation.Peers;
@@ -56,6 +57,10 @@ namespace OD_Server
             }
             if (cli != -1)
             {
+                if (clientList[cli].Condition != Client.condition.Disabled)
+                {
+                    return "error:accactive";
+                }
                 if (!clientList[cli].CheckPass(password))
                 {
                     //skasuj konto
@@ -101,10 +106,23 @@ namespace OD_Server
                 }
                 else
                 {
-                    // sprawdź token f
-                    //poprawna autoryzacja
-                    clientList[cli].GenerateSessionID();
-                    return clientList[cli].sessionID;
+                    DateTime timeN = DateTime.Now;
+                    TimeSpan spantime = new TimeSpan(timeN.Ticks);
+                    double k = spantime.TotalSeconds;
+
+                    long time = Convert.ToInt64(k - (k%30));
+
+                    if (GenerateTokenCode(time.ToString(), clientList[cli].token) == token ||
+                        GenerateTokenCode((time - 30).ToString(), clientList[cli].token) == token)
+                    {
+                        //poprawna autoryzacja
+                        clientList[cli].GenerateSessionID();
+                        return clientList[cli].sessionID;
+                    }
+                    else
+                    {
+                        return "error:wrongtokencode";
+                    }
                 }
             }
             else
@@ -170,5 +188,49 @@ namespace OD_Server
                 return "error:nouser";
             }
         }
+
+        public string GenerateTokenCode(string tim, string tokenID)
+        {
+            long time = Convert.ToInt64(tim);
+            long time2 = time % 30;
+
+            long t = time - time2;
+            long k = Convert.ToInt64(tokenID) % t;
+
+            using (MD5 md5Hash = MD5.Create())
+            {
+                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(k.ToString()));
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                string hash = sBuilder.ToString();
+
+                string numb = "";
+                for (int i = 0; i < 13; i++)
+                {
+                    if (hash[i] == 'a')
+                        numb += 0;
+                    else if (hash[i] == 'b')
+                        numb += 1;
+                    else if (hash[i] == 'c')
+                        numb += 2;
+                    else if (hash[i] == 'd')
+                        numb += 3;
+                    else if (hash[i] == 'e')
+                        numb += 4;
+                    else if (hash[i] == 'f')
+                        numb += 5;
+                    else
+                    {
+                        numb += hash[i];
+                    }
+                }
+                string outp = (Convert.ToInt64(numb) % 99999999).ToString();
+                return outp;
+            }
+        }
+
     }
 }
