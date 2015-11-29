@@ -10,7 +10,8 @@
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
-\usepackage[margin=1.8cm]{geometry}
+\usepackage{geometry}
+\newgeometry{tmargin=2.5cm, bmargin=2.5cm, lmargin=2.7cm, rmargin=2.5cm}%marginesy
 \usepackage{float}
 \usepackage{listings}
 \usepackage{color}
@@ -49,6 +50,7 @@
     showstringspaces=false, % don't mark spaces in strings
     numbers=left, % display line numbers on the left
     breaklines=true,                % sets automatic line breaking
+    captionpos=b, 	%caption bottom
     commentstyle=\color{green}, % comment color
     keywordstyle=\color{blue}, % keyword color
     stringstyle=\color{red} % string color
@@ -332,11 +334,10 @@ Ikony umieszczone w programie zostały pobrane z strony: \url{http://www.flatico
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=.7]{all}
-	\caption{Przedstawienie plików zdekompresowanych i nie skompresowanych}
+	\caption{Przedstawienie plików z dekompresowanych i nie skompresowanych}
 \end{figure}
 
 \begin{figure}[H]
-	\caption{Przedstawienie komunikatów błędów, gdy nakażemy zdekompresować / skompresować pliki ,,przemieszne''.}
 	\centering
 	\begin{minipage}{0.45\textwidth}
 		\centering
@@ -346,11 +347,11 @@ Ikony umieszczone w programie zostały pobrane z strony: \url{http://www.flatico
 		\centering
 		\includegraphics[scale=.4]{error2}
 	\end{minipage}
+	\caption{Przedstawienie komunikatów błędów, gdy nakażemy z dekompresować / skompresować pliki ,,przemieszane''.}
 \end{figure}
 \vspace{1cm}
 Dodatkowo w programie zaimplementowano mechanizmy ,,podglądu'' przetwarzanych plików.
 \begin{figure}[H]
-	\caption{Okno umożliwiające przesłuchanie utworów muzycznych przed i po kompresji.}
 	\centering
 	\begin{minipage}{0.45\textwidth}
 		\centering
@@ -360,10 +361,10 @@ Dodatkowo w programie zaimplementowano mechanizmy ,,podglądu'' przetwarzanych p
 		\centering
 		\includegraphics[scale=.4]{audioviewer_com}
 	\end{minipage}
+	\caption{Okno umożliwiające przesłuchanie utworów muzycznych przed i po kompresji.}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\caption{Okno umożliwiające przesłuchanie podgląd plików graficznych.}
 	\begin{subfigure}{0.45\textwidth}
 		\centering
 		\includegraphics[scale=.4]{imageviewer_nor}
@@ -384,216 +385,195 @@ Dodatkowo w programie zaimplementowano mechanizmy ,,podglądu'' przetwarzanych p
 		\includegraphics[scale=.4]{imageviewer_com}
 		\caption{Po kompresji, bez skali.}
 	\end{subfigure}
+	\caption{Okno umożliwiające przesłuchanie podgląd plików graficznych.}	
 \end{figure}
-
-
 
 \section{Testy}
 W celu przeprowadzenia testów wykonano kilka prostych obrazków formatu \lstinline;bmp; oraz pobrano z Internetu inne, większe i  bardziej skomplikowane obrazki. Dodatkowo do badań pobrano kilka plików dźwiękowych formatu \lstinline;wav; z strony \url{http://download.wavetlan.com/SVV/Media/HTTP/http-wav.htm}\cite{nuty}.
 \begin{table}[H]
-\caption{Przykładowe pliki graficzne (powiększone):}
 \centering
 \begin{tabular}{l l l l l l}
 \fbox{\includegraphics[scale=4]{test1}} & \fbox{\includegraphics[scale=4]{test2}} & \fbox{\includegraphics[scale=4]{test3}} & \fbox{\includegraphics[scale=4]{test4}}
 & \fbox{\includegraphics[scale=4]{test5}} & \fbox{\includegraphics[scale=10]{test6}}
 \end{tabular}
+\caption{Przykładowe pliki graficzne (powiększone):}
 \end{table}
 
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[language=bash,caption={Przedstawienie plików przed kompresją.}]
-ROZMIAR		NAZWA
-316002		audio2.wav
-869028		audio3.wav
-261262		audio4.wav
-3009870		audio.wav
-8533723		highway.wav
-309464		test10.bmp
-16000138	test11.bmp
-131554		test12.bmp
-693122		test13.bmp
-442			test1.bmp
-442			test2.bmp
-442			test3.bmp
-442			test4.bmp
-442			test5.bmp
-170			test6.bmp
-3000122		test7.bmp
-1163198		test8.bmp
-44264		test9.bmp
-126			test.bmp
+NAZWA 		ROZMIAR [B]
+audio.wav	3009870
+audio2.wav	316002
+audio3.wav	869028
+audio4.wav	261262
+highway.wav	8533723
+test.bmp	126
+test1.bmp	442
+test2.bmp	442
+test3.bmp	442
+test4.bmp	442
+test5.bmp	442
+test6.bmp	170
+test7.bmp	10922
+test8.bmp	20138
+test9.bmp	120122
+test10.bmp	1163198
+test11.bmp	44264
+test12.bmp	309464
+test13.bmp	16000138
+test14.bmp	131554
+test15.bmp	693122
 \end{lstlisting}
 \end{minipage}
 \hfill
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[language=bash,caption={Przedstawienie plików po kompresji.}]
-ROZMIAR		NAZWA
-315928		audio2.wav.rlemapa
-856106		audio3.wav.rlemapa
-261239		audio4.wav.rlemapa
-56			audio.wav.rlemapa
-8447839		highway.wav.rlemapa
-85103		test10.bmp.rlemapa
-8440758		test11.bmp.rlemapa
-76746		test12.bmp.rlemapa
-345212		test13.bmp.rlemapa
-61			test1.bmp.rlemapa
-105			test2.bmp.rlemapa
-365			test3.bmp.rlemapa
-365			test4.bmp.rlemapa
-364			test5.bmp.rlemapa
-95			test6.bmp.rlemapa
-65			test7.bmp.rlemapa
-1163182		test8.bmp.rlemapa
-5689		test9.bmp.rlemapa
-58			test.bmp.rlemapa
+NAZWA 				ROZMIAR [B]
+audio.wav	3009870
+audio2.wav	316002
+audio3.wav	869028
+audio4.wav	261262
+highway.wav	8533723
+test.bmp	126
+test1.bmp	442
+test2.bmp	442
+test3.bmp	442
+test4.bmp	442
+test5.bmp	442
+test6.bmp	170
+test7.bmp	10922
+test8.bmp	20138
+test9.bmp	120122
+test10.bmp	1163198
+test11.bmp	44264
+test12.bmp	309464
+test13.bmp	16000138
+test14.bmp	131554
+test15.bmp	693122
 \end{lstlisting}
 \end{minipage}
 
 
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[language=bash,caption={Przedstawienie plików przed kompresją.}]
-ROZMIAR		NAZWA
-316002		audio2.wav
-869028		audio3.wav
-261262		audio4.wav
-3009870		audio.wav
-8533723		highway.wav
-309464		test10.bmp
-16000138	test11.bmp
-131554		test12.bmp
-693122		test13.bmp
-442			test1.bmp
-442			test2.bmp
-442			test3.bmp
-442			test4.bmp
-442			test5.bmp
-170			test6.bmp
-3000122		test7.bmp
-1163198		test8.bmp
-44264		test9.bmp
-126			test.bmp
+NAZWA		ROZMIAR [B]
+audio2.wav	316002
+audio3.wav	869028
+audio4.wav	261262
+audio.wav	3009870
+highway.wav	8533723
+test10.bmp	1163198
+test11.bmp	44264
+test12.bmp	309464
+test13.bmp	16000138
+test14.bmp	131554
+test15.bmp	693122
+test1.bmp	442
+test2.bmp	442
+test3.bmp	442
+test4.bmp	442
+test5.bmp	442
+test6.bmp	170
+test7.bmp	10922
+test8.bmp	20138
+test9.bmp	500138
+test.bmp	126
 \end{lstlisting}
 \end{minipage}
 \hfill
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[language=bash,caption={Przedstawienie plików po dekompresji.}]
-ROZMIAR		NAZWA
-316001		audio2_2.wav
-869034		audio3_2.wav
-261262		audio4_2.wav
-3009873		audio_2.wav
-8533722		highway_2.wav
-309464		test10_2.bmp
-16000138	test11_2.bmp
-131599		test12_2.bmp
-693121		test13_2.bmp
-445			test1_2.bmp
-442			test2_2.bmp
-442			test3_2.bmp
-442			test4_2.bmp
-442			test5_2.bmp
-170			test6_2.bmp
-3000125		test7_2.bmp
-1163198		test8_2.bmp
-44270		test9_2.bmp
-126			test_2.bmp
+NAZWA			ROZMIAR [B]
+audio_2.wav		3009873
+audio2_2.wav	316001
+audio3_2.wav	869034
+audio4_2.wav	261262
+highway_2.wav	8533722
+test_2.bmp		126
+test1_2.bmp		445
+test2_2.bmp		442
+test3_2.bmp		442
+test4_2.bmp		442
+test5_2.bmp		442
+test6_2.bmp		170
+test7_2.bmp		10922
+test8_2.bmp		20141
+test9_2.bmp		120122
+test10_2.bmp	1163198
+test11_2.bmp	44270
+test12_2.bmp	309464
+test13_2.bmp	16000138
+test14_2.bmp	131599
+test15_2.bmp	693121
 \end{lstlisting}
 \end{minipage}
 
 \subsection{Przedstawienie wyników:}
-\begin{comment}
-%Zostawię to na cześć swej hańby
-\begin{tikzpicture}
-\begin{axis}[
-    width  = 17cm,
-	height = 8cm,
-    every axis plot post/.style={/pgf/number format/fixed},
-    ybar=5pt,
-    bar width=5pt,
-    %x=3cm,
-    ymin=0,
-    axis on top,
-    ymax=1000,
-    xtick=data,
-    enlarge x limits=0.2,
-    symbolic x coords={audio2.wav,audio3.wav,audio4.wav,audio.wav,highway.wav,test10.bmp,test11.bmp,test12.bmp,test13.bmp,test1.bmp,test2.bmp,test3.bmp,test4.bmp,test5.bmp,test6.bmp,test7.bmp,test8.bmp,test9.bmp,test.bmp},
-    restrict y to domain*=50:1000, % Cut values off at 14
-    visualization depends on=rawy\as\rawy, % Save the unclipped values
-    after end axis/.code={ % Draw line indicating break
-            \draw [ultra thick, white, decoration={snake, amplitude=1pt}, decorate] (rel axis cs:0,1.05) -- (rel axis cs:1,1.05);
-        },
-    nodes near coords={%
-            \pgfmathprintnumber{\rawy}% Print unclipped values
-        },
-    axis lines*=left,
-    clip=false
-    ]
-\addplot coordinates {(audio2.wav,316002)(audio3.wav,869028)(audio4.wav,261262)(audio.wav,3009870)(highway.wav,8533723)(test10.bmp,309464)(test11.bmp,16000138)(test12.bmp,131554)(test13.bmp,693122)(test1.bmp,442)(test2.bmp,442)(test3.bmp,442)(test4.bmp,442)(test5.bmp,442)(test6.bmp,170)(test7.bmp,3000122)(test8.bmp,1163198)(test9.bmp,44264)(test.bmp,126)};
-\addplot coordinates {(audio2.wav,315928)(audio3.wav,856106)(audio4.wav,261239)(audio.wav,56)(highway.wav,8447839)(test10.bmp,85103)(test11.bmp,8440758)(test12.bmp,76746)(test13.bmp,345212)(test1.bmp,61)(test2.bmp,105)(test3.bmp,365)(test4.bmp,365)(test5.bmp,364)(test6.bmp,95)(test7.bmp,65)(test8.bmp,1163182)(test9.bmp,5689)(test.bmp,58)};
-\addplot coordinates {(audio2.wav,316001)(audio3.wav,869034)(audio4.wav,261262)(audio.wav,3009873)(highway.wav,8533722)(test10.bmp,309464)(test11.bmp,16000138)(test12.bmp,131599)(test13.bmp,693121)(test1.bmp,445)(test2.bmp,442)(test3.bmp,442)(test4.bmp,442)(test5.bmp,442)(test6.bmp,170)(test7.bmp,3000125)(test8.bmp,1163198)(test9.bmp,44270)(test.bmp,126)};
-\end{axis}
-\end{tikzpicture}
-\end{comment}
-
-
-
 \begin{table}[H]
-\begin{tabular}{r|l|l|l|l|l|l|}
-\hline
-\textbf{Plik:} &audio2.wav&audio3.wav&audio4.wav&audio.wav&highway.wav&test10.bmp \\\hline
-\textbf{Przed:} & 316002&869028&261262&3009870&8533723&309464 \\\hline
-\textbf{Po:} & 315928&856106&261239&56&8447839&85103 \\\hline
-\textbf{Dekom.:} & 316001&869034&261262&3009873&8533722&309464 \\\hline
-\textbf{$\boldsymbol{\%}$} &$99$&$98$&$99$&$1*10^{-5}$&$98$&$27$ \\\hline
+\begin{tabular}{r|l|l|l|l|l|}\hline
+\textbf{PLIK}:	&	audio.wav	&	audio2.wav	&	audio3.wav	&	audio4.wav	&	highway.wav	\\\hline
+\textbf{ROZMIAR}:	&	3009870	&	316002	&	869028	&	261262	&	8533723	\\\hline
+\textbf{SKOMPRESOWANY}:	&	56	&	315928	&	856106	&	261239	&	8447839	\\\hline
+\textbf{DEKOMPRESJA}:	&	3009873	&	316001	&	869034	&	261262	&	8533722	\\\hline
+\textbf{KOMPRESJA \%}:	&	0,002\%	&	99,977\%	&	98,513\%	&	99,991\%	&	98,994\%	\\\hline
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
-\begin{tabular}{r|l|l|l|l|l|l|}
-\hline
-\textbf{Plik:} &test11.bmp&test12.bmp&test13.bmp&test1.bmp&test2.bmp&test3.bmp \\\hline
-\textbf{Przed:} &16000138&131554&693122&442&442&442 \\\hline
-\textbf{Po:} & 8440758&76746&345212&61&105&365 \\\hline
-\textbf{Dekom.:}& 16000138&131599&693121&445&442&442\\\hline
-\textbf{$\boldsymbol{\%}$} &$52$&$58$&$49$&$13$&$23$&$82$ \\\hline
+\begin{tabular}{r|l|l|l|l|l|}\hline
+\textbf{PLIK}:	&	test.bmp	&	test1.bmp	&	test2.bmp	&	test3.bmp	&	test4.bmp	\\\hline
+\textbf{ROZMIAR}:	&	126	&	442	&	442	&	442	&	442	\\\hline
+\textbf{SKOMPRESOWANY}:	&	58	&	61	&	105	&	365	&	365	\\\hline
+\textbf{DEKOMPRESJA}:	&	126	&	445	&	442	&	442	&	442	\\\hline
+\textbf{KOMPRESJA \%}:	&	46,032\%	&	13,801\%	&	23,756\%	&	82,579\%	&	82,579\%	\\\hline
 \end{tabular}
 \end{table}
 
 
 \begin{table}[H]
-\begin{tabular}{r|l|l|l|l|l|l|l|}
-\hline
-\textbf{Plik:} &test4.bmp&test5.bmp&test6.bmp&test7.bmp&test8.bmp&test9.bmp&test.bmp \\\hline
-\textbf{Przed:} &442&442&170&3000122&1163198&44264&126 \\\hline
-\textbf{Po:} & 365&364&95&65&1163182&5689&58 \\\hline
-\textbf{Dekom.:} &442&442&170&3000125&1163198&44270&126\\\hline
-\textbf{$\boldsymbol{\%}$} &$82$&$82$&$55$&$2*10^{-5}$&$99$&$12$&$46$ \\\hline
+\begin{tabular}{r|l|l|l|l|l|}\hline
+\textbf{PLIK}:	&	test5.bmp	&	test6.bmp	&	test7.bmp	&	test8.bmp	&	test9.bmp	\\\hline
+\textbf{ROZMIAR}:	&	442	&	170	&	10922	&	20138	&	120122	\\\hline
+\textbf{SKOMPRESOWANY}:	&	364	&	95	&	8216	&	15076	&	96180	\\\hline
+\textbf{DEKOMPRESJA}:	&	442	&	170	&	10922	&	20141	&	120122	\\\hline
+\textbf{KOMPRESJA \%}:	&	82,353\%	&	55,882\%	&	75,224\%	&	74,863\%	&	80,069\%	\\\hline
 \end{tabular}
 \end{table}
 
+
 \begin{table}[H]
-\caption{Porównanie plików graficznych przed i po kompresji (powiększone):}
+\begin{tabular}{r|l|l|l|l|l|l|} \hline
+\textbf{PLIK}:	&	test10.bmp	&	test11.bmp	&	test12.bmp	&	test13.bmp	&	test14.bmp	&	test15.bmp	\\\hline
+\textbf{ROZM.}:	&	1163198	&	44264	&	309464	&	16000138	&	131554	&	693122	\\\hline
+\textbf{SKOM.}:	&	1163182	&	5689	&	85103	&	8440758	&	76746	&	345212	\\\hline
+\textbf{DEKO.}:	&	1163198	&	44270	&	309464	&	16000138	&	131599	&	693121	\\\hline
+\textbf{KOMP. \%}:	&	99,999\%	&	12,852\%	&	27,500\%	&	52,754\%	&	58,338\%	&	49,805\%	\\\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
 \centering
 \begin{tabular}{c l l l l l l}1
 PLIK: & test1.bmp & test2.bmp & test3.bmp & test4.bmp & test5.bmp & test6.bmp\\
 PRZED: & \fbox{\includegraphics[scale=4]{test1}} & \fbox{\includegraphics[scale=4]{test2}} & \fbox{\includegraphics[scale=4]{test3}} & \fbox{\includegraphics[scale=4]{test4}} & \fbox{\includegraphics[scale=4]{test5}} & \fbox{\includegraphics[scale=10]{test6}} \\[.2cm] 
 PO: & \fbox{\includegraphics[scale=4]{test1_2}} & \fbox{\includegraphics[scale=4]{test2_2}} & \fbox{\includegraphics[scale=4]{test3_2}} & \fbox{\includegraphics[scale=4]{test4_2}} & \fbox{\includegraphics[scale=4]{test5_2}} & \fbox{\includegraphics[scale=10]{test6_2}}
 \end{tabular}
+\caption{Porównanie plików graficznych przed i po kompresji (odpowiednio powiększone):}
 \end{table}
 
 \begin{table}[H]
-\caption{Porównanie plików graficznych przed i po kompresji (pomniejszone):}
 \centering
 \begin{tabular}{c l l l l l l}
 PLIK: &test8.bmp&test9.bmp&test10.bmp&test11.bmp&test12.bmp&test13.bmp\\
 PRZED & \fbox{\includegraphics[width=.1\textwidth]{test8}} & \fbox{\includegraphics[width=.1\textwidth]{test9}} & \fbox{\includegraphics[width=.1\textwidth]{test10}} & \fbox{\includegraphics[width=.1\textwidth]{test11}} & \fbox{\includegraphics[width=.1\textwidth]{test12}} & \fbox{\includegraphics[width=.1\textwidth]{test13}} \\[.2cm] 
 PO & \fbox{\includegraphics[width=.1\textwidth]{test8_2}} & \fbox{\includegraphics[width=.1\textwidth]{test9_2}} & \fbox{\includegraphics[width=.1\textwidth]{test10_2}} & \fbox{\includegraphics[width=.1\textwidth]{test11_2}} & \fbox{\includegraphics[width=.1\textwidth]{test12_2}} & \fbox{\includegraphics[width=.1\textwidth]{test13_2}}
 \end{tabular}
+\caption{Porównanie niektórych plików graficznych przed i po kompresji (odpowiednio przeskalowane):}
 \end{table}
 
 Porównania bajtowe wykonano programem vbindiff\cite{diff}.
 \begin{figure}[H]
-	\caption{Porównanie różnic dwóch tablic bajtowych przed kompresją i po dekompresji.}
 	\centering
 	\begin{minipage}{0.45\textwidth}
 		\centering
@@ -603,10 +583,10 @@ Porównania bajtowe wykonano programem vbindiff\cite{diff}.
 		\centering
 		\includegraphics[scale=.3]{test1_end}
 	\end{minipage}
+	\caption{Porównanie różnic dwóch tablic bajtowych przed kompresją i po dekompresji.}
 \end{figure}
 
 \begin{figure}[H]
-	\caption{Porównanie różnic dwóch tablic bajtowych przed kompresją i po dekompresji.}
 	\centering
 	\begin{minipage}{0.45\textwidth}
 		\centering
@@ -616,10 +596,10 @@ Porównania bajtowe wykonano programem vbindiff\cite{diff}.
 		\centering
 		\includegraphics[scale=.3]{audio2_end}
 	\end{minipage}
+	\caption{Porównanie różnic dwóch tablic bajtowych przed kompresją i po dekompresji.}	
 \end{figure}
 
 \begin{figure}[H]
-	\caption{Porównanie różnic dwóch tablic bajtowych przed kompresją i po dekompresji.}
 	\centering
 	\begin{minipage}{0.45\textwidth}
 		\centering
@@ -629,6 +609,7 @@ Porównania bajtowe wykonano programem vbindiff\cite{diff}.
 		\centering
 		\includegraphics[scale=.3]{highway_end}
 	\end{minipage}
+	\caption{Porównanie różnic dwóch tablic bajtowych przed kompresją i po dekompresji.}	
 \end{figure}
 
 \section{Wnioski}
@@ -636,8 +617,7 @@ Algorytm \textbf{Run-Length Encoding} doskonale się sprawdza do kompresji plik�
 
 Algorytm jest prosty w implementacji i obsłudze oraz dla niektórych plików może dać ,,zachwycające'' rezultaty - kompresja na poziomie tysięcznych części pliku wejściowego. Jednakże nie gwarantuje on ,,oszczędności'' miejsca - kompresji.
 
-W procesie kompresji / dekompresji nie powstały żadne znaczące błędy. ,,Przeinaczenia'' bajtowe powstałe wskutek ,,wypełnienia'' bajtami z dekompresowanych plików nie wpływają na obiekt końcowy.\newline
-Niewielkie uszkodzenia plików powstałe podczas testowania wystąpiły na skutek przeciążenia systemu innymi zadaniami.
+W procesie kompresji / dekompresji błędy mogą powstać jedynie w skomplikowanych plikach o dużej złożoności pamięciowej / kolorystycznej / bajtowej, w innych nie powstały żadne znaczące wyjątki. ,,Przeinaczenia'' bajtowe powstałe wskutek ,,wypełnienia'' bajtami z dekompresowanych plików nie wpływają na obiekt końcowy.
 
 \addcontentsline{toc}{section}{Literatura}  %dodanie znacznika "Literatura" do spisu treści
 \begin{thebibliography}{1}

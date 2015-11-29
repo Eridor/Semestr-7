@@ -9,6 +9,7 @@
 #include <QString>
 #include <QPair>
 #include <QSet>
+#include <omp.h>
 
 class RLE
 {

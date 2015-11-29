@@ -49,53 +49,60 @@ bool RLE::Compress(QString FilePath)
         //Create list of Bytes with their repetition
         QList<Element> Elements;
         quint8 CurrentByte;
-        for (int i = 0; i < ByteArray.size(); ++i) {
-            CurrentByte = static_cast<quint8>(ByteArray.at(i));
-            if (Elements.empty()) {
-                Element e;
-                e.item = CurrentByte;
-                e.value = 1;
-                Elements.append(e);
-            } else if (Elements.last().item == CurrentByte) {
-                Elements.last().value++;
-            } else {
-                Element e;
-                e.item = CurrentByte;
-                e.value = 1;
-                Elements.append(e);
+
+#pragma omp critical
+        {
+            for (int i = 0; i < ByteArray.size(); ++i) {
+                CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                if (Elements.empty()) {
+                    Element e;
+                    e.item = CurrentByte;
+                    e.value = 1;
+                    Elements.append(e);
+                } else if (Elements.last().item == CurrentByte) {
+                    Elements.last().value++;
+                } else {
+                    Element e;
+                    e.item = CurrentByte;
+                    e.value = 1;
+                    Elements.append(e);
+                }
             }
         }
-
-        //Write List to OutputByteList
-        foreach (Element e, Elements) {
-            if (e.value == 1) {
-                OutByteArray.append(e.item);
-            } else if (e.value == 2) {
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-            } else if (e.value == 3) {
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-            } else {
-                if (e.value < 256) {
-                    OutByteArray.append(SIGN);
+#pragma omp critical
+        {
+            //Write List to OutputByteList
+            foreach (Element e, Elements) {
+                if (e.value == 1) {
                     OutByteArray.append(e.item);
-                    OutByteArray.append(e.value);
+                } else if (e.value == 2) {
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
+                } else if (e.value == 3) {
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
                 } else {
-                    OutByteArray.append(SIGN);
-                    OutByteArray.append(SIGN);
-                    OutByteArray.append(SIGN);
-                    OutByteArray.append(SIGN);
-                    OutByteArray.append(e.item);
-                    QByteArray TempArray;
-                    TempArray = RLE::IntToHex(e.value);
-                    OutByteArray.append(TempArray);
+                    if (e.value < 256) {
+                        OutByteArray.append(SIGN);
+                        OutByteArray.append(e.item);
+                        OutByteArray.append(e.value);
+                    } else {
+                        OutByteArray.append(SIGN);
+                        OutByteArray.append(SIGN);
+                        OutByteArray.append(SIGN);
+                        OutByteArray.append(SIGN);
+                        OutByteArray.append(e.item);
+                        QByteArray TempArray;
+                        TempArray = RLE::IntToHex(e.value);
+                        OutByteArray.append(TempArray);
+                    }
                 }
             }
         }
 
-        //Save to file and return
+
+         //Save to file and return
         QString ResultFilePath(FilePath);
         ResultFilePath.append(".rlemapa");
         QFile fileOut(ResultFilePath);
@@ -141,54 +148,59 @@ bool RLE::Compress(QString FilePath)
         //Create list of Bytes with their repetition
         QList<Element> Elements;
         quint8 CurrentByte;
-        for (int i = 0; i < ByteArray.size(); ++i) {
-            CurrentByte = static_cast<quint8>(ByteArray.at(i));
-            if (Elements.empty()) {
-                Element e;
-                e.item = CurrentByte;
-                e.value = 1;
-                Elements.append(e);
-            } else if (Elements.last().item == CurrentByte) {
-                Elements.last().value++;
-            } else {
-                Element e;
-                e.item = CurrentByte;
-                e.value = 1;
-                Elements.append(e);
+#pragma omp critical
+        {
+            for (int i = 0; i < ByteArray.size(); ++i) {
+                CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                if (Elements.empty()) {
+                    Element e;
+                    e.item = CurrentByte;
+                    e.value = 1;
+                    Elements.append(e);
+                } else if (Elements.last().item == CurrentByte) {
+                    Elements.last().value++;
+                } else {
+                    Element e;
+                    e.item = CurrentByte;
+                    e.value = 1;
+                    Elements.append(e);
+                }
             }
         }
-
-        //Write List to OutputByteList
-        foreach (Element e, Elements) {
-            if (e.value == 1) {
-                OutByteArray.append(e.item);
-            } else if (e.value == 2) {
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-            } else if (e.value == 3) {
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-            } else if (e.value == 4) {
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-                OutByteArray.append(e.item);
-            } else {
-                if (e.value < 256) {
-                    OutByteArray.append(SIGN16.first);
-                    OutByteArray.append(SIGN16.second);
+#pragma omp critical
+        {
+            //Write List to OutputByteList
+            foreach (Element e, Elements) {
+                if (e.value == 1) {
                     OutByteArray.append(e.item);
-                    OutByteArray.append(e.value);
+                } else if (e.value == 2) {
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
+                } else if (e.value == 3) {
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
+                } else if (e.value == 4) {
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
+                    OutByteArray.append(e.item);
                 } else {
-                    OutByteArray.append(SIGN16.first);
-                    OutByteArray.append(SIGN16.second);
-                    OutByteArray.append(SIGN16.first);
-                    OutByteArray.append(SIGN16.second);
-                    OutByteArray.append(e.item);
-                    QByteArray TempArray;
-                    TempArray = RLE::IntToHex(e.value);
-                    OutByteArray.append(TempArray);
+                    if (e.value < 256) {
+                        OutByteArray.append(SIGN16.first);
+                        OutByteArray.append(SIGN16.second);
+                        OutByteArray.append(e.item);
+                        OutByteArray.append(e.value);
+                    } else {
+                        OutByteArray.append(SIGN16.first);
+                        OutByteArray.append(SIGN16.second);
+                        OutByteArray.append(SIGN16.first);
+                        OutByteArray.append(SIGN16.second);
+                        OutByteArray.append(e.item);
+                        QByteArray TempArray;
+                        TempArray = RLE::IntToHex(e.value);
+                        OutByteArray.append(TempArray);
+                    }
                 }
             }
         }
@@ -209,8 +221,9 @@ bool RLE::Compress(QString FilePath)
 
         //All ended successfully
         return true;
-    }
 
+
+    }
     //Something went wrong
     return false;
 }
@@ -237,34 +250,37 @@ bool RLE::Decompress(QString FilePath)
         //Process file
         QByteArray OutByteArray;
         quint8 CurrentByte, ByteCounter;
-        for (int i = 2; i < ByteArray.size(); i++) {
-            CurrentByte = static_cast<quint8>(ByteArray.at(i));
-            if (CurrentByte == SIGN) {
-                i++;
+#pragma omp critical
+        {
+            for (int i = 2; i < ByteArray.size(); i++) {
                 CurrentByte = static_cast<quint8>(ByteArray.at(i));
                 if (CurrentByte == SIGN) {
-                    i += 3;
-                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
                     i++;
-                    QByteArray TempArray;
-                    TempArray.append(ByteArray.at(i));
-                    TempArray.append(ByteArray.at(i+1));
-                    TempArray.append(ByteArray.at(i+2));
-                    TempArray.append(ByteArray.at(i+3));
-                    quint32 Counter = RLE::HexToInt(TempArray);
-                    for (quint32 var = 0; var < Counter; ++var) {
-                        OutByteArray.append(CurrentByte);
+                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                    if (CurrentByte == SIGN) {
+                        i += 3;
+                        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                        i++;
+                        QByteArray TempArray;
+                        TempArray.append(ByteArray.at(i));
+                        TempArray.append(ByteArray.at(i+1));
+                        TempArray.append(ByteArray.at(i+2));
+                        TempArray.append(ByteArray.at(i+3));
+                        quint32 Counter = RLE::HexToInt(TempArray);
+                        for (quint32 var = 0; var < Counter; ++var) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                    } else {
+                        i++;
+                        ByteCounter = static_cast<quint8>(ByteArray.at(i));
+                        for (quint8 j = 0; j < ByteCounter; j++) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                        ByteCounter = 0;
                     }
                 } else {
-                    i++;
-                    ByteCounter = static_cast<quint8>(ByteArray.at(i));
-                    for (quint8 j = 0; j < ByteCounter; j++) {
-                        OutByteArray.append(CurrentByte);
-                    }
-                    ByteCounter = 0;
+                    OutByteArray.append(CurrentByte);
                 }
-            } else {
-                OutByteArray.append(CurrentByte);
             }
         }
 
@@ -272,7 +288,6 @@ bool RLE::Decompress(QString FilePath)
         QString ResultFilePath(FilePath);
         ResultFilePath.resize(FilePath.size()-8);
         ResultFilePath.insert(ResultFilePath.lastIndexOf("."), "_2");
-
 
         //qDebug() << "File: " << ResultFilePath;
         //ResultFilePath.append(".mapa");
@@ -287,6 +302,7 @@ bool RLE::Decompress(QString FilePath)
 
         //All succedded
         return true;
+
     } else if (SIGNSIZE == 2) {
         //SIGN is quint16 or two quint8
         QPair<quint8, quint8> SIGN16;
@@ -295,36 +311,39 @@ bool RLE::Decompress(QString FilePath)
 
         QByteArray OutByteArray;
         quint8 CurrentByte, NextByte, ByteCounter;
-        for (int i = 3; i < ByteArray.size()-1; i++) {
-            CurrentByte = static_cast<quint8>(ByteArray.at(i));
-            NextByte    = static_cast<quint8>(ByteArray.at(i+1));
-            if ((CurrentByte == SIGN16.first) && (NextByte == SIGN16.second)) {
-                if ((SIGN16.first == static_cast<quint8>(ByteArray.at(i+2))) && (SIGN16.second == static_cast<quint8>(ByteArray.at(i+3)))) {
-                    i += 4;
-                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
-                    i++;
-                    QByteArray TempArray;
-                    TempArray.append(ByteArray.at(i));
-                    TempArray.append(ByteArray.at(i+1));
-                    TempArray.append(ByteArray.at(i+2));
-                    TempArray.append(ByteArray.at(i+3));
-                    quint32 Counter = RLE::HexToInt(TempArray);
-                    for (quint32 var = 0; var < Counter; ++var) {
-                        OutByteArray.append(CurrentByte);
+#pragma omp critical
+        {
+            for (int i = 3; i < ByteArray.size()-1; i++) {
+                CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                NextByte    = static_cast<quint8>(ByteArray.at(i+1));
+                if ((CurrentByte == SIGN16.first) && (NextByte == SIGN16.second)) {
+                    if ((SIGN16.first == static_cast<quint8>(ByteArray.at(i+2))) && (SIGN16.second == static_cast<quint8>(ByteArray.at(i+3)))) {
+                        i += 4;
+                        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                        i++;
+                        QByteArray TempArray;
+                        TempArray.append(ByteArray.at(i));
+                        TempArray.append(ByteArray.at(i+1));
+                        TempArray.append(ByteArray.at(i+2));
+                        TempArray.append(ByteArray.at(i+3));
+                        quint32 Counter = RLE::HexToInt(TempArray);
+                        for (quint32 var = 0; var < Counter; ++var) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                        i += 3;
+                    } else {
+                        i += 2;
+                        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                        i++;
+                        ByteCounter = static_cast<quint8>(ByteArray.at(i));
+                        for (quint8 var = 0; var < ByteCounter; var++) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                        ByteCounter = 0;
                     }
-                    i += 3;
                 } else {
-                    i += 2;
-                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
-                    i++;
-                    ByteCounter = static_cast<quint8>(ByteArray.at(i));
-                    for (quint8 var = 0; var < ByteCounter; var++) {
-                        OutByteArray.append(CurrentByte);
-                    }
-                    ByteCounter = 0;
+                    OutByteArray.append(CurrentByte);
                 }
-            } else {
-                OutByteArray.append(CurrentByte);
             }
         }
 
@@ -375,39 +394,43 @@ QByteArray RLE::ByteDecompress(QString FilePath)
         //Process file
         QByteArray OutByteArray;
         quint8 CurrentByte, ByteCounter;
-        for (int i = 2; i < ByteArray.size(); i++) {
-            CurrentByte = static_cast<quint8>(ByteArray.at(i));
-            if (CurrentByte == SIGN) {
-                i++;
+#pragma omp critical
+        {
+            for (int i = 2; i < ByteArray.size(); i++) {
                 CurrentByte = static_cast<quint8>(ByteArray.at(i));
                 if (CurrentByte == SIGN) {
-                    i += 3;
-                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
                     i++;
-                    QByteArray TempArray;
-                    TempArray.append(ByteArray.at(i));
-                    TempArray.append(ByteArray.at(i+1));
-                    TempArray.append(ByteArray.at(i+2));
-                    TempArray.append(ByteArray.at(i+3));
-                    quint32 Counter = RLE::HexToInt(TempArray);
-                    for (quint32 var = 0; var < Counter; ++var) {
-                        OutByteArray.append(CurrentByte);
+                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                    if (CurrentByte == SIGN) {
+                        i += 3;
+                        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                        i++;
+                        QByteArray TempArray;
+                        TempArray.append(ByteArray.at(i));
+                        TempArray.append(ByteArray.at(i+1));
+                        TempArray.append(ByteArray.at(i+2));
+                        TempArray.append(ByteArray.at(i+3));
+                        quint32 Counter = RLE::HexToInt(TempArray);
+                        for (quint32 var = 0; var < Counter; ++var) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                    } else {
+                        i++;
+                        ByteCounter = static_cast<quint8>(ByteArray.at(i));
+                        for (quint8 j = 0; j < ByteCounter; j++) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                        ByteCounter = 0;
                     }
                 } else {
-                    i++;
-                    ByteCounter = static_cast<quint8>(ByteArray.at(i));
-                    for (quint8 j = 0; j < ByteCounter; j++) {
-                        OutByteArray.append(CurrentByte);
-                    }
-                    ByteCounter = 0;
+                    OutByteArray.append(CurrentByte);
                 }
-            } else {
-                OutByteArray.append(CurrentByte);
             }
         }
 
         //All succedded
         return OutByteArray;
+
     } else if (SIGNSIZE == 2) {
         //SIGN is quint16 or two quint8
         QPair<quint8, quint8> SIGN16;
@@ -416,36 +439,39 @@ QByteArray RLE::ByteDecompress(QString FilePath)
 
         QByteArray OutByteArray;
         quint8 CurrentByte, NextByte, ByteCounter;
-        for (int i = 3; i < ByteArray.size()-1; i++) {
-            CurrentByte = static_cast<quint8>(ByteArray.at(i));
-            NextByte    = static_cast<quint8>(ByteArray.at(i+1));
-            if ((CurrentByte == SIGN16.first) && (NextByte == SIGN16.second)) {
-                if ((SIGN16.first == static_cast<quint8>(ByteArray.at(i+2))) && (SIGN16.second == static_cast<quint8>(ByteArray.at(i+3)))) {
-                    i += 4;
-                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
-                    i++;
-                    QByteArray TempArray;
-                    TempArray.append(ByteArray.at(i));
-                    TempArray.append(ByteArray.at(i+1));
-                    TempArray.append(ByteArray.at(i+2));
-                    TempArray.append(ByteArray.at(i+3));
-                    quint32 Counter = RLE::HexToInt(TempArray);
-                    for (quint32 var = 0; var < Counter; ++var) {
-                        OutByteArray.append(CurrentByte);
+#pragma omp critical
+        {
+            for (int i = 3; i < ByteArray.size()-1; i++) {
+                CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                NextByte    = static_cast<quint8>(ByteArray.at(i+1));
+                if ((CurrentByte == SIGN16.first) && (NextByte == SIGN16.second)) {
+                    if ((SIGN16.first == static_cast<quint8>(ByteArray.at(i+2))) && (SIGN16.second == static_cast<quint8>(ByteArray.at(i+3)))) {
+                        i += 4;
+                        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                        i++;
+                        QByteArray TempArray;
+                        TempArray.append(ByteArray.at(i));
+                        TempArray.append(ByteArray.at(i+1));
+                        TempArray.append(ByteArray.at(i+2));
+                        TempArray.append(ByteArray.at(i+3));
+                        quint32 Counter = RLE::HexToInt(TempArray);
+                        for (quint32 var = 0; var < Counter; ++var) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                        i += 3;
+                    } else {
+                        i += 2;
+                        CurrentByte = static_cast<quint8>(ByteArray.at(i));
+                        i++;
+                        ByteCounter = static_cast<quint8>(ByteArray.at(i));
+                        for (quint8 var = 0; var < ByteCounter; var++) {
+                            OutByteArray.append(CurrentByte);
+                        }
+                        ByteCounter = 0;
                     }
-                    i += 3;
                 } else {
-                    i += 2;
-                    CurrentByte = static_cast<quint8>(ByteArray.at(i));
-                    i++;
-                    ByteCounter = static_cast<quint8>(ByteArray.at(i));
-                    for (quint8 var = 0; var < ByteCounter; var++) {
-                        OutByteArray.append(CurrentByte);
-                    }
-                    ByteCounter = 0;
+                    OutByteArray.append(CurrentByte);
                 }
-            } else {
-                OutByteArray.append(CurrentByte);
             }
         }
 

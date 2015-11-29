@@ -36,3 +36,11 @@ RESOURCES += \
 
 DISTFILES += \
     DataCompression.pro.user
+
+#OMP
+QMAKE_CXXFLAGS += -fopenmp
+LIBS += -fopenmp
+
+QMAKE_CXXFLAGS+= -fopenmp
+QMAKE_LFLAGS +=  -fopenmp
+

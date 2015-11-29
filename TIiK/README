@@ -14,5 +14,5 @@ ENVIROMENT:
 
 ASSUMPTIONS:
 ------------
-     - Compress / Decompress data (one file or more [with packing data]) with Run-length encoding (RLE).
+     - Compress / Decompress data (one file or more files) with Run-length encoding (RLE).
 
