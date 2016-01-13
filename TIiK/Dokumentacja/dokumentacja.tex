@@ -11,7 +11,7 @@
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{geometry}
-\newgeometry{tmargin=2.5cm, bmargin=2.5cm, lmargin=2.7cm, rmargin=2.5cm}%marginesy
+%\newgeometry{tmargin=2.5cm, bmargin=2.5cm, lmargin=2.7cm, rmargin=2.5cm}%marginesy
 \usepackage{float}
 \usepackage{listings}
 \usepackage{color}
@@ -70,6 +70,7 @@
 \usepackage{subcaption} %do kilku obrazków obok siebie
 
 \begin{document}
+%\newgeometry{tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
 \renewcommand{\lstlistingname}{Kod} %Zmiana listing na Kod
 \renewcommand\bibname{Literatura} %Zmiana "Bibliografia" na "Literatura"
 \renewcommand{\tablename}{Tabela} %Zmiana "Tablica" na "Tabela"
@@ -428,28 +429,28 @@ test15.bmp	693122
 \hfill
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[language=bash,caption={Przedstawienie plików po kompresji.}]
-NAZWA 				ROZMIAR [B]
-audio.wav	3009870
-audio2.wav	316002
-audio3.wav	869028
-audio4.wav	261262
-highway.wav	8533723
-test.bmp	126
-test1.bmp	442
-test2.bmp	442
-test3.bmp	442
-test4.bmp	442
-test5.bmp	442
-test6.bmp	170
-test7.bmp	10922
-test8.bmp	20138
-test9.bmp	120122
-test10.bmp	1163198
-test11.bmp	44264
-test12.bmp	309464
-test13.bmp	16000138
-test14.bmp	131554
-test15.bmp	693122
+NAZWA			ROZMIAR [B]
+audio2.wav.rlemapa	315928
+audio3.wav.rlemapa	856106
+audio4.wav.rlemapa	261239
+audio.wav.rlemapa	56
+highway.wav.rlemapa	8447839
+test.bmp.rlemapa	58
+test1.bmp.rlemapa	61
+test2.bmp.rlemapa	105
+test3.bmp.rlemapa	365
+test4.bmp.rlemapa	365
+test5.bmp.rlemapa	364
+test6.bmp.rlemapa	95
+test7.bmp.rlemapa	8216
+test8.bmp.rlemapa	15076
+test9.bmp.rlemapa	413885
+test10.bmp.rlemapa	1163182
+test11.bmp.rlemapa	5689
+test12.bmp.rlemapa	85103
+test13.bmp.rlemapa	8440758
+test14.bmp.rlemapa	76746
+test15.bmp.rlemapa	345212
 \end{lstlisting}
 \end{minipage}
 
@@ -457,17 +458,12 @@ test15.bmp	693122
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[language=bash,caption={Przedstawienie plików przed kompresją.}]
 NAZWA		ROZMIAR [B]
+audio.wav	3009870
 audio2.wav	316002
 audio3.wav	869028
 audio4.wav	261262
-audio.wav	3009870
 highway.wav	8533723
-test10.bmp	1163198
-test11.bmp	44264
-test12.bmp	309464
-test13.bmp	16000138
-test14.bmp	131554
-test15.bmp	693122
+test.bmp	126
 test1.bmp	442
 test2.bmp	442
 test3.bmp	442
@@ -477,7 +473,12 @@ test6.bmp	170
 test7.bmp	10922
 test8.bmp	20138
 test9.bmp	500138
-test.bmp	126
+test10.bmp	1163198
+test11.bmp	44264
+test12.bmp	309464
+test13.bmp	16000138
+test14.bmp	131554
+test15.bmp	693122
 \end{lstlisting}
 \end{minipage}
 \hfill
